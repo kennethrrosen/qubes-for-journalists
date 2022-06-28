@@ -15,10 +15,10 @@ Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 
 ### post-installation configurations
 
 - disable previews of files from untrusted sources in File Manager
-- swap networking (sys-net and sys-firewall) templates to customized Kicksure Templates (based on Debian 11 over tor)
+- swap networking (sys-net and sys-firewall) templates to customized Kicksure Templates (based on Debian 11 over tor, DVMs), making sure not to configure as a Standalone VM
 
 - enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates.
-- enable seccomp on Whonix-Gateway (sys-whonix ProxyVM).
+- enable seccomp on Whonix-Gateway (sys-whonix, ProxyVM).
 - enable SysRq "Security Keys" functionality as insurance against system malfunctions
 - enable secure Access Key ("Sak"; SysRq + k) procedure.
 - install hardened memory allocator ('Hardened Malloc') to launch regularly used applications
@@ -77,16 +77,11 @@ Since the mobile devices security best practices for risk mitigation are often d
 dnf list | grep microcode
 The Qubes check should confirm the microcode_ctl.x86_64 package is already installed.
 
-
-
 In Qubes-Whonix ™, consider installing the tirdad kernel module to protect against TCP ISN-based CPU information leaks
-
-
 
 Test the LAN's router/firewall with either an internet port scanning service or preferably a port scanning application from an external IP address. configure a de-militarized zone (perimeter network) Follow all other Whonix ™ recommendations to lock down the router.
 
-For greater security, higher performance and a lower resource footprint, consider using an experimental MirageOS-based unikernel firewall that can run as a QubesOS ProxyVM.
-Consider utilizing OpenBSD for sys-net to reduce the attack surface. [52] See also other OpenBSD considerations.
+For greater security, higher performance and a lower resource footprint, consider using an experimental MirageOS-based unikernel firewall that can run as a QubesOS ProxyVM. 
 
 Configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots. [64]
 
@@ -102,8 +97,6 @@ For anonymous PGP-encrypted email over Tor, use Mozilla Thunderbird.
 Consider running ArpON
 
 corridor as a filtering gateway to ensure only connections to Tor relays pass through
-
-Opensource Firmware
 
 Whonix-Workstation ™ Installation Steps
 
@@ -134,19 +127,12 @@ If utilizing a SSD, consider setting up a periodic job in dom0 to trim the disk 
 
 Consider creating separate, specialized minimal Templates for distinct App Qube clearnet activities (like browsing) to reduce the attack surface. [21] [22]
 
-Do not configure Kicksecure ™ as a Standalone VM
-
 Consider replacing passwordless root access with a dom0 user prompt. [23
 
 Consider split dm-crypt to isolate device-mapper based secondary storage encryption (not the root filesystem) and LUKS header processing to Disposables.
 
 vm-boot-protect-root: suitable for service VMs like sys-usb and sys-net, as well as App Qubes such as untrusted, personal, banking, vault and so. [26]
 vm-boot-protect: suitable for virtually any Debian or Fedora VM, such as Kicksecure ™ VMs, Standalone VMs and Disposable VMs.
-
-Consider setting dom0 and all Templates to update over Tor by configuring this option on Qubes' first boot. [27] [28]
-
-sudo systemctl enable hide-hardware-info.service
-Reboot required.
 
 ```
 
@@ -161,7 +147,7 @@ Reboot required.
 ### best practices
 
 - too many levels of complexity leads to user error; eliminate attack surface, but make your security measures convenient and practical
-- set the Qubes, Debian and Whonix ™ package updates to Tor onion service repositories
+- set the Qubes, Debian and Whonix package updates to Tor onion service repositories
 - move files downloaded by Tor Browser from the ~/Downloads folder to another specially created one
 - set power button to shutdown, don't leave computer unattended in public; store in hotel safes
 - use Diceware passphrases
