@@ -14,16 +14,14 @@ Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 
 
 ### post-installation configurations
 
--disable previews of files from untrusted sources in File Manager
--swap networking (sys-net and sys-firewall) templates to customized Kicksure Templates (based on Debian 11)
+- disable previews of files from untrusted sources in File Manager
+- swap networking (sys-net and sys-firewall) templates to customized Kicksure Templates (based on Debian 11 over tor)
 
--enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates.
--enable seccomp on Whonix-Gateway (sys-whonix ProxyVM).
--enable SysRq "Security Keys" functionality as insurance against system malfunctions
--enable secure Access Key ("Sak"; SysRq + k) procedure.
--install hardened memory allocator ('Hardened Malloc') to launch regularly used applications
-
-
+- enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates.
+- enable seccomp on Whonix-Gateway (sys-whonix ProxyVM).
+- enable SysRq "Security Keys" functionality as insurance against system malfunctions
+- enable secure Access Key ("Sak"; SysRq + k) procedure.
+- install hardened memory allocator ('Hardened Malloc') to launch regularly used applications
 
 ###### enlarged dom0
 ```
@@ -169,3 +167,6 @@ Reboot required.
 - use Diceware passphrases
 - download files securely using scurl
 - files received or downloaded fromthe internet, via email, and PDFs, etc. should be opened in a DVM
+
+### needs
+- self-hosted deadman's swithc
