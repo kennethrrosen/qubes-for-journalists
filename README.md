@@ -2,8 +2,8 @@
 Steps taken to harden Qubes (4.1) on a Librem 14. Despite the security of the Purism laptop, I took additional steps (hardware, software) to add enhanced security. This is a working list as I go through the intitialization of the OS, a running tab of work done to it for future reference and backup purposes; also, for future project on journalist digital security.
 
 ###### physical (& BIOS/firmware) hardening
-- disabled IEM (Librem standard)
-- Librem key boot access (Purism standard)
+- disabled IME (Librem standard)
+- Librem Key boot access (Purism standard)
 - anti-evil-maid (not necessary with Librem)
 - coreboot/pureboot firmware
 - physical hardware disconnect for microphone, wifi, bluetooth, webcam
