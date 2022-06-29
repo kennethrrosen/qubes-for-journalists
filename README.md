@@ -1,7 +1,7 @@
 # journoQUBES
 Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 64G RAM). Despite the security of the Purism laptop, I took additional steps (hardware, software) to add enhanced security. This is a working list as I go through the intitialization of the OS, a running tab of work done to it for future reference and backup purposes; also, for future project on journalist digital security.
 
-NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TAILS is the preferred choice for in-a-pinch necessity and emergencies.) Nevertheless, the steps below consider a threat model in the grey area between levels 2 - 3 (of 4) of the Cupwire standard (https://www.cupwire.com/threat-modeling/). I've found this middle ground idylic for most foreign correspondents who are often already operating (or seeking to operate) with this level of anonymity. 
+NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TAILS is the preferred choice for in-a-pinch necessity and emergencies.) Nevertheless, the steps below consider a threat model in the grey area between levels 2 - 3 (of 4) of the Cupwire standard (https://www.cupwire.com/threat-modeling/). I've found this middle ground idylic for most foreign correspondents who are often already operating (or seeking to operate) with this level of anonymity. Much of this repository was created from various sources in an attempt to centralize tools for journalists. If credit is not cited where credit is do, please let me know and I will rectify.
 
 ### best practices
 - LUKS encrypt all harddrives in installation configuration
@@ -12,7 +12,10 @@ NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TA
 - use Diceware passphrases
 - download files securely using scurl
 - files received or downloaded fromthe internet, via email, and PDFs, etc. should be opened in a DVM
-- use split-GPG for email to reduce the risk of key theft used for encryption / decryption and signing.
+- use split-GPG for email to reduce the risk of key theft used for encryption / decryption and signing
+- only open untrusted email attachments in a DisposableVM to prevent possible infection
+- for anonymous PGP-encrypted email over Tor, use Mozilla Thunderbird.
+- physically move all mobiles devices to a distant physical location or faraday bag
 
 ### physical (& BIOS/firmware) hardening
 - disabled Intel ME (Librem standard)
@@ -120,8 +123,6 @@ Install the qubes-split-browser package from qubes-repo-contrib in your persiste
 
 If using Qubes-Whonix ™, assign the webcam to an untrusted VM (if needed)
 
-Since the mobile devices security best practices for risk mitigation are often difficult / infeasible to adhere to, it might be easier to physically move all mobiles devices to a distant physical location such as a different room and close the door and/or to power off mobile devices.
-
 In Qubes-Whonix ™, consider installing the tirdad kernel module to protect against TCP ISN-based CPU information leaks
 
 Test the LAN's router/firewall with either an internet port scanning service or preferably a port scanning application from an external IP address. configure a de-militarized zone (perimeter network) Follow all other Whonix ™ recommendations to lock down the router.
@@ -134,9 +135,6 @@ Consider disabling the Control Port Filter Proxy to reduce the attack surface of
 Consider hardening systemcheck.
 
 Create an App Qube that is exclusively used for email and change the VM's firewall settings to only allow network connections to the email server and nothing else ("Deny network access except...").
-Only open untrusted email attachments in a DisposableVM to prevent possible infection.
-
-For anonymous PGP-encrypted email over Tor, use Mozilla Thunderbird.
 
 Consider running ArpON
 
