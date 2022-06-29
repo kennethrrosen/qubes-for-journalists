@@ -1,3 +1,15 @@
++ [best practices](#best-practices)
++ [physical (& BIOS/firmware) hardening](#physical----bios-firmware--hardening)
++ [post-installation configurations](#post-installation-configurations)
+  * [enlarged dom0](#enlarged-dom0)
+  * [sys-net as usbvm (also can be created at initialization)](#sys-net-as-usbvm--also-can-be-created-at-initialization-)
+  * [qubes compartmentalization](#qubes-compartmentalization)
+  * [VPN Qube](#vpn-qube)
+  * [add Windows Qube (https://github.com/elliotkillick/qvm-create-windows-qube/blob/master/README.md)](#add-windows-qube--https---githubcom-elliotkillick-qvm-create-windows-qube-blob-master-readmemd-)
+  * [add split browser personal "surfer" qube (https://github.com/rustybird/qubes-app-split-browser)](#add-split-browser-personal--surfer--qube--https---githubcom-rustybird-qubes-app-split-browser-)
+  * [TODO](#todo)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
 # journoQUBES
