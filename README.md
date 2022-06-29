@@ -75,39 +75,9 @@ I've compartmentalized my digital personal and work lives thusly:
 
 ## VPN Qube
 - tk
-- 
+
 ## add Windows Qube (https://github.com/elliotkillick/qvm-create-windows-qube/blob/master/README.md)
-1. Download the [installation script](https://raw.githubusercontent.com/elliotkillick/qvm-create-windows-qube/master/install.sh) by opening the link, right-clicking and then selecting "Save [Page] as..."
-2. Copy `install.sh` into Dom0 by running the following command in Dom0:
-    - `qvm-run -p --filter-escape-chars --no-color-output <name_of_qube_script_is_located_on> "cat '/home/user/Downloads/install.sh'" > install.sh`
-    - Make sure to get all the single and double quotes
-3. Review the code of `install.sh` to ensure its integrity
-    - Safer with escape character filtering enabled in the prior step; `qvm-run` disables it by default when the output is a file
-4. Run `chmod +x install.sh && ./install.sh`
-    - Note that this will install packages in the global default `TemplateVM`, which is `fedora-XX` by default
-5. Review the code of the resulting `/usr/bin/qvm-create-windows-qube`
-
-A more streamlined and secure installation process with packaging will be shipping with Qubes R4.1.
-
-To update Qvm-Create-Windows-Qube, start by simply deleting the `windows-mgmt` VM and main program by running the following command in Dom0:
-
-`qvm-remove -f windows-mgmt && sudo rm /usr/bin/qvm-create-windows-qube`
-
-Lastly, follow the installation steps above to reinstall.
-
-Note that this will also delete any Windows ISOs that have already been downloaded. This may be desirable in the case that Microsoft has updated the Windows ISOs (meaning you should redownload them anyway). However, if you would like to avoid downloading any of the Windows ISOs again, simply navigate to `/home/user/Documents/qvm-create-windows-qube/windows-media/isos` in the `windows-mgmt` VM and copy its contents to another (preferably disposable) qube. After the reinstall is complete, copy those ISOs back into `windows-mgmt` at the aforementioned directory.
-
-The `download-windows.sh` script (located at `/home/user/Documents/qvm-create-windows-qube/windows-media/isos/download-windows.sh` in `windows-mgmt`) securely downloads the Windows ISO to be used by Qvm-Create-Windows-Qube from official Microsoft servers.
-
-`windows-mgmt` is air gapped from the network. This means that in order to securely perform the download, one must copy the `download-windows.sh` script and `SHA256SUMS` file to another (disposable) qube followed by transferring the newly downloaded ISO(s) into `windows-mgmt` and placing them into the `/home/user/Documents/qvm-create-windows-qube/windows-media/isos` directory. Alternatively, `windows-mgmt` can temporarily be given network access, however, this isn't recommended for security reasons.
-
-**Important:** Be sure to read the [Qubes Windows Tools Known Issues](https://github.com/elliotkillick/qvm-create-windows-qube#qubes-windows-tools-known-issues) section below for a couple small upstream issues in the case of Windows 10 and other newer OSs all of which have easy workarounds available.
-
-*[Video demonstration](https://www.youtube.com/watch?v=cCi2MOUwS_Q)*
-
-`qvm-create-windows-qube -n sys-firewall -oyp firefox,notepadplusplus,office365proplus -i win10x64.iso -a win10x64-pro.xml work-win10`
-
-`qvm-create-windows-qube -n sys-firewall -oyp steam -i win10x64.iso -a win10x64-pro.xml game-console`
+- tk
 
 ## add split browser personal "surfer" qube (https://github.com/rustybird/qubes-app-split-browser)
 Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
