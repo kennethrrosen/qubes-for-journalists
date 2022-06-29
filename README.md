@@ -24,6 +24,7 @@ Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 
 - use Diceware passphrases
 - download files securely using scurl
 - files received or downloaded fromthe internet, via email, and PDFs, etc. should be opened in a DVM
+- use split-GPG for email to reduce the risk of key theft used for encryption / decryption and signing.
 
 ### physical (& BIOS/firmware) hardening
 - disabled Intel ME (Librem standard)
@@ -43,12 +44,18 @@ Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 
 ```dnf list | grep microcode```
 - confirm AppArmor active (in Debian & Kicksure VMs):
 ```sudo aa-status```
-
-- enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates.
-- enable seccomp on Whonix-Gateway (sys-whonix, ProxyVM).
-- 
+- sudo systemctl mask systemcheck
+- enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates
+```sudo aa-status```
+- enable seccomp on Whonix-Gateway (ProxyVM ONLY, disables Tor access).
+```
+sudoedit /usr/local/etc/torrc.d/50_user.conf 
+Sandbox 1
+```
 - enable SysRq "Security Keys" functionality as insurance against system malfunctions
-- enable secure Access Key ("Sak"; SysRq + k) procedure.
+```
+echo "kernel.sysrq = 1" | sudo tee -a /etc/sysctl.d/50_sysrq.conf
+```
 
 ## enlarged dom0
 ```
@@ -143,12 +150,11 @@ Test the LAN's router/firewall with either an internet port scanning service or 
 
 For greater security, higher performance and a lower resource footprint, consider using an experimental MirageOS-based unikernel firewall that can run as a QubesOS ProxyVM. 
 
-Configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots. [64]
+Configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots.
 
 Consider disabling the Control Port Filter Proxy to reduce the attack surface of both the Whonix-Gateway ™ and Whonix-Workstation ™.
 Consider hardening systemcheck.
 
-Use split-GPG for email to reduce the risk of key theft used for encryption / decryption and signing.
 Create an App Qube that is exclusively used for email and change the VM's firewall settings to only allow network connections to the email server and nothing else ("Deny network access except...").
 Only open untrusted email attachments in a DisposableVM to prevent possible infection.
 
