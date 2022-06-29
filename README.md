@@ -16,6 +16,10 @@ Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 
 
 - disable previews of files from untrusted sources in File Manager
 - swap networking (sys-net and sys-firewall) templates to customized Kicksure Templates (based on Debian 11 over tor, DVMs), making sure not to configure as a Standalone VM
+- confirm Microcode Package Check (in dom0):
+```dnf list | grep microcode```
+- confirm AppArmor active (in Debian & Kicksure VMs):
+```sudo aa-status```
 
 - enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates.
 - enable seccomp on Whonix-Gateway (sys-whonix, ProxyVM).
@@ -73,9 +77,6 @@ qvm-create -P poolhd0_qubes --label red unstrusted-hdd (ONLY IF YOU WANT TO CREA
 If using Qubes-Whonix ™, assign the webcam to an untrusted VM (if needed)
 
 Since the mobile devices security best practices for risk mitigation are often difficult / infeasible to adhere to, it might be easier to physically move all mobiles devices to a distant physical location such as a different room and close the door and/or to power off mobile devices.
-
-dnf list | grep microcode
-The Qubes check should confirm the microcode_ctl.x86_64 package is already installed.
 
 In Qubes-Whonix ™, consider installing the tirdad kernel module to protect against TCP ISN-based CPU information leaks
 
