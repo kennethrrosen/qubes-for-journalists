@@ -76,8 +76,28 @@ I've compartmentalized my digital personal and work lives thusly:
 ## VPN Qube
 - tk
 
-## add Windows Qube (https://github.com/elliotkillick/qvm-create-windows-qube/blob/master/README.md)
-- tk
+## add Windows Qube (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
+```
+qvm-create --class StandaloneVM --label red --property virt_mode=hvm win7new
+qvm-prefs win7new memory 4096
+qvm-prefs win7new maxmem 4096
+qvm-prefs win7new kernel ''
+qvm-volume extend win7new:root 25g
+qvm-prefs win7new debug true
+qvm-features win7new video-model cirrus
+qvm-start --cdrom=untrusted:/home/user/windows_install.iso win7new
+# restart after the first part of the windows installation process ends
+qvm-start win7new
+# once Windows is installed and working
+qvm-prefs win7new memory 2048
+qvm-prefs win7new maxmem 2048
+qvm-features --unset win7new video-model
+qvm-prefs win7new qrexec_timeout 300
+# with Qubes Windows Tools installed:
+qvm-prefs win7new debug false
+```
+To install Qubes Windows Tools, follow instructions in Qubes Windows Tools (https://www.qubes-os.org/doc/windows-tools/).
+
 
 ## add split browser personal "surfer" qube (https://github.com/rustybird/qubes-app-split-browser)
 Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
