@@ -1,19 +1,7 @@
-+ [best practices](#best-practices)
-+ [physical (& BIOS/firmware) hardening](#physical----bios-firmware--hardening)
-+ [post-installation configurations](#post-installation-configurations)
-  * [enlarged dom0](#enlarged-dom0)
-  * [sys-net as usbvm (also can be created at initialization)](#sys-net-as-usbvm--also-can-be-created-at-initialization-)
-  * [qubes compartmentalization](#qubes-compartmentalization)
-  * [VPN Qube](#vpn-qube)
-  * [add Windows Qube (https://github.com/elliotkillick/qvm-create-windows-qube/blob/master/README.md)](#add-windows-qube--https---githubcom-elliotkillick-qvm-create-windows-qube-blob-master-readmemd-)
-  * [add split browser personal "surfer" qube (https://github.com/rustybird/qubes-app-split-browser)](#add-split-browser-personal--surfer--qube--https---githubcom-rustybird-qubes-app-split-browser-)
-  * [TODO](#todo)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
-
 # journoQUBES
 Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 64G RAM). Despite the security of the Purism laptop, I took additional steps (hardware, software) to add enhanced security. This is a working list as I go through the intitialization of the OS, a running tab of work done to it for future reference and backup purposes; also, for future project on journalist digital security.
+
+NOTE: Qubes is as hardened as OSes come, and is certainly well-built out of the box for most journalists; the steps below consider a threat model in the grey area between levels 2 - 3 (of 4) of the Cupwire standard (https://www.cupwire.com/threat-modeling/). I've found this middle ground idylic for most foreign correspondents who are often already operating (or seeking to operate) with this level of anonymity. 
 
 ### best practices
 - LUKS encrypt all harddrives in installation configuration
