@@ -1,11 +1,20 @@
 # secureQUBES
 Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 64G RAM). Despite the security of the Purism laptop, I took additional steps (hardware, software) to add enhanced security. This is a working list as I go through the intitialization of the OS, a running tab of work done to it for future reference and backup purposes; also, for future project on journalist digital security.
 
+### best practices
+- too many levels of complexity leads to user error; eliminate attack surface, but make your security measures convenient and practical
+- set the Qubes, Debian and Whonix package updates to Tor onion service repositories
+- move files downloaded by Tor Browser from the ~/Downloads folder to another specially created one
+- set power button to shutdown, don't leave computer unattended in public; store in hotel safes
+- use Diceware passphrases
+- download files securely using scurl
+- files received or downloaded fromthe internet, via email, and PDFs, etc. should be opened in a DVM
+
 ###### physical (& BIOS/firmware) hardening
 - disabled Intel ME (Librem standard)
-- Librem Key boot access (Purism standard)
+- Librem Key boot access (Librem standard)
 - anti-evil-maid (not necessary with Librem)
-- coreboot/pureboot firmware
+- coreboot/pureboot firmware (Librem standard)
 - physical hardware disconnect for microphone, wifi, bluetooth, webcam
 - removed speakers
 - removed beeper
@@ -23,9 +32,9 @@ Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 
 
 - enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates.
 - enable seccomp on Whonix-Gateway (sys-whonix, ProxyVM).
+- 
 - enable SysRq "Security Keys" functionality as insurance against system malfunctions
 - enable secure Access Key ("Sak"; SysRq + k) procedure.
-- install hardened memory allocator ('Hardened Malloc') to launch regularly used applications
 
 ###### enlarged dom0
 ```
@@ -136,6 +145,8 @@ vm-boot-protect-root: suitable for service VMs like sys-usb and sys-net, as well
 vm-boot-protect: suitable for virtually any Debian or Fedora VM, such as Kicksecure ™ VMs, Standalone VMs and Disposable VMs.
 
 ```
+### qubes compartmentalization
+I've compartmentalized my digital personal and work lives thusly:
 
 ###### add VPN Qube
 - tk
@@ -143,17 +154,21 @@ vm-boot-protect: suitable for virtually any Debian or Fedora VM, such as Kicksec
 ###### add Windows Qube
 - tk
 
-### qubes compartmentalization
+###### add split browser personal "surfer" qube (https://github.com/rustybird/qubes-app-split-browser)
+Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
+```
+ qvm-create --label=purple surfer
+ qvm-prefs surfer default_dispvm whonix-ws-XX-dvm
+ qvm-prefs surfer netvm ''
+ 
+ ```
+Install the qubes-split-browser package from qubes-repo-contrib in your persistent VM's TemplateVM (e.g. fedora-XX).
+```
+ ensure that an extracted Tor Browser will be available in ~/.tb/tor-browser/ (e.g. by running the Tor Browser Downloader update-torbrowser in whonix-ws-XX).
+ 
+ ```
+You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run split-browser in a terminal (with -h to see the help message).
 
-### best practices
 
-- too many levels of complexity leads to user error; eliminate attack surface, but make your security measures convenient and practical
-- set the Qubes, Debian and Whonix package updates to Tor onion service repositories
-- move files downloaded by Tor Browser from the ~/Downloads folder to another specially created one
-- set power button to shutdown, don't leave computer unattended in public; store in hotel safes
-- use Diceware passphrases
-- download files securely using scurl
-- files received or downloaded fromthe internet, via email, and PDFs, etc. should be opened in a DVM
-
-### needs
+### TODO
 - self-hosted deadman's swithc
