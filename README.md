@@ -187,8 +187,31 @@ dpkg-buildpackage -b
 ## Qubes compartmentalization
 I've compartmentalized my digital personal and work lives thusly:
 
-## configure VPN Qube
-- tk
+## configure VPN Qubes (protonvpn, & VPN over Tor)
+```
+qvm-clone fedora-35-minimal fedora-35-minimal-sys-vpn
+
+mkdir ~/temp && cd ~/temp
+curl --remote-name --remote-header-name --proxy http://127.0.0.1:8082 https://protonvpn.com/download/protonvpn-stable-release-1.0.0-1.noarch.rpm
+rpm2cpio protonvpn-stable-release-1.0.0-1.noarch.rpm | cpio --extract --make-directories --preserve-modification-time --verbose --quiet
+mv ~/temp/etc/yum.repos.d/protonvpn-stable-f33.repo /etc/yum.repos.d/
+
+dnf upgrade
+dnf install protonvpn qubes-core-agent-networking qubes-core-agent-network-manager network-manager-applet notification-daemon  NetworkManager-openvpn-gnome gnome-keyring
+
+qvm-create --template fedora-35-minimal-sys-vpn --label green sys-vpn
+qvm-prefs sys-vpn autostart false
+qvm-prefs sys-vpn netvm sys-firewall
+qvm-prefs sys-vpn provides_network true
+qvm-service sys-vpn network-manager true
+qvm-create --template fedora-35-minimal-sys-vpn --label red sys-vpn-tor
+qvm-prefs sys-vpn-tor autostart false
+qvm-prefs sys-vpn-tor netvm sys-firewall
+qvm-prefs sys-vpn-tor provides_network true
+qvm-service sys-vpn-tor network-manager true
+
+protonvpn init
+```
 
 ## configure DVM for Zoom
 - tk
