@@ -89,8 +89,15 @@ qvm-prefs win7new debug false
 ```
 To install Qubes Windows Tools, follow instructions in Qubes Windows Tools (https://www.qubes-os.org/doc/windows-tools/).
 
-
 ## add split browser personal "surfer" qube (https://github.com/rustybird/qubes-app-split-browser)
+Combination      | Function
+-----------------|--------------------------------------------------------------
+**Alt-b**        | Open bookmarks
+**Ctrl-d**       | Bookmark current page
+Ctrl-Shift-Enter | Log into current page
+Ctrl-Shift-s     | Move downloads to a VM of your choice
+**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart the browser in a new DisposableVM, with fresh Tor circuits.
+
 Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
 
 1. Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
