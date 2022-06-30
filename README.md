@@ -47,6 +47,9 @@ Sandbox 1
 ```
 echo "kernel.sysrq = 1" | sudo tee -a /etc/sysctl.d/50_sysrq.conf
 ```
+## anonymize MAC address and hostname
+```https://github.com/kennethrrosen/journoQUBES/blob/main/mac-spoofing```
+.MD in files above
 
 ## enlarged dom0
 ```
