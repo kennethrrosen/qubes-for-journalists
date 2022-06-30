@@ -184,16 +184,19 @@ dpkg-buildpackage -b
 ```
 
 
-## qubes compartmentalization
+## Qubes compartmentalization
 I've compartmentalized my digital personal and work lives thusly:
 
-## VPN Qube
+## configure VPN Qube
+- tk
+
+## configure DVM for Zoom
 - tk
 
 ## configure Comms Qube (Signal, WhatsApp, etc.)
 - tk
 
-## configure multimedia Qube
+## configure multimedia Qube (Spotify, Netflix, etc.)
 - tk
 
 ## configure Windows Qube (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
