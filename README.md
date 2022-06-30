@@ -47,6 +47,8 @@ Sandbox 1
 ```
 echo "kernel.sysrq = 1" | sudo tee -a /etc/sysctl.d/50_sysrq.conf
 ```
+- configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots.
+
 ## anonymize MAC address and hostname (https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md)
 These steps should be done inside a template to be used to create a NetVM as it relies on creating a config file that would otherwise be deleted after a reboot due to the nature of AppVMs.
 
@@ -141,6 +143,8 @@ qubesctl state.highstate
 ```
 
 ## tirdad kernel install to protect against TCP ISN-based CPU information leaks (https://github.com/Kicksecure/tirdad/blob/master/README.md)
+Inside the Whonix GW Qube:
+
 1\. Download [Whonix's Signing Key]().
 
 ```
@@ -186,7 +190,13 @@ I've compartmentalized my digital personal and work lives thusly:
 ## VPN Qube
 - tk
 
-## add Windows Qube (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
+## configure Comms Qube (Signal, WhatsApp, etc.)
+- tk
+
+## configure multimedia Qube
+- tk
+
+## configure Windows Qube (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
 ```
 qvm-create --class StandaloneVM --label red --property virt_mode=hvm win7new
 qvm-prefs win7new memory 4096
@@ -239,10 +249,8 @@ Create a new persistent VM or take an existing one, and configure it to launch t
 
 4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
 
-
 Install the qubes-split-browser package from qubes-repo-contrib in your persistent VM's TemplateVM (e.g. fedora-XX).
  ensure that an extracted Tor Browser will be available in ~/.tb/tor-browser/ (e.g. by running the Tor Browser Downloader update-torbrowser in whonix-ws-XX). You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run split-browser in a terminal (with -h to see the help message).
-
 
 ## TODO
 - self-hosted deadman's swithc
@@ -250,8 +258,6 @@ Install the qubes-split-browser package from qubes-repo-contrib in your persiste
 Test the LAN's router/firewall with either an internet port scanning service or preferably a port scanning application from an external IP address. configure a de-militarized zone (perimeter network) Follow all other Whonix ™ recommendations to lock down the router.
 
 For greater security, higher performance and a lower resource footprint, consider using an experimental MirageOS-based unikernel firewall that can run as a QubesOS ProxyVM. 
-
-Configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots.
 
 Consider disabling the Control Port Filter Proxy to reduce the attack surface of both the Whonix-Gateway ™ and Whonix-Workstation ™.
 Consider hardening systemcheck.
