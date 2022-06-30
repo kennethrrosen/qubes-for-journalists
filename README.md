@@ -47,9 +47,85 @@ Sandbox 1
 ```
 echo "kernel.sysrq = 1" | sudo tee -a /etc/sysctl.d/50_sysrq.conf
 ```
-## anonymize MAC address and hostname
-```https://github.com/kennethrrosen/journoQUBES/blob/main/mac-spoofing```
-.MD in files above
+## anonymize MAC address and hostname (https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md)
+These steps should be done inside a template to be used to create a NetVM as it relies on creating a config file that would otherwise be deleted after a reboot due to the nature of AppVMs.
+
+Write the settings to a new file in the `/etc/NetworkManager/conf.d/` directory, such as `00-macrandomize.conf`.
+The following example enables Wifi and Ethernet MAC address randomization while scanning (not connected), and uses a randomly generated but persistent MAC address for each individual Wifi and Ethernet connection profile.
+
+~~~
+[device]
+wifi.scan-rand-mac-address=yes
+
+[connection]
+wifi.cloned-mac-address=stable
+ethernet.cloned-mac-address=stable
+connection.stable-id=${CONNECTION}/${BOOT}
+#use random IPv6 addresses per session / don't leak MAC via IPv6 (cf. RFC 4941):
+ipv6.ip6-privacy=2
+~~~
+
+* `stable` in combination with `${CONNECTION}/${BOOT}` generates a random address that persists until reboot.
+* `random` generates a random address each time a link goes up.
+
+To see all the available configuration options, refer to the man page: `man nm-settings`
+
+Next, create a new NetVM using the edited template and assign network devices to it.
+
+Finally, shutdown all VMs and change the settings of sys-firewall, etc. to use the new NetVM.
+
+You can check the MAC address currently in use by looking at the status pages of your router device(s), or inside the NetVM with the command `sudo ip link show`.
+
+DHCP requests also leak your hostname to your LAN. Since your hostname is usually `sys-net`, other network users can easily spot that you're using Qubes OS.
+
+Unfortunately `NetworkManager` currently doesn't provide an option to disable that leak globally ([Gnome Bug 768076](https://bugzilla.gnome.org/show_bug.cgi?id=768076)). However the below alternatives exist.
+
+`NetworkManager` can be configured to use `dhclient` for DHCP requests. `dhclient` has options to prevent the hostname from being sent. To do that, add a file to your `sys-net` template (usually the Fedora or Debian base template) named e.g. `/etc/NetworkManager/conf.d/dhclient.conf` with the following content:  
+```
+[main]
+dhcp=dhclient
+```
+Afterwards edit `/etc/dhcp/dhclient.conf` and remove or comment out the line starting with `send host-name`.
+
+If you want to decide per connection, `NetworkManager` also provides an option to not send the hostname:  
+Edit the saved connection files at `/rw/config/NM-system-connections/*.nmconnection` and add the `dhcp-send-hostname=false` line to both the `[ipv4]` and the `[ipv6]` section.
+
+Alternatively you may use the following code to assign a random hostname to a VM during each of its startup. Please follow the instructions mentioned in the beginning to properly install it.
+
+```.bash
+#!/bin/bash
+set -e -o pipefail
+#
+# Set a random hostname for a VM session.
+#
+# Instructions:
+# 1. This file must be placed and made executable (owner: root) inside the template VM of your network VM such that it will be run before your hostname is sent over a network.
+# In a Fedora template, use `/etc/NetworkManager/dispatcher.d/pre-up.d/00_hostname`.
+# In a Debian template, use `/etc/network/if-pre-up.d/00_hostname`.
+# 2. Execute `sudo touch /etc/hosts.lock` inside the template VM of your network VM.
+# 3. Execute inside your network VM:
+#  `sudo bash -c 'mkdir -p /rw/config/protected-files.d/ && echo -e "/etc/hosts\n/etc/hostname" > /rw/config/protected-files.d/protect_hostname.txt'`
+
+
+#NOTE: mv is atomic on most systems
+if [ -f "/rw/config/protected-files.d/protect_hostname.txt" ] && rand="$RANDOM" && mv "/etc/hosts.lock" "/etc/hosts.lock.$rand" ; then
+	name="PC-$rand"
+	echo "$name" > /etc/hostname
+	hostname "$name"
+	#NOTE: NetworkManager may set it again after us based on DHCP or /etc/hostname, cf. `man NetworkManager.conf` @hostname-mode
+	
+	#from /usr/lib/qubes/init/qubes-early-vm-config.sh
+	if [ -e /etc/debian_version ]; then
+            ipv4_localhost_re="127\.0\.1\.1"
+        else
+            ipv4_localhost_re="127\.0\.0\.1"
+        fi
+        sed -i "s/^\($ipv4_localhost_re\(\s.*\)*\s\).*$/\1${name}/" /etc/hosts
+        sed -i "s/^\(::1\(\s.*\)*\s\).*$/\1${name}/" /etc/hosts
+fi
+exit 0
+```
+Assuming that you're using `sys-net` as your network VM, your `sys-net` hostname should now be `PC-[number]` with a different `[number]` each time your `sys-net` is started.
 
 ## enlarged dom0
 ```
@@ -63,6 +139,46 @@ qubesctl top.enable qvm.sys-usb qvm.sys-net
 qubesctl state.highstate
 (qubesctl top.disable qvm.sys-net-as-usbvm pillar=True) if intention was to get separate sys-usb as it is by default
 ```
+
+## tirdad kernel install to protect against TCP ISN-based CPU information leaks (https://github.com/Kicksecure/tirdad/blob/master/README.md)
+1\. Download [Whonix's Signing Key]().
+
+```
+wget https://www.whonix.org/patrick.asc
+```
+
+Users can [check Whonix Signing Key](https://www.whonix.org/wiki/Whonix_Signing_Key) for better security.
+
+2\. Add Whonix's signing key.
+
+```
+sudo apt-key --keyring /etc/apt/trusted.gpg.d/whonix.gpg add ~/patrick.asc
+```
+
+3\. Add Whonix's APT repository.
+
+```
+echo "deb https://deb.whonix.org bullseye main contrib non-free" | sudo tee /etc/apt/sources.list.d/whonix.list
+```
+
+4\. Update your package lists.
+
+```
+sudo apt-get update
+```
+
+5\. Install `tirdad`.
+
+```
+sudo apt-get install tirdad
+```
+
+Any standard Debian build tools can be used. For example. Quick and easy.
+
+```
+dpkg-buildpackage -b
+```
+
 
 ## qubes compartmentalization
 I've compartmentalized my digital personal and work lives thusly:
@@ -130,10 +246,6 @@ Install the qubes-split-browser package from qubes-repo-contrib in your persiste
 
 ## TODO
 - self-hosted deadman's swithc
-
-If using Qubes-Whonix ™, assign the webcam to an untrusted VM (if needed)
-
-In Qubes-Whonix ™, consider installing the tirdad kernel module to protect against TCP ISN-based CPU information leaks
 
 Test the LAN's router/firewall with either an internet port scanning service or preferably a port scanning application from an external IP address. configure a de-militarized zone (perimeter network) Follow all other Whonix ™ recommendations to lock down the router.
 
