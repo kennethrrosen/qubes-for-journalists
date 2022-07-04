@@ -17,7 +17,7 @@ NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TA
 - for anonymous PGP-encrypted email over Tor, use Mozilla Thunderbird.
 - physically move all mobiles devices to a distant physical location or faraday bag
 
-### physical (& BIOS/firmware) hardening
+### pre-installation configurations
 - disabled Intel ME (Librem standard)
 - anti-evil-maid (not necessary with Librem)
 - coreboot & seaBIOS firmware, Yubikey login and killswitch
