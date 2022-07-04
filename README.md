@@ -19,9 +19,8 @@ NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TA
 
 ### physical (& BIOS/firmware) hardening
 - disabled Intel ME (Librem standard)
-- Librem Key boot access (Librem standard)
 - anti-evil-maid (not necessary with Librem)
-- coreboot/pureboot firmware (Librem standard)
+- coreboot & seaBIOS firmware, Yubikey login and killswitch
 - physical hardware disconnect for microphone, wifi, bluetooth, webcam
 - removed speakers
 - removed beeper
