@@ -37,18 +37,26 @@ NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TA
 - sudo systemctl mask systemcheck
 - enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates
 ```sudo aa-status```
-- enable seccomp on Whonix-Gateway (ProxyVM ONLY, disables Tor access).
-```
-sudoedit /usr/local/etc/torrc.d/50_user.conf 
-Sandbox 1
-```
-- enable SysRq "Security Keys" functionality as insurance against system malfunctions
-```
-echo "kernel.sysrq = 1" | sudo tee -a /etc/sysctl.d/50_sysrq.conf
-```
 - configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots.
 
-## anonymize MAC address and hostname (https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md)
+## swap PureBoot for CoreBoot/SeaBIOS
+```
+tktkt
+```
+
+## enable Yubikey for mandatory login, removal killswitch
+```
+tktkthttps://www.qubes-os.org/doc/yubikey/
+```
+
+## enlarged dom0
+```
+sudo lvresize --size 50G /dev/mapper/qubes_dom0-root
+sudo resize2fs /dev/mapper/qubes_dom0-root
+```
+
+## anonymize MAC address and hostname
+https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md)
 These steps should be done inside a template to be used to create a NetVM as it relies on creating a config file that would otherwise be deleted after a reboot due to the nature of AppVMs.
 
 Write the settings to a new file in the `/etc/NetworkManager/conf.d/` directory, such as `00-macrandomize.conf`.
@@ -128,33 +136,10 @@ exit 0
 ```
 Assuming that you're using `sys-net` as your network VM, your `sys-net` hostname should now be `PC-[number]` with a different `[number]` each time your `sys-net` is started.
 
-##swap PureBoot for CoreBoot/SeaBIOS
-```
-tktkt
-```
-
-##enable Yubikey for mandatory login, removal killswitch
-```
-tktkthttps://www.qubes-os.org/doc/yubikey/
-```
-
-## enlarged dom0
-```
-sudo lvresize --size 50G /dev/mapper/qubes_dom0-root
-sudo resize2fs /dev/mapper/qubes_dom0-root
-```
-
-## sys-net as usbvm (also can be created at initialization)
-```
-qubesctl top.enable qvm.sys-usb qvm.sys-net
-qubesctl state.highstate
-(qubesctl top.disable qvm.sys-net-as-usbvm pillar=True) if intention was to get separate sys-usb as it is by default
-```
-
 ## Qubes compartmentalization
 I've compartmentalized my digital personal and work lives thusly:
 
-## configure VPN Qubes (protonvpn, & VPN over Tor)
+## configure ProtonVPN Qube
 ```
 qvm-clone fedora-35-minimal fedora-35-minimal-sys-vpn
 
@@ -180,16 +165,15 @@ qvm-service sys-vpn-tor network-manager true
 protonvpn init
 ```
 
-## configure DVM for Zoom
+## configure Comms Qube (Signal, WhatsApp, Zoom)
 - tk
 
-## configure Comms Qube (Signal, WhatsApp, etc.)
+## configure multimedia Qube
 - tk
 
-## configure multimedia Qube (Spotify, Netflix, etc.)
-- tk
-
-## configure Windows Qube (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
+## configure Windows Qube
+Legacy and more personal software live here. Also home to much of my multimedia accounts: Spotify, Netflix, Spotify, Netflix, Amazon Prime (via Chromium), etc. Still having difficulties getting windows tools to work.
+(https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
 ```
 qvm-create --class StandaloneVM --label red --property virt_mode=hvm win7new
 qvm-prefs win7new memory 4096
@@ -246,55 +230,20 @@ Install the qubes-split-browser package from qubes-repo-contrib in your persiste
  ensure that an extracted Tor Browser will be available in ~/.tb/tor-browser/ (e.g. by running the Tor Browser Downloader update-torbrowser in whonix-ws-XX). You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run split-browser in a terminal (with -h to see the help message).
 
 ## TODO
-- self-hosted deadman's swithc
-
-Test the LAN's router/firewall with either an internet port scanning service or preferably a port scanning application from an external IP address. configure a de-militarized zone (perimeter network) Follow all other Whonix ™ recommendations to lock down the router.
-
-For greater security, higher performance and a lower resource footprint, consider using an experimental MirageOS-based unikernel firewall that can run as a QubesOS ProxyVM. 
-
-Consider disabling the Control Port Filter Proxy to reduce the attack surface of both the Whonix-Gateway ™ and Whonix-Workstation ™.
-Consider hardening systemcheck.
-
-Create an App Qube that is exclusively used for email and change the VM's firewall settings to only allow network connections to the email server and nothing else ("Deny network access except...").
-
 Consider running ArpON
 
 corridor as a filtering gateway to ensure only connections to Tor relays pass through
 
-Whonix-Workstation ™ Installation Steps
-
-EXTERNAL_OPEN_PORTS+=" $(seq 17600 17659) "
-
-On Whonix-Gateway ™. [7] [8]
-
-Add onion-grater profile.
-
-INSTALLONIONSHARE sudo onion-grater-add 40_onionshare M
-
-If using Qubes-Whonix ™, complete these steps.
-In Whonix-Workstation ™ App Qube. Make sure folder /usr/local/etc/whonix_firewall.d exists.
-
-sudo mkdir -p /usr/local/etc/whonix_firewall.d
-Qubes App Launcher (blue/grey "Q") → Whonix-Workstation ™ App Qube (commonly called anon-whonix) → Whonix ™ User Firewall Settings
-
-If using a graphical Whonix-Workstation ™, complete these steps.
-
-Start Menu → Applications → System → User Firewall Settings
-
-Configuring (not an official instructions link) the experimental GUI domain; [8] [9] and/or
-Setting up an AudioVM. [1
+onionshare
 
 Check gpg is enabled in config files (gpgcheck=1) if new Fedora repositories are installed.
 
 If utilizing a SSD, consider setting up a periodic job in dom0 to trim the disk since this aids against local forensics. [17] [18]
 
-Consider creating separate, specialized minimal Templates for distinct App Qube clearnet activities (like browsing) to reduce the attack surface. [21] [22]
-
-Consider replacing passwordless root access with a dom0 user prompt. [23
+Consider replacing passwordless root access with a dom0 user prompt.
 
 Consider split dm-crypt to isolate device-mapper based secondary storage encryption (not the root filesystem) and LUKS header processing to Disposables.
 
 vm-boot-protect-root: suitable for service VMs like sys-usb and sys-net, as well as App Qubes such as untrusted, personal, banking, vault and so. [26]
-vm-boot-protect: suitable for virtually any Debian or Fedora VM, such as Kicksecure ™ VMs, Standalone VMs and Disposable VMs.
 
-```
+vm-boot-protect: suitable for virtually any Debian or Fedora VM, such as Kicksecure ™ VMs, Standalone VMs and Disposable VMs.
