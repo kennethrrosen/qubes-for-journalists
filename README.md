@@ -129,6 +129,16 @@ exit 0
 ```
 Assuming that you're using `sys-net` as your network VM, your `sys-net` hostname should now be `PC-[number]` with a different `[number]` each time your `sys-net` is started.
 
+##swap PureBoot for CoreBoot/SeaBIOS
+```
+tktkt
+```
+
+##enable Yubikey for mandatory login, removal killswitch
+```
+tktkthttps://www.qubes-os.org/doc/yubikey/
+```
+
 ## enlarged dom0
 ```
 sudo lvresize --size 50G /dev/mapper/qubes_dom0-root
@@ -141,48 +151,6 @@ qubesctl top.enable qvm.sys-usb qvm.sys-net
 qubesctl state.highstate
 (qubesctl top.disable qvm.sys-net-as-usbvm pillar=True) if intention was to get separate sys-usb as it is by default
 ```
-
-## tirdad kernel install to protect against TCP ISN-based CPU information leaks (https://github.com/Kicksecure/tirdad/blob/master/README.md)
-Inside the Whonix GW Qube:
-
-1\. Download [Whonix's Signing Key]().
-
-```
-wget https://www.whonix.org/patrick.asc
-```
-
-Users can [check Whonix Signing Key](https://www.whonix.org/wiki/Whonix_Signing_Key) for better security.
-
-2\. Add Whonix's signing key.
-
-```
-sudo apt-key --keyring /etc/apt/trusted.gpg.d/whonix.gpg add ~/patrick.asc
-```
-
-3\. Add Whonix's APT repository.
-
-```
-echo "deb https://deb.whonix.org bullseye main contrib non-free" | sudo tee /etc/apt/sources.list.d/whonix.list
-```
-
-4\. Update your package lists.
-
-```
-sudo apt-get update
-```
-
-5\. Install `tirdad`.
-
-```
-sudo apt-get install tirdad
-```
-
-Any standard Debian build tools can be used. For example. Quick and easy.
-
-```
-dpkg-buildpackage -b
-```
-
 
 ## Qubes compartmentalization
 I've compartmentalized my digital personal and work lives thusly:
