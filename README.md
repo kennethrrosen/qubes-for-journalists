@@ -39,9 +39,21 @@ NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TA
 ```sudo aa-status```
 - configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots.
 
-## swap PureBoot for CoreBoot/SeaBIOS
+## swap PureBoot to Coreboot/SeaBIOS
 ```
-tktkt
+mkdir ~/updates 
+cd ~/updates 
+wget https://source.puri.sm/coreboot/utility/raw/master/coreboot_util.sh -O coreboot_util.sh 
+sudo bash ./coreboot_util.sh
+
+(follow prompts:)
+1. 
+(Default) 
+Standard 
+1. 
+Select desired boot device 
+Y 
+
 ```
 
 ## enable Yubikey for mandatory login removal lockswitch
