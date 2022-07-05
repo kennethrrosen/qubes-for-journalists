@@ -44,9 +44,14 @@ NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TA
 tktkt
 ```
 
-## enable Yubikey for mandatory login, removal killswitch
+## enable Yubikey for mandatory login removal lockswitch
 ```
-tktkthttps://www.qubes-os.org/doc/yubikey/
+https://www.qubes-os.org/doc/yubikey/
+```
+
+## testing buskill dead-person's switch (would prefer password-entry dead-person's switch)
+```
+https://www.buskill.in/qubes-os/
 ```
 
 ## enlarged dom0
@@ -56,7 +61,7 @@ sudo resize2fs /dev/mapper/qubes_dom0-root
 ```
 
 ## anonymize MAC address and hostname
-https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md)
+https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md
 These steps should be done inside a template to be used to create a NetVM as it relies on creating a config file that would otherwise be deleted after a reboot due to the nature of AppVMs.
 
 Write the settings to a new file in the `/etc/NetworkManager/conf.d/` directory, such as `00-macrandomize.conf`.
@@ -168,6 +173,9 @@ protonvpn init
 ## configure Comms Qube (Signal, WhatsApp, Zoom)
 - tk
 
+## configure Thunderbird/Proton Bridge Qube (Signal, WhatsApp, Zoom)
+- tk
+
 ## configure multimedia Qube
 - tk
 
@@ -195,7 +203,9 @@ qvm-prefs win7new debug false
 ```
 To install Qubes Windows Tools, follow instructions in Qubes Windows Tools (https://www.qubes-os.org/doc/windows-tools/).
 
-## add split browser personal "surfer" qube (https://github.com/rustybird/qubes-app-split-browser)
+## add split browser personal "surfer" qube
+https://github.com/rustybird/qubes-app-split-browser
+
 Combination      | Function
 -----------------|--------------------------------------------------------------
 **Alt-b**        | Open bookmarks
