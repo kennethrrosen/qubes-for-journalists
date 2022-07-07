@@ -198,7 +198,7 @@ protonvpn init
 ## configure Comms Qube (Signal, WhatsApp, Zoom)
 - tk
 
-## configure Thunderbird/Proton Bridge Qube (Signal, WhatsApp, Zoom)
+## configure email (Thunderbird with Proton Bridge) Qube 
 - tk
 
 ## configure multimedia Qube
