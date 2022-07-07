@@ -156,6 +156,19 @@ Assuming that you're using `sys-net` as your network VM, your `sys-net` hostname
 ## Qubes compartmentalization
 I've compartmentalized my digital personal and work lives thusly:
 
+## configure offline write & research Qube vault
+https://www.dropbox.com/s/bnsysjubsyq45ud/Scrivener-1.9.0.1beta-x86_64_language_pack.AppImage.tar.gz
+Into a Fedora-xx template clone
+```
+cd ./Downloads/Scrivener*AppImage
+chmod a+x Scrivener*AppImage
+./Scrivener*AppImage --appimage-extract
+Move squashfs-root folder to appVM
+refresh applications
+Launch AppRun
+
+```
+
 ## configure ProtonVPN Qube
 ```
 qvm-clone fedora-35-minimal fedora-35-minimal-sys-vpn
