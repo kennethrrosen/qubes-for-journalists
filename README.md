@@ -263,22 +263,3 @@ Create a new persistent VM or take an existing one, and configure it to launch t
 
 Install the qubes-split-browser package from qubes-repo-contrib in your persistent VM's TemplateVM (e.g. fedora-XX).
  ensure that an extracted Tor Browser will be available in ~/.tb/tor-browser/ (e.g. by running the Tor Browser Downloader update-torbrowser in whonix-ws-XX). You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run split-browser in a terminal (with -h to see the help message).
-
-## TODO
-Consider running ArpON
-
-corridor as a filtering gateway to ensure only connections to Tor relays pass through
-
-onionshare
-
-Check gpg is enabled in config files (gpgcheck=1) if new Fedora repositories are installed.
-
-If utilizing a SSD, consider setting up a periodic job in dom0 to trim the disk since this aids against local forensics. [17] [18]
-
-Consider replacing passwordless root access with a dom0 user prompt.
-
-Consider split dm-crypt to isolate device-mapper based secondary storage encryption (not the root filesystem) and LUKS header processing to Disposables.
-
-vm-boot-protect-root: suitable for service VMs like sys-usb and sys-net, as well as App Qubes such as untrusted, personal, banking, vault and so. [26]
-
-vm-boot-protect: suitable for virtually any Debian or Fedora VM, such as Kicksecure ™ VMs, Standalone VMs and Disposable VMs.
