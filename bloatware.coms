@@ -12,6 +12,7 @@ adb shell pm list packages -s
 adb shell pm list packages
 
 adb shell cmd package install-existing <app-package-name>
+adb install-multiple --user 0 <app-package-name>
 
 
 
