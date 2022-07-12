@@ -1,9 +1,13 @@
-# journoQUBES
+journoQUBES
+=========================
+
 Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 64G RAM). Despite the security of the Purism laptop, I took additional steps (hardware, software) to add enhanced security. This is a working list as I go through the intitialization of the OS, a running tab of work done to it for future reference and backup purposes; also, for future project on journalist digital security.
 
 NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TAILS is the preferred choice for in-a-pinch necessity, emergencies, and use under opressive regimes with active net-monitoring.) Nevertheless, the steps below consider a threat model in the grey area between levels 2 - 3 (of 4) of the Cupwire standard (https://www.cupwire.com/threat-modeling/). I've found this middle ground idylic for most foreign correspondents who are often already operating (or seeking to operate) with this level of anonymity. Much of this repository was created from various sources in an attempt to centralize tools for journalists. If credit is not cited where credit is do, please let me know and I will rectify.
 
-### best practices
+Best Practices
+--------
+### TKKT
 - LUKS encrypt all harddrives in installation configuration
 - too many levels of complexity leads to user error; eliminate attack surface, but make your security measures convenient and practical
 - set the Qubes, Debian and Whonix package updates to Tor onion service repositories
@@ -17,17 +21,24 @@ NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TA
 - for anonymous PGP-encrypted email over Tor, use Mozilla Thunderbird.
 - physically move all mobiles devices to a distant physical location or faraday bag
 
-### pre-installation configurations
+### TKKT
+
+pre-installation configurations
+--------
+### TKKT
 - disabled Intel ME (Librem standard)
-- anti-evil-maid (not necessary with Librem)
-- coreboot & seaBIOS firmware, Yubikey login and killswitch
+- coreboot & seaBIOS firmware
 - physical hardware disconnect for microphone, wifi, bluetooth, webcam
 - removed speakers
 - removed beeper
 - tamper-evident screws
-- waxed external ports
 
-### post-installation configurations
+### TKKT
+
+
+post-installation configurations
+--------
+### TKKT
 - disable previews of files from untrusted sources in File Manager
 - swap networking (sys-net and sys-firewall) templates to customized Kicksure Templates (based on Debian 11 over tor, DVMs), making sure not to configure as a Standalone VM
 - confirm Microcode Package Check (in dom0):
@@ -39,7 +50,7 @@ NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TA
 ```sudo aa-status```
 - configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots.
 
-## swap PureBoot to Coreboot/SeaBIOS
+### swap PureBoot to Coreboot/SeaBIOS
 ```
 mkdir ~/updates 
 cd ~/updates 
@@ -56,23 +67,31 @@ Y
 
 ```
 
-## enable Yubikey for mandatory login removal lockswitch
+### anti-evil-maid enabled (not necessary if Librem Key and Pureboot is kept)
+In dom0
+
+```
+sudo qubes-dom0-update anti-evil-maid
+```
+
+
+### enable Yubikey for mandatory login removal lockswitch
 ```
 https://www.qubes-os.org/doc/yubikey/
 ```
 
-## testing buskill dead-person's switch (would prefer password-entry dead-person's switch)
+### testing buskill dead-person's switch (would prefer password-entry dead-person's switch)
 ```
 https://www.buskill.in/qubes-os/
 ```
 
-## enlarged dom0
+### resize dom0
 ```
 sudo lvresize --size 50G /dev/mapper/qubes_dom0-root
 sudo resize2fs /dev/mapper/qubes_dom0-root
 ```
 
-## anonymize MAC address and hostname
+### anonymize MAC address and hostname
 https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md
 These steps should be done inside a template to be used to create a NetVM as it relies on creating a config file that would otherwise be deleted after a reboot due to the nature of AppVMs.
 
@@ -153,7 +172,9 @@ exit 0
 ```
 Assuming that you're using `sys-net` as your network VM, your `sys-net` hostname should now be `PC-[number]` with a different `[number]` each time your `sys-net` is started.
 
-## Qubes compartmentalization
+
+Qubes compartmentalization
+--------
 I've compartmentalized my digital personal and work lives thusly:
 
 ## configure offline write & research Qube vault
@@ -169,42 +190,59 @@ Launch AppRun
 
 ```
 
-## configure ProtonVPN Qube
-```
-qvm-clone fedora-35-minimal fedora-35-minimal-sys-vpn
+### configure VPN Qube
+Manage, run, protect VPN connections in Proxy VMs. In this instance, I'm using ProtonVPN, which I recommend for journalists across platforms and devices. This is closely based on the [Qubes-vpn-support](https://github.com/tasket/Qubes-vpn-support) project.
 
-mkdir ~/temp && cd ~/temp
-curl --remote-name --remote-header-name --proxy http://127.0.0.1:8082 https://protonvpn.com/download/protonvpn-stable-release-1.0.0-1.noarch.rpm
-rpm2cpio protonvpn-stable-release-1.0.0-1.noarch.rpm | cpio --extract --make-directories --preserve-modification-time --verbose --quiet
-mv ~/temp/etc/yum.repos.d/protonvpn-stable-f33.repo /etc/yum.repos.d/
+#### Installation:
 
-dnf upgrade
-dnf install protonvpn qubes-core-agent-networking qubes-core-agent-network-manager network-manager-applet notification-daemon  NetworkManager-openvpn-gnome gnome-keyring
+Install `qubes-repo-contrib` package using `apt-get` or `dnf` in template. Then, install `qubes-tunnel` in the same way.
 
-qvm-create --template fedora-35-minimal-sys-vpn --label green sys-vpn
-qvm-prefs sys-vpn autostart false
-qvm-prefs sys-vpn netvm sys-firewall
-qvm-prefs sys-vpn provides_network true
-qvm-service sys-vpn network-manager true
-qvm-create --template fedora-35-minimal-sys-vpn --label red sys-vpn-tor
-qvm-prefs sys-vpn-tor autostart false
-qvm-prefs sys-vpn-tor netvm sys-firewall
-qvm-prefs sys-vpn-tor provides_network true
-qvm-service sys-vpn-tor network-manager true
+#### Setup
 
-protonvpn init
-```
+1. Create an AppVM, called for example `sys-vpn`, with the `provides network` option enabled using a template with the previously installed `qubes-tunnel` package. Make a choice for the NetVM setting, such as `sys-firewall`.
 
-## configure Comms Qube (Signal, WhatsApp, Zoom)
+2. In `sys-vpn` settings `Services` tab, add `qubes-tunnel` service.
+
+> Note: There is no need for adding `network-manager` service.
+
+3. As `root` or using `sudo`, in `sys-vpn` execute `/usr/lib/qubes/qtunnel-setup --config`:
+
+   ```
+   root@sys-vpn:/home/user# /usr/lib/qubes/qtunnel-setup --config
+
+   Enter VPN/tunnel login credentials.
+   Leave blank if not required...
+
+   Username: fepitre
+   Password: 
+
+   Login info saved to /rw/config/qtunnel/tunneluserpwd.txt
+
+   Done!
+   Next, copy or link your config file to /rw/config/qtunnel/qtunnel.conf
+   ```
+
+4. Following what's the last sentence said, still as `root` or using `sudo`, in `sys-vpn` copy the OpenVPN config file from your service provider, for example called `user_config.ovpn` to `/rw/config/qtunnel/qtunnel.conf`:
+
+   ```
+   root@sys-vpn:/home/user# cp user_config.ovpn /rw/config/qtunnel/qtunnel.conf
+   ```
+
+Restart `sys-vpn`. This will autostart the VPN client and you should see a popup notification 'LINK IS UP'!
+
+Regular usage is simple: Just use `sys-vpn` as NetVM for other VMs 
+
+### configure Comms Qube (Signal, WhatsApp, Zoom)
+Note: if you've the time, it's prudent to break these into three separate Qubes.
 - tk
 
-## configure email (Thunderbird with Proton Bridge) Qube 
+### configure email (Thunderbird with Proton Bridge) Qube 
 - tk
 
-## configure multimedia Qube
+### configure multimedia Qube
 - tk
 
-## configure Windows Qube
+### configure Windows Qube
 Legacy and more personal software live here. Also home to much of my multimedia accounts: Spotify, Netflix, Spotify, Netflix, Amazon Prime (via Chromium), etc. Still having difficulties getting windows tools to work.
 (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
 ```
@@ -228,7 +266,7 @@ qvm-prefs win7new debug false
 ```
 To install Qubes Windows Tools, follow instructions in Qubes Windows Tools (https://www.qubes-os.org/doc/windows-tools/).
 
-## add split browser personal "surfer" qube
+### add split browser personal "surfer" qube
 https://github.com/rustybird/qubes-app-split-browser
 
 Combination      | Function
