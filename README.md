@@ -240,6 +240,7 @@ Note: if you've the time, it's prudent to break these into three separate Qubes.
 - tk
 
 ### configure multimedia Qube
+I've assigned bluetooth audio to this VM. First you need to identify an user VM dedicated to audio and assign a device to it. In the most common case the assigned device is the USB controller to which your USB audio card will be connected. Might make Zoom calls more difficult; but my Zoom qube is for participating in Zoom, not for one-on-ones, for which I use my phone or an oft-wiped MacBook Air.
 - tk
 
 ### configure Windows Qube
