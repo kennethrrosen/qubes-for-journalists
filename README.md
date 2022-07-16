@@ -76,6 +76,20 @@ Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 Rebuild initrd sudo dracut -f
 reboot
 ```
+
+### install additional repos
+In Dom0 -- (TODO: consider organizing under dom0 customization header)
+
+qubes-secpack: https://www.qubes-os.org/security/pack/
+sudo qubes-dom0-update qubes-repo-contrib
+In Fedora: sudo dnf install qubes-repo-contrib
+In Debian: sudo apt update && sudo apt install qubes-repo-contrib
+
+### install TLP power management utility
+```
+sudo qubes-dom0-update tlp
+```
+
 ### fix CPU scaling
 In dom0:
 ```
