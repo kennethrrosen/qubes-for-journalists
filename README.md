@@ -84,14 +84,6 @@ Write xen-acpi-processor and save.
 Reboot.
 ```
 
-### anti-evil-maid enabled (not necessary if Librem Key and Pureboot is kept)
-In dom0
-
-```
-sudo qubes-dom0-update anti-evil-maid
-```
-
-
 ### enable Yubikey for mandatory login removal lockswitch
 ```
 https://www.qubes-os.org/doc/yubikey/
