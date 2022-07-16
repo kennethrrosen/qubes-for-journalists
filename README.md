@@ -67,6 +67,15 @@ Select desired boot device
 Y 
 
 ```
+### disable Qubes splash screen
+In Dom0 -- (TODO: consider organizing under dom0 customization header)
+```
+sudo nano /etc/default/grub
+Remove rhgb from GRUB_CMDLINE_LINUX line
+Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+Rebuild initrd sudo dracut -f
+reboot
+```
 
 ### anti-evil-maid enabled (not necessary if Librem Key and Pureboot is kept)
 In dom0
