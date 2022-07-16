@@ -51,7 +51,7 @@ post-installation configurations
 ```sudo aa-status```
 - configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots.
 
-### swap PureBoot to Coreboot/SeaBIOS
+### swap PureBoot to Coreboot and SeaBIOS
 ```
 mkdir ~/updates 
 cd ~/updates 
@@ -75,6 +75,13 @@ Remove rhgb from GRUB_CMDLINE_LINUX line
 Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 Rebuild initrd sudo dracut -f
 reboot
+```
+### fix CPU scaling
+In dom0:
+```
+sudo nano /etc/modules-load.d/xen-acpi-processor.conf
+Write xen-acpi-processor and save.
+Reboot.
 ```
 
 ### anti-evil-maid enabled (not necessary if Librem Key and Pureboot is kept)
