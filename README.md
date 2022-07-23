@@ -79,16 +79,30 @@ reboot
 
 ### install additional repos
 In Dom0 -- (TODO: consider organizing under dom0 customization header)
-
-qubes-secpack: https://www.qubes-os.org/security/pack/
+```
 sudo qubes-dom0-update qubes-repo-contrib
 In Fedora: sudo dnf install qubes-repo-contrib
 In Debian: sudo apt update && sudo apt install qubes-repo-contrib
+```
 
 ### install TLP power management utility
 ```
 sudo qubes-dom0-update tlp
+install and configure tlp in dom0 (file is here: /etc/tlp.conf)
+add PM_RUNTIME=y
+systemctl mask systemd-rfkill.socket
+Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+Rebuild initrd sudo dracut -f
+reboot
 ```
+
+### open xterm instead of xfce4-terminal
+```
+in /etc/xdg/xfce4/helpers.rc, set: TerminalEmulator=xterm
+
+```
+
+TerminalEmulator=xterm
 
 ### fix CPU scaling
 In dom0:
@@ -214,7 +228,7 @@ Launch AppRun
 ```
 
 ### configure VPN Qube
-Manage, run, protect VPN connections in Proxy VMs. In this instance, I'm using ProtonVPN, which I recommend for journalists across platforms and devices. This is closely based on the [Qubes-vpn-support](https://github.com/tasket/Qubes-vpn-support) project.
+Manage, run, protect VPN connections in Proxy VMs. In this instance, I'm using ProtonVPN, which I recommend for journalists across platforms and devices. This is closely based on the [Qubes-vpn-support](https://github.com/tasket/Qubes-vpn-support) project. https://github.com/QubesOS-contrib/qubes-tunnel
 
 #### Installation:
 
