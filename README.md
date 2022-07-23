@@ -280,6 +280,30 @@ Note: if you've the time, it's prudent to break these into three separate Qubes.
 I've assigned bluetooth audio to this VM. First you need to identify an user VM dedicated to audio and assign a device to it. In the most common case the assigned device is the USB controller to which your USB audio card will be connected. Might make Zoom calls more difficult; but my Zoom qube is for participating in Zoom, not for one-on-ones, for which I use my phone or an oft-wiped MacBook Air.
 - tk
 
+
+### configure Thunderbird Qube
+
+Open a text editor and copy and paste this into it:
+
+    [Desktop Entry]
+    Encoding=UTF-8
+    Name=BrowserVM
+    Exec=qvm-open-in-vm APPVMNAME %u
+    Terminal=false
+    X-MultipleArgs=false
+    Type=Application
+    Categories=Network;WebBrowser;
+    MimeType=x-scheme-handler/unknown;x-scheme-handler/about;text/html;text/xml;application/xhtml+xml;application/xml;application/vnd.mozilla.xul+xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;
+
+Replace `APPVMNAME` with the AppVM name you want to open links in. Now save, in the AppVM that you want to modify, this file to `~/.local/share/applications/browser_vm.desktop`
+
+Finally, set it as your default browser:
+
+`xdg-settings set default-web-browser browser_vm.desktop`
+
+Credit: [Micah Lee](https://micahflee.com/2016/06/qubes-tip-opening-links-in-your-preferred-appvm/)
+
+
 ### configure Windows Qube
 Legacy and more personal software live here. Also home to much of my multimedia accounts: Spotify, Netflix, Spotify, Netflix, Amazon Prime (via Chromium), etc. Still having difficulties getting windows tools to work.
 (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
