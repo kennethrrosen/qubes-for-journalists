@@ -266,9 +266,14 @@ Finally, set it as your default browser:
 
 Credit: [Micah Lee](https://micahflee.com/2016/06/qubes-tip-opening-links-in-your-preferred-appvm/)
 
+### configure Windows Qube
+For use with Spotify Multimedia Qube
+(https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
+```
+```
 
 ### configure Windows Qube
-Legacy and more personal software live here. Also home to much of my multimedia accounts: Spotify, Netflix, Spotify, Netflix, Amazon Prime (via Chromium), etc. Still having difficulties getting windows tools to work.
+Legacy and more personal software live here.
 (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
 ```
 qvm-create --class StandaloneVM --label red --property virt_mode=hvm win7new
