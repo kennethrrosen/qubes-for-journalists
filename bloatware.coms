@@ -211,6 +211,20 @@ foxnextgames.m3
 audible.application | Audible
 microsoft.skydrive | Microsoft OneDrive
 
+com.google.android.apps.maps 
+com.samsung.android.app.spage
+com.sec.android.app.samsungapps
+com.samsung.android.arzone
+com.google.android.gm
+com.google.android.gms.location.history
+com.android.apps.tag
+com.google.android.apps.docs.editors.sheets
+com.android.hotwordenrollment.xgoogle
+com.samsung.android.themestore
+com.samsung.android.wallpaper.res
+com.samsung.systemui.bixby2
+com.samsung.gpuwatchapp
+
 
 DONT JUST USE THIS: this is for my setup only! You will run into trouble if you don't use other apps and apk's for some of these.
 
@@ -235,7 +249,6 @@ pm uninstall --user 0 com.samsung.theme.icon.taperedrect
 pm uninstall --user 0 com.android.theme.icon.vessel
 pm uninstall --user 0 com.android.internal.display.cutout.emulation.waterfall
 
-pm uninstall --user 0 com.samsung.gpuwatchapp
 pm uninstall --user 0 com.samsung.android.smartsuggestions
 pm uninstall --user 0 com.samsung.android.appseparation
 pm uninstall --user 0 com.samsung.android.visualars
