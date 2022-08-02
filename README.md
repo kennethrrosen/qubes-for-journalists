@@ -232,8 +232,11 @@ Manage, run, protect VPN connections in Proxy VMs. In this instance, I'm using P
 
 Follow these steps: https://forum.qubes-os.org/t/how-to-setup-openvpn-fedora-appvm-for-ovpn/3354
 
-### configure Comms Qube (Signal, WhatsApp, Zoom)
+### configure Comms Qube (Signal, WhatsApp)
 Note: if you've the time, it's prudent to break these into three separate Qubes.
+- tk
+
+### configue disposable Zoom qube
 - tk
 
 ### configure email (Thunderbird with Proton Bridge) Qube 
@@ -241,8 +244,18 @@ Note: if you've the time, it's prudent to break these into three separate Qubes.
 
 ### configure multimedia Qube
 I've assigned bluetooth audio to this VM. First you need to identify an user VM dedicated to audio and assign a device to it. In the most common case the assigned device is the USB controller to which your USB audio card will be connected. Might make Zoom calls more difficult; but my Zoom qube is for participating in Zoom, not for one-on-ones, for which I use my phone or an oft-wiped MacBook Air.
-- tk
 
+```
+Make sure template has these packages installed:
+qubes-usb-proxy bluez blueman pulseaudio-module-bluetooth
+ 
+Start the VM. Connect the dongle to the VM. Put the speaker/headphones in pairing mode. Open Bluetooth Devices and click search. Let the search finish. Do NOT connect to it yet.Run these commands:
+ 
+pulseaudio -k
+pulseaudio -D
+ 
+Now connect the speaker/headphones. It should pair and connect successfully.
+```
 
 ### configure Thunderbird Qube
 
