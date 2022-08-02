@@ -243,7 +243,8 @@ Note: if you've the time, it's prudent to break these into three separate Qubes.
 - tk
 
 ### configure multimedia Qube
-I've assigned bluetooth audio to this VM. First you need to identify an user VM dedicated to audio and assign a device to it. In the most common case the assigned device is the USB controller to which your USB audio card will be connected. Might make Zoom calls more difficult; but my Zoom qube is for participating in Zoom, not for one-on-ones, for which I use my phone or an oft-wiped MacBook Air.
+I've assigned bluetooth audio to this VM. First you need to identify an user VM dedicated to audio and assign a device to it. In the most common case the assigned device is the USB controller to which your USB audio card will be connected. Might make Zoom calls more difficult; but my Zoom qube is for participating in Zoom, not for one-on-ones, for which I use my phone or an oft-wiped MacBook Air. For use with Spotify and Adobe Connect
+(Adobe-Connect-Linux by mahancoder)
 
 ```
 Make sure template has these packages installed:
@@ -278,12 +279,6 @@ Finally, set it as your default browser:
 `xdg-settings set default-web-browser browser_vm.desktop`
 
 Credit: [Micah Lee](https://micahflee.com/2016/06/qubes-tip-opening-links-in-your-preferred-appvm/)
-
-### configure Windows Qube
-For use with Spotify Multimedia Qube
-(https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
-```
-```
 
 ### configure Windows Qube
 Legacy and more personal software live here.
