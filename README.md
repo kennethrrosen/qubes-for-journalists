@@ -50,8 +50,12 @@ post-installation configurations
 - enable all available apparmor profiles in the Whonix-Workstation and Whonix-Gateway Templates
 ```sudo aa-status```
 - configure each ServiceVM as a static DisposableVM to mitigate the threat from persistent malware accross VM reboots.
+- configure a system-wide URL-redirector: https://github.com/raffaeleflorio/qubes-url-redirector
+- configure app-speciic (Thunderbird) URL-redirector: https://github.com/Qubes-Community/Contents/blob/master/docs/common-tasks/opening-urls-in-vms.md
 
 ### swap PureBoot to Coreboot and SeaBIOS
+Secure boot is necessary; but with the system changes ahead, I've found it easier to switch to Coreboot before reverting after all initial system setup changes are made. 
+
 ```
 mkdir ~/updates 
 cd ~/updates 
@@ -215,17 +219,43 @@ Qubes compartmentalization
 I've compartmentalized my digital personal and work lives thusly:
 
 ## configure offline write & research Qube vault
+Into a Fedora-xx template clone, install CrossOver. Create a Bottle for the writing tool of your choice. For me, that's Scrivener: 
 https://www.dropbox.com/s/bnsysjubsyq45ud/Scrivener-1.9.0.1beta-x86_64_language_pack.AppImage.tar.gz
-Into a Fedora-xx template clone
-```
-cd ./Downloads/Scrivener*AppImage
-chmod a+x Scrivener*AppImage
-./Scrivener*AppImage --appimage-extract
-Move squashfs-root folder to appVM
-refresh applications
-Launch AppRun
 
-```
+Since I prefer to keep my interview transcriptions and sourcing lists offline and separate from other Qubes, I've install Split-Browser into the researcher/write vault: https://github.com/rustybird/qubes-app-split-browser
+
+Combination      | Function
+-----------------|--------------------------------------------------------------
+**Alt-b**        | Open bookmarks
+**Ctrl-d**       | Bookmark current page
+Ctrl-Shift-Enter | Log into current page
+Ctrl-Shift-s     | Move downloads to a VM of your choice
+**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart the browser in a new DisposableVM, with fresh Tor circuits.
+
+Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
+
+1. Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
+
+        qvm-create --label=purple surfer
+        qvm-prefs surfer default_dispvm whonix-ws-XX-dvm
+        qvm-prefs surfer netvm ''
+
+   The DisposableVMs will know which persistent VM launched them, so don't name it "rumplestiltskin" if an exploited browser mustn't find out.
+
+2. Install the `qubes-split-browser` package from [qubes-repo-contrib](https://www.qubes-os.org/doc/installing-contributed-packages/) in your persistent VM's TemplateVM (e.g. fedora-XX).
+
+   _Or install manually:_ Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-XX) and run `sudo make install-persist`; then install the `dmenu pwgen oathtool` packages in the TemplateVM.
+
+3. Install the `qubes-split-browser-disp` package from qubes-repo-contrib in your persistent VM's default DisposableVM Template's TemplateVM (e.g. whonix-ws-XX).
+
+   _Or install manually:_ Copy `vm/` into your persistent VM's default DisposableVM Template (e.g. whonix-ws-XX-dvm) or the latter's TemplateVM (e.g. whonix-ws-XX) and run `sudo make install-disp`; then install the `xdotool` package in the TemplateVM.
+
+   Either way, also ensure that an extracted Tor Browser will be available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-XX).
+
+4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
+
+Install the qubes-split-browser package from qubes-repo-contrib in your persistent VM's TemplateVM (e.g. fedora-XX).
+ ensure that an extracted Tor Browser will be available in ~/.tb/tor-browser/ (e.g. by running the Tor Browser Downloader update-torbrowser in whonix-ws-XX). You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run split-browser in a terminal (with -h to see the help message).
 
 ### configure VPN Qube
 Manage, run, protect VPN connections in Proxy VMs. In this instance, I'm using ProtonVPN, which I recommend for journalists across platforms and devices. Regular usage is simple: Just use `sys-vpn` as NetVM for other VMs. I use only in my browserVM.
@@ -233,17 +263,18 @@ Manage, run, protect VPN connections in Proxy VMs. In this instance, I'm using P
 Follow these steps: https://forum.qubes-os.org/t/how-to-setup-openvpn-fedora-appvm-for-ovpn/3354
 
 ### configure Comms Qube (Signal, WhatsApp)
-Note: if you've the time, it's prudent to break these into three separate Qubes.
+Note: if you've the time, it's prudent to break these into two separate Qubes.
 - tk
 
-### configue disposable Zoom qube
+### configue disposable Zoom, Skype (multimedia) qube
 - tk
 
 ### configure email (Thunderbird with Proton Bridge) Qube 
 - tk
 
-### configure multimedia Qube
-I've assigned bluetooth audio to this VM. First you need to identify an user VM dedicated to audio and assign a device to it. In the most common case the assigned device is the USB controller to which your USB audio card will be connected. Might make Zoom calls more difficult; but my Zoom qube is for participating in Zoom, not for one-on-ones, for which I use my phone or an oft-wiped MacBook Air. For use with Spotify and Adobe Connect
+### configure multimedia Qube for Spotify
+I've assigned bluetooth audio to this VM. First you need to identify an user VM dedicated to audio and assign a device to it. In the most common case the assigned device is the USB controller to which your USB audio card will be connected.
+
 (Adobe-Connect-Linux by mahancoder)
 
 ```
@@ -280,6 +311,21 @@ Finally, set it as your default browser:
 
 Credit: [Micah Lee](https://micahflee.com/2016/06/qubes-tip-opening-links-in-your-preferred-appvm/)
 
+### configure CryptPad Qube
+- TK
+
+### configure syncthing Qube
+- TK
+
+### configure banking DVM
+- open only to port 443 through Qubes firewall settings
+
+### configure OSINT Qube for Mantego use
+```
+qvm-template-gui
+install Kali template
+```
+
 ### configure Windows Qube
 Legacy and more personal software live here.
 (https://github.com/Qubes-Community/Contents/blob/master/docs/os/windows/windows-vm.md)
@@ -303,39 +349,3 @@ qvm-prefs win7new qrexec_timeout 300
 qvm-prefs win7new debug false
 ```
 To install Qubes Windows Tools, follow instructions in Qubes Windows Tools (https://www.qubes-os.org/doc/windows-tools/).
-
-### add split browser personal "surfer" qube
-https://github.com/rustybird/qubes-app-split-browser
-
-Combination      | Function
------------------|--------------------------------------------------------------
-**Alt-b**        | Open bookmarks
-**Ctrl-d**       | Bookmark current page
-Ctrl-Shift-Enter | Log into current page
-Ctrl-Shift-s     | Move downloads to a VM of your choice
-**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart the browser in a new DisposableVM, with fresh Tor circuits.
-
-Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
-
-1. Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
-
-        qvm-create --label=purple surfer
-        qvm-prefs surfer default_dispvm whonix-ws-XX-dvm
-        qvm-prefs surfer netvm ''
-
-   The DisposableVMs will know which persistent VM launched them, so don't name it "rumplestiltskin" if an exploited browser mustn't find out.
-
-2. Install the `qubes-split-browser` package from [qubes-repo-contrib](https://www.qubes-os.org/doc/installing-contributed-packages/) in your persistent VM's TemplateVM (e.g. fedora-XX).
-
-   _Or install manually:_ Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-XX) and run `sudo make install-persist`; then install the `dmenu pwgen oathtool` packages in the TemplateVM.
-
-3. Install the `qubes-split-browser-disp` package from qubes-repo-contrib in your persistent VM's default DisposableVM Template's TemplateVM (e.g. whonix-ws-XX).
-
-   _Or install manually:_ Copy `vm/` into your persistent VM's default DisposableVM Template (e.g. whonix-ws-XX-dvm) or the latter's TemplateVM (e.g. whonix-ws-XX) and run `sudo make install-disp`; then install the `xdotool` package in the TemplateVM.
-
-   Either way, also ensure that an extracted Tor Browser will be available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-XX).
-
-4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
-
-Install the qubes-split-browser package from qubes-repo-contrib in your persistent VM's TemplateVM (e.g. fedora-XX).
- ensure that an extracted Tor Browser will be available in ~/.tb/tor-browser/ (e.g. by running the Tor Browser Downloader update-torbrowser in whonix-ws-XX). You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run split-browser in a terminal (with -h to see the help message).
