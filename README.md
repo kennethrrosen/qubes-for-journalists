@@ -1,15 +1,11 @@
 journoQUBES
 =========================
-
-Steps taken to harden Qubes (4.1.0) on a Librem 14 (750G-LUKS encrypted drives, 64G RAM). Despite the security of the Purism laptop, I took additional steps (hardware, software) to add enhanced security. This is a working list as I go through the intitialization of the OS, a running tab of work done to it for future reference and backup purposes; also, for future project on journalist digital security.
-
-It is also a description of my various Qubes and their setups.
+This is a working list as I go through the intitialization of the Qubes 4.1.1 (on a Librem 14), a running tab of work done to it for future reference and backup purposes; also, for future project on journalist digital security. It is also a description of my various Qubes and their setups.
 
 NOTE: Qubes is as the hardest possible OS for journalists as a daily driver. (TAILS is the preferred choice for in-a-pinch necessity, emergencies, and use under opressive regimes with active net-monitoring.) Nevertheless, the steps below consider a threat model in the grey area between levels 2 - 3 (of 4) of the Cupwire standard (https://www.cupwire.com/threat-modeling/). I've found this middle ground idylic for most foreign correspondents who are often already operating (or seeking to operate) with this level of anonymity. Much of this repository was created from various sources in an attempt to centralize tools for journalists. If credit is not cited where credit is do, please let me know and I will rectify.
 
-Best Practices
+digital and personal security best practices
 --------
-### TKKT
 - LUKS encrypt all harddrives in installation configuration
 - too many levels of complexity leads to user error; eliminate attack surface, but make your security measures convenient and practical
 - set the Qubes, Debian and Whonix package updates to Tor onion service repositories
@@ -24,9 +20,7 @@ Best Practices
 - for anonymous PGP-encrypted email over Tor, use Mozilla Thunderbird.
 - physically move all mobiles devices to a distant physical location or faraday bag
 
-### TKKT
-
-pre-installation configurations
+pre-installation hardware/software configurations
 --------
 ### TKKT
 - disabled Intel ME (Librem standard)
@@ -34,12 +28,9 @@ pre-installation configurations
 - physical hardware disconnect for microphone, wifi, bluetooth, webcam
 - removed speakers
 - removed beeper
-- tamper-evident screws
+- tamper-evident screws and ports
 
-### TKKT
-
-
-post-installation configurations
+post-installation OS configurations
 --------
 ### TKKT
 - disable previews of files from untrusted sources in File Manager
@@ -102,14 +93,6 @@ Rebuild initrd sudo dracut -f
 reboot
 ```
 
-### open xterm instead of xfce4-terminal
-```
-in /etc/xdg/xfce4/helpers.rc, set: TerminalEmulator=xterm
-
-```
-
-TerminalEmulator=xterm
-
 ### fix CPU scaling
 In dom0:
 ```
@@ -121,11 +104,6 @@ Reboot.
 ### enable Yubikey for mandatory login removal lockswitch
 ```
 https://www.qubes-os.org/doc/yubikey/
-```
-
-### testing buskill dead-person's switch (would prefer password-entry dead-person's switch)
-```
-https://www.buskill.in/qubes-os/
 ```
 
 ### resize dom0
@@ -176,7 +154,15 @@ Assuming that you're using `sys-net` as your network VM, your `sys-net` hostname
 
 Qubes compartmentalization
 --------
-I've compartmentalized my digital personal and work lives thusly:
+In an effort to keep the configuration at its most basic for working journalists and to require the least amount of maintenence, I've compartmentalized my digital personal and work lives thusly:
+
+1.
+2.
+3.
+4.
+5.
+
+
 
 ## configure offline write & research Qube vault
 Into a Fedora-xx template clone, install CrossOver. Create a Bottle for the writing tool of your choice. For me, that's Scrivener: 
