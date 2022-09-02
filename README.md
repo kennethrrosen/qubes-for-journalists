@@ -112,6 +112,12 @@ sudo lvresize --size 50G /dev/mapper/qubes_dom0-root
 sudo resize2fs /dev/mapper/qubes_dom0-root
 ```
 
+### install librem-ec-acpi-dkms
+https://source.puri.sm/-/snippets/1170
+```
+tktktktktk
+```
+
 ### swap sys-firewall for mirage-firewall
 Following: https://builds.robur.coop/job/qubes-firewall
 ```
