@@ -112,6 +112,36 @@ sudo lvresize --size 50G /dev/mapper/qubes_dom0-root
 sudo resize2fs /dev/mapper/qubes_dom0-root
 ```
 
+### swap sys-firewall for mirage-firewall
+Following: https://builds.robur.coop/job/qubes-firewall
+```
+qvm-run --pass-io <src_domain> 'cat /path/to/file_in_src_domain' > /path/to/file_name_in_dom0
+
+tar xjf mirage-firewall.tar.bz2
+
+dir -p /var/lib/qubes/vm-kernels/mirage-firewall/
+cd /var/lib/qubes/vm-kernels/mirage-firewall/
+qvm-run -p dev 'cat mirage-firewall/vmlinuz' > vmlinuz
+
+gzip -n9 < /dev/null > initramfs
+
+qvm-create \
+  --property kernel=mirage-firewall \
+  --property kernelopts='' \
+  --property memory=64 \
+  --property maxmem=64 \
+  --property netvm=sys-net \
+  --property provides_network=True \
+  --property vcpus=1 \
+  --property virt_mode=pvh \
+  --label=green \
+  --class StandaloneVM \
+  mirage-firewall
+
+qvm-features mirage-firewall qubes-firewall 1
+qvm-features mirage-firewall no-default-kernelopts 1
+```
+
 ### anonymize MAC address and hostname
 https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md
 Qubes 4.1.1 and newer randomizes MAC addresses by default through dom0. You may use the following code to assign a random hostname to a VM during each of its startup. Please follow the instructions mentioned in the beginning to properly install it.
@@ -150,6 +180,8 @@ fi
 exit 0
 ```
 Assuming that you're using `sys-net` as your network VM, your `sys-net` hostname should now be `PC-[number]` with a different `[number]` each time your `sys-net` is started.
+
+
 
 
 Qubes compartmentalization
