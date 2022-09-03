@@ -1,4 +1,4 @@
-About:Config motifications made in Librewolf, a security-concious varient of Firefox.
+About:Config motifications made in LibreWolf, a security-concious varient of Firefox.
 
 media.peerconnection.enabled (WebRTC) = false
 privacy.resistFingerprinting = true
