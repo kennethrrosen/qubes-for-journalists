@@ -2,7 +2,7 @@
 *    name: journoQUBES arkenfox user-overrides.js
 *    date: 3 September 2022
 *    version: 103
-*     url: https://github.com/kennethrrosen/
+*     url: https://github.com/kennethrrosen/journoQUBES
 ******/
 
 user_pref("browser.startup.page", 3); // 0102
