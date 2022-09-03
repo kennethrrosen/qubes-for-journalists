@@ -38,16 +38,6 @@ user_pref("javascript.options.asmjs", false); //same as above
 user_pref("javascript.options.wasm", false); //WebAssembly support. Completly disables WASM, for the security gain and speed loss
 user_pref("javascript.options.baselinejit", false); //Disabled Just In Time compilation - usually breaks sites with a lot of javascript but is a huge security gain
 
-/*** [SECTION 7000]: "DON'T BOTHER" ***/
-user_pref("permissions.default.geo", 2); //deny location access.default 0, 1=allow, 2=block
-user_pref("permissions.default.camera", 0);
-user_pref("permissions.default.microphone", 0);
-user_pref("permissions.default.desktop-notification", 0);
-user_pref("permissions.default.xr", 0); // Virtual Reality
-user_pref("geo.enabled", false); //fullly disable location acces
-user_pref("dom.webaudio.enabled",false); //old api used for fingerprinting probably, hasn't broken anything FOR ME
-user_pref("dom.webnotifications.enabled", false); // fully disabled notifications
-
 /*** [SECTION 9000]: PERSONAL ***/
 user_pref("extensions.pocket.enabled", false); //fully disable pocket
 user_pref("identity.fxaccounts.enabled", false); //disable sync
