@@ -59,3 +59,6 @@ user_pref("identity.fxaccounts.enabled", false); //disable sync
 user_pref("ui.systemUsesDarkTheme", 1); //
 user_pref("media.autoplay.default", 5);
 user_pref("media.autoplay.blocking_policy", 2); // disable autoplay if you interacted with the site [FF78+]
+user_pref("clipboard.autocopy", false); // disable autocopy default [LINUX]
+user_pref("browser.quitShortcut.disabled", true); // disable Ctrl-Q quit shortcut [LINUX] [MAC] [FF87+]
+
