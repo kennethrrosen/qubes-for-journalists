@@ -82,17 +82,6 @@ In Fedora: sudo dnf install qubes-repo-contrib
 In Debian: sudo apt update && sudo apt install qubes-repo-contrib
 ```
 
-### install TLP power management utility
-```
-sudo qubes-dom0-update tlp
-install and configure tlp in dom0 (file is here: /etc/tlp.conf)
-add PM_RUNTIME=y
-systemctl mask systemd-rfkill.socket
-Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-Rebuild initrd sudo dracut -f
-reboot
-```
-
 ### fix CPU scaling
 In dom0:
 ```
@@ -101,21 +90,16 @@ Write xen-acpi-processor and save.
 Reboot.
 ```
 
-### enable Yubikey for mandatory login removal lockswitch
-```
-https://www.qubes-os.org/doc/yubikey/
-```
-
 ### resize dom0
 ```
-sudo lvresize --size 50G /dev/mapper/qubes_dom0-root
+sudo lvresize --size 25G /dev/mapper/qubes_dom0-root
 sudo resize2fs /dev/mapper/qubes_dom0-root
 ```
 
 ### install librem-ec-acpi-dkms
 https://source.puri.sm/-/snippets/1170
 ```
-tktktktktk
+Have had issues with this before, but will continue trying.
 ```
 
 ### swap sys-firewall for mirage-firewall
@@ -147,48 +131,6 @@ qvm-create \
 qvm-features mirage-firewall qubes-firewall 1
 qvm-features mirage-firewall no-default-kernelopts 1
 ```
-
-### anonymize MAC address and hostname
-https://github.com/Qubes-Community/Contents/blob/master/docs/privacy/anonymizing-your-mac-address.md
-Qubes 4.1.1 and newer randomizes MAC addresses by default through dom0. You may use the following code to assign a random hostname to a VM during each of its startup. Please follow the instructions mentioned in the beginning to properly install it.
-
-```.bash
-#!/bin/bash
-set -e -o pipefail
-#
-# Set a random hostname for a VM session.
-#
-# Instructions:
-# 1. This file must be placed and made executable (owner: root) inside the template VM of your network VM such that it will be run before your hostname is sent over a network.
-# In a Fedora template, use `/etc/NetworkManager/dispatcher.d/pre-up.d/00_hostname`.
-# In a Debian template, use `/etc/network/if-pre-up.d/00_hostname`.
-# 2. Execute `sudo touch /etc/hosts.lock` inside the template VM of your network VM.
-# 3. Execute inside your network VM:
-#  `sudo bash -c 'mkdir -p /rw/config/protected-files.d/ && echo -e "/etc/hosts\n/etc/hostname" > /rw/config/protected-files.d/protect_hostname.txt'`
-
-
-#NOTE: mv is atomic on most systems
-if [ -f "/rw/config/protected-files.d/protect_hostname.txt" ] && rand="$RANDOM" && mv "/etc/hosts.lock" "/etc/hosts.lock.$rand" ; then
-	name="PC-$rand"
-	echo "$name" > /etc/hostname
-	hostname "$name"
-	#NOTE: NetworkManager may set it again after us based on DHCP or /etc/hostname, cf. `man NetworkManager.conf` @hostname-mode
-	
-	#from /usr/lib/qubes/init/qubes-early-vm-config.sh
-	if [ -e /etc/debian_version ]; then
-            ipv4_localhost_re="127\.0\.1\.1"
-        else
-            ipv4_localhost_re="127\.0\.0\.1"
-        fi
-        sed -i "s/^\($ipv4_localhost_re\(\s.*\)*\s\).*$/\1${name}/" /etc/hosts
-        sed -i "s/^\(::1\(\s.*\)*\s\).*$/\1${name}/" /etc/hosts
-fi
-exit 0
-```
-Assuming that you're using `sys-net` as your network VM, your `sys-net` hostname should now be `PC-[number]` with a different `[number]` each time your `sys-net` is started.
-
-
-
 
 Qubes compartmentalization
 --------
