@@ -62,3 +62,35 @@ user_pref("media.autoplay.blocking_policy", 2); // disable autoplay if you inter
 user_pref("clipboard.autocopy", false); // disable autocopy default [LINUX]
 user_pref("browser.quitShortcut.disabled", true); // disable Ctrl-Q quit shortcut [LINUX] [MAC] [FF87+]
 
+
+
+//OCT2022 UPDATE
+browser.newtabpage.activity-stream.feeds.telemetry to false
+browser.ping-centre.telemetry to false
+browser.tabs.crashReporting.sendReport to false
+devtools.onboarding.telemetry.logged to false
+toolkit.telemetry.enabled to false
+toolkit.telemetry.server, and leave it empty
+toolkit.telemetry.unified to false
+browser.newtabpage.activity-stream.feeds.discoverystreamfeed to false
+browser.newtabpage.activity-stream.feeds.section.topstories to false
+browser.newtabpage.activity-stream.section.highlights.includePocket to false
+browser.newtabpage.activity-stream.showSponsored to false
+extensions.pocket.enabled to false
+network.dns.disablePrefetch to true
+network.prefetch-next to false
+pdfjs.enableScripting to false
+security.ssl3.rsa_des_ede3_sha to false
+security.ssl.require_safe_negotiation to true
+identity.fxaccounts.enabled to false
+geo.enabled to false
+dom.webnotifications.enabled to false
+media.peerconnection.enabled to false
+media.navigator.enabled to false
+webgl.disabled to true
+privacy.resistFingerprinting to true
+network.http.sendRefererHeader to 0
+privacy.firstparty.isolate to true
+network.cookie.lifetimePolicy to 2
+
+//Alt: https://codeberg.org/12bytes.org/firefox-user.js-supplement/src/branch/master/user-overrides.js
