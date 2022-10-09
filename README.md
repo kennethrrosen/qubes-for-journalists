@@ -1,6 +1,8 @@
 journoQUBES
 =========================
 
+**This repo is "under construction" [Oct. 2022]
+
 Tweaks and configurations to QubesOS (4.1.1) for use by journalists, lawyers, and at-risk populations.
 
 digital and personal security best practices
