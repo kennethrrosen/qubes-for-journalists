@@ -21,7 +21,7 @@ The author, Kristen Berdan, continues:
 Berdan concludes advice available online "provide[s] no clear path for users to improve
 their security in a time-efficient way."[^7]
 
-This guide--which curates and streamlines the myriad vailable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents--aims to help journalsts a) understand their threat model and b) assit in easily integrating security practices into their workflow, despite hurdles presented by company-proferred equipment and systems.
+This guide &mdash; which curates and streamlines the myriad vailable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents &mdash; aims to help journalsts a) understand their threat model and b) assit in easily integrating security practices into their workflow, despite hurdles presented by company-proferred equipment and systems.
 
 ### 🟧 how to use this repository
 1. Read the Wiki. Do this first. (Read time: ~30 minutes.)
@@ -29,7 +29,7 @@ This guide--which curates and streamlines the myriad vailable online sources to 
 3. Follow the threat model best-practices and assoicated guides (Implementation time: varies.)
 * to journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
 
-Remember: you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversareal tactics, and limit any distractions or obstacles to getting and publishing the story.
+<b>Remember:</b> you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversareal tactics, and limit any distractions or obstacles to getting and publishing the story.
 
 
 ### 🟧 sitemap
