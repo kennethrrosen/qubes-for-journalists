@@ -27,7 +27,7 @@ This guide--which curates and streamlines the myriad vailable online sources to 
 1. Read the Wiki. Do this first. (Read time: ~30 minutes.)
 2. Consider, then choose, your threat model. (Read time: ~15 minutes.)
 3. Follow the threat model best-practices and assoicated guides (Implementation time: varies.)
-* to journalists under threat of violence, surveillance or other immediate danger, I will provide help in implementing your threat model mitigations
+* to journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
 
 Remember: you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversareal tactics, and limit any distractions or obstacles to getting and publishing the story.
 
