@@ -39,6 +39,9 @@ Remember: you can go as deep into digital and personal security as any internet 
 ### 🟧 acknowledgments
 Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all.
 
+### 🟧 errata
+"Oh?", from my profile bio, is a nod to the moment when a source or storyline becomes aparent and an investigation begins.
+
 [^1]: https://anonymousplanet.org/guide.html
 [^2]: https://www.privacyguides.org/
 [^3]: https://thenewoil.org/
