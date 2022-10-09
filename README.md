@@ -1,7 +1,7 @@
 journoQUBES
 =========================
 
-**This repo is "under construction" [Oct. 2022]
+**This repo is a work in process, [Oct. 2022]
 
 Existing guides and infrastructure for journalists insuffiecently prepares them for interacting with sources, working on sensitive stories while protecting sensitive materials, and traveling cross borders with personal and professional data.
 
@@ -21,34 +21,28 @@ The author, Kristen Berdan, continues:
 Berdan concludes advice available online "provide[s] no clear path for users to improve
 their security in a time-efficient way."[^7]
 
-This guide aims to help journalsts a) understand their threat model and b) assit in easily integrating security practices into their workflow, despite hurdles presented by company-proferred equipment and systems.
+This guide--which curates and streamlines the myriad vailable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents--aims to help journalsts a) understand their threat model and b) assit in easily integrating security practices into their workflow, despite hurdles presented by company-proferred equipment and systems.
 
-***
+### 🟧 how to use this repository
+1.) Read the Wiki. Do this first.
+2.) Consider, then choose, your threat model.
+3.) Follow the threat model best-practices and assoicated guides
+
+Remember: you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversareal tactics, and limit any distractions or obstacles to getting and publishing the story.
+
+
+### 🟧 sitemap
+ - [wiki](https://github.com/kennethrrosen/journoQUBES/wiki)
+ - [common questions and answers](TKTK)
+ - [about the author](https://www.kennethrrosen.com/)
+
+### 🟧 acknowledgments
+Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all.
+
 [^1]: https://anonymousplanet.org/guide.html
 [^2]: https://www.privacyguides.org/
 [^3]: https://thenewoil.org/
 [^4]: https://www.amazon.com/Extreme-Privacy-What-Takes-Disappear/dp/B0898YGR58
 [^5]: Quote by Edward Snowden, on Twitter (looking for source)
 [^6]: 2015, "Investigating the Computer Security Practices and Needs of Journalists" https://www.franziroesner.com/pdf/journalism-sec15.pdf
-[^7]: 2021, "An Evaluation of
-Online Security Guides
-for Journalists" https://cltc.berkeley.edu/wp-content/uploads/2021/01/Online_Security_Guides_for_Journalists.pdf
-
-
-Tweaks and configurations to QubesOS (4.1.1) for use by journalists, lawyers, and at-risk populations.
-
-digital and personal security best practices
---------
-- LUKS encrypt all harddrives in installation configuration
-- too many levels of complexity leads to user error; eliminate attack surface, but make your security measures convenient and practical
-- set the Qubes, Debian and Whonix package updates to Tor onion service repositories
-- move files downloaded by Tor Browser from the ~/Downloads folder to another specially created one
-- set power button to shutdown, don't leave computer unattended in public; store in hotel safes
-- use Diceware passphrases
-- download files securely using scurl
-- files received or downloaded fromthe internet, via email, and PDFs, etc. should be opened in a DVM
-- use split-GPG for email to reduce the risk of key theft used for encryption / decryption and signing
-- only open untrusted email attachments in a DisposableVM to prevent possible infection
-- Open all links in a preferred AppVM (like the Split Browser, or your disposable Tor): https://github.com/Qubes-Community/Contents/blob/master/docs/configuration/tips-and-tricks.md#opening-links-in-your-preferred-appvm
-- for anonymous PGP-encrypted email over Tor, use Mozilla Thunderbird.
-- physically move all mobiles devices to a distant physical location or faraday bag
+[^7]: 2021, "An Evaluation of Online Security Guides for Journalists" https://cltc.berkeley.edu/wp-content/uploads/2021/01/Online_Security_Guides_for_Journalists.pdf
