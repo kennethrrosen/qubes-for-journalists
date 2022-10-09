@@ -1,9 +1,7 @@
 journoQUBES
 =========================
 
-**This repo is a work in process, [Oct. 2022]
-
-Existing guides and infrastructure for journalists insuffiecently prepares them for interacting with sources, working on sensitive stories while protecting sensitive materials, and traveling cross borders with personal and professional data.
+Existing guides and infrastructure for journalists insuffiecently prepares them for digitally interacting with sources, working on sensitive stories while protecting sensitive materials offline and online, and traveling cross borders with personal and professional data.
 
 There are myriad good resources for online anonymity,[^1] online privacy,[^2] and circumventing authoritarian regime strangholds on internet restrictions.[^3] But the job of keeping a secure digital environment is a marathon, not a race,[^4] one which is difficult to maintain while operating in mass media structures reliant on poor digital security infrastructure and loose guidelines for digital health.
 
@@ -30,6 +28,7 @@ This guide &mdash; which curates and streamlines the myriad vailable online sour
 
 <b>Remember:</b> you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversareal tactics, and limit any distractions or obstacles to getting and publishing the story.
 
+**This repo is a work in process, [Oct. 2022]
 
 ### 🟧 sitemap
  - [wiki](https://github.com/kennethrrosen/journoQUBES/wiki)
