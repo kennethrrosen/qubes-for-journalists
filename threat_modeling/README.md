@@ -3,9 +3,9 @@ Journalist Threat Models
 
 The axiom of journalists is often "trust, but verify"; or, "if your mother says she loves you, check it out." For the purposes of  investigative journalism and conflict correspondence, we should take the "zero trust architecture" (ZTA) approach to our work.
 
-This model is about keeping you safe online and, by extension, your sources and the information in your posession.
+These models should be considered progressive steps to keeping you safe online and, by extension, your sources and the information in your possession.
 
-There are four major tiers of threat modeling, as described by Cupwire[^1]. The below are what I believe are must-haves for several beat areas and the requisite digital and operational security. You might find a mix of all work, but consider the checklist as one that gets progressively more agressive on digital and personal security.
+There are four major tiers of threat modeling, as described by Cupwire[^1]. The below are what I believe are must-haves for several beat areas and the requisite digital and operational security. You might find a mix of all work, but consider the checklist as one that gets progressively more aggressive on digital and personal security.
 
 **Local Journalist
 ** 
