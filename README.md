@@ -21,14 +21,16 @@ Berdan concludes advice available online "provide[s] no clear path for users to 
 This guide &mdash; which curates and streamlines the myriad viable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents &mdash; aims to help journalists a) understand their threat model and b) assist in easily integrating security practices into their workflow, despite hurdles presented by company-proffered equipment and systems. *This guide also takes the view that risk assessments and physical security are never under-served in conflict zones; and the internet is just another hostile environment.*
 
 ### 🟧 how to use this guide/repository
-1. Read the Wiki. Do this first. (Read time: ~30 minutes.)
-2. Consider, then choose, your threat model. (Read time: ~15 minutes.)
-3. Follow the threat model best-practices and associated guides (Implementation time: varies.)
+1. Consider your threat model, then choose from the checklist which actions you are able, willing, or must take (Read time: ~15 minutes.)
+2. Read section 4.1 of the Wiki for guidance on implementation of your threat model actions. (implementation time: varies.)
+3. Browse Wiki section 6.1 (Additional Resources) for beat-specific examples and scenarios
+4. If you've the time, read the Wiki in its entirety (Read time: ~45 minutes, excluding implementation section 4.1)
+5. Reach out with any questions, comments or suggestions: kenrosen@proton.me (or through any number of other secure channels: https://kennethrrosen.com/secure)
 * to journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
 
 <b>Remember:</b> you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversarial tactics, and limit any distractions or obstacles to getting and publishing the story.
 
-**This repo is a work in process, [Oct. 2022]
+**This repo is a work in process, [Nov. 2022]
 
 ### 🟧 sitemap
  - [wiki](https://github.com/kennethrrosen/journoQUBES/wiki)
