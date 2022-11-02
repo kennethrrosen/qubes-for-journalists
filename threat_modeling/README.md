@@ -7,6 +7,8 @@ These models should be considered progressive steps to keeping you safe online a
 
 There are four major tiers of threat modeling, as described by Cupwire[^1]. The below are what I believe are must-haves for several beat areas and the requisite digital and operational security. You might find a mix of all work, but consider the checklist as one that gets progressively more aggressive on digital and personal security.
 
+One final note: these measures can help prevent, at the very least mitigate, law enforcement and intelligence agencies from snooping your work, but these are not the finite methods to doing so. They are merely the foundation. The single-point of failure is always being human.
+
 **Local Journalist
 ** 
 Your daily work brings you to and from the newsroom regularly. You meet with sources in a tristate area. The stories you most frequently work on are of marginal security concern, but access to your work may still jeapordize others in your newsroom or organization. You fear potential digital intrusion from roommates or family members and perhaps break-ins are common in your neighborhood. Generally concerned about digital security while online.
