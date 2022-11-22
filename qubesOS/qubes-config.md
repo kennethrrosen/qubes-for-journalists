@@ -1,36 +1,39 @@
-Example Qube Configurations
-=========================
-tktktk
+#### Example Qube Configurations
+
+TKTKTKT overview
 
 ``````
-sys-net ---> sys-mirage-firewall ---> sys-vpn ---> appVMs
+(clockvm)-------------------------------------------------------+
+                                                                |
+(updates)-----------+                                           |
+                    |                                           |
+{private-*}--[sys-firewall-anon]--[sys-tor]--[sys-firewall]--[sys-net]
+                                      |             |
+(dvm-anon)----------------------------+             |
+                                                    |
+(dvm-cleanet)---------------------------------------+
+                                                    |
+{work-*}--------------------------------------------+
 ``````
 
-##### sys-net
+tktktktkt explainer
 
+#### Example [Advanced/Convoluted] Qube Configurations
 
-##### sys-mirage-firewall
-
-
-##### sys-vpn
-
+TKTKTKT overview
 
 ``````
-sys-net ---> sys-whonix---> whonix-ws-xx-dvm
+(clockvm)-------------------------------------------------------+
+                                                                |
+(updates)-----------+                                           |
+                    |                                           |
+{private-*}--[sys-firewall-anon]--[sys-tor]--[sys-firewall]--[sys-net]
+                                      |             |
+(dvm-anon)----------------------------+             |
+                                                    |
+(dvm-cleanet)---------------------------------------+
+                                                    |
+{work-*}--------------------------------------------+
 ``````
-
-##### sys-net
-
-
-##### sys-whonix
-
-
-##### whonix-ws-xx-dvm
-
-``````
-writ
-``````
-
-##### writ
-standaloneVM without connectivity.
+tktktktkt explainer
 
