@@ -3,7 +3,7 @@ Understanding Threats to Your Digital Security (Threat Models)
 
 The axiom of journalists is often "trust, but verify"; or, "if your mother says she loves you, check it out." For the purposes of  investigative journalism and conflict correspondence, we should take the "zero trust architecture" (ZTA) approach to our work.
 
-These models and examples are meant to help you (very briefly) recognize threats before moving into implementation so that you're prepared to understand how each change seeks to address any gaps in the security of yourself, your sources, and your work. 
+These models and examples are meant to help you (very briefly) recognize threats before moving into implementation so that you're prepared to understand how each change seeks to address any gaps in the security of yourself, your sources, and your work. Ideally, over time, you'd find it natural (almost comfortable, if not intuitive) to make these practices second-nature for safer communication and reporting.
 
 One final note: these measures can help prevent, at the very least mitigate, law enforcement and intelligence agencies from snooping your work, but these are not the finite methods to doing so. They are merely the foundation. The single-point of failure is always being human.
 
