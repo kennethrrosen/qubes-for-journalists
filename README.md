@@ -22,12 +22,14 @@ This guide &mdash; which curates and streamlines the myriad viable online source
 
 *This guide also takes the view that risk assessments and physical security are never under-served in conflict zones; and the internet is just another hostile environment.*
 
+This project was originally meant to introduce journalists to QubesOS for their workstations, but grew to understand that (even for myself) my biggest problem was compartmentalizing my work and personal lives. A natural product of using QubesOS is realizing how security in one area may be negated by poor practices elsewhere.
+
 ### 🟧 how to use this guide/repository
 1. Understand journalist threat models and the partitioning practices outlined in this guide. (Read time: ~15 minutes.)
-2. TKTK
-3. TKTK
-4. TKTK
-5. TKTK
+2. Evaluates your current practices against the basic, necessary digital security measures listed here. This step introduces basic concepts and helps migrate to easy and simple workflow changes. (Subjects include fieldwork best practices, browser choices, and initial work/personal phone compartmentalization)
+3. Furthers implementation what changes you've made in Step. 2 to secure your workstation and devices, encouraging you to introduce new layers of security, trading a few conveniences for greater safety and control. (Subjects include password managers, device encryption, secure communications, VPN, backup and restore practices, and writing software.)
+4. Introduces you to resources and software to take full advantage and further streamline what steps you took in 2 and 3. (Subjects include amnesiac operating systems, Tor, DNS, 2FA and keyfobs, GrapheneOS, and further reading.)
+5. Configures and migrates workstation/latop to QubesOS.
 
 Please reach out with any questions, comments or suggestions: kenrosen@proton.me (or through any number of other secure channels: https://kennethrrosen.com/secure). Journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
 
