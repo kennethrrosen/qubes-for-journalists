@@ -20,9 +20,9 @@ Berdan concludes advice available online "provide[s] no clear path for users to 
 
 This guide &mdash; which curates and streamlines the myriad viable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents &mdash; aims to help journalists a) understand their threat model and b) assist in easily integrating security practices into their workflow, despite hurdles presented by company-proffered equipment and systems and c) ultimately hopes to migrate journalists to such software as QubesOS and GrapheneOS for their work while gradually imparting best-practices and a greater understanding of how to mitigate threats (seen and unseen).
 
-*This guide also takes the view that risk assessments and physical security are never under-served in conflict zones; and the internet is just another hostile environment.*
-
 This project was originally meant to introduce journalists to QubesOS for their workstations, but grew to understand that (even for myself) my biggest problem was compartmentalizing my work and personal lives. A natural product of using QubesOS is realizing how security in one area may be negated by poor practices elsewhere.
+
+*This guide takes the view that none of these implementation should be ignored and that risk assessments and physical security are never under-served in conflict zones; the internet is just another hostile environment.*
 
 ### 🟧 how to use this guide/repository
 1. Understand journalist threat models and the partitioning practices outlined in this guide. (Read time: ~15 minutes.)
