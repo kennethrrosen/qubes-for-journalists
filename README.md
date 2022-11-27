@@ -18,7 +18,7 @@ The author, Kristen Berdan, continues:
 
 Berdan concludes advice available online "provide[s] no clear path for users to improve their security in a time-efficient way."[^8]
 
-This guide &mdash; which curates and streamlines the myriad viable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents &mdash; aims to help journalists a) understand their threat model and b) assist in easily integrating security practices into their workflow, despite hurdles presented by company-proffered equipment and systems and c) ultimately hopes to migrate journalists to using such software as QubesOS and GrapheneOS for their work while gradually imparting best-practices and a greater understanding of how to mitigate threats (seen and unseen).
+This guide &mdash; which curates and streamlines the myriad viable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents &mdash; aims to help journalists a) understand their threat model and b) assist in easily integrating security practices into their workflow, despite hurdles presented by company-proffered equipment and systems and c) ultimately hopes to migrate journalists to such software as QubesOS and GrapheneOS for their work while gradually imparting best-practices and a greater understanding of how to mitigate threats (seen and unseen).
 
 *This guide also takes the view that risk assessments and physical security are never under-served in conflict zones; and the internet is just another hostile environment.*
 
