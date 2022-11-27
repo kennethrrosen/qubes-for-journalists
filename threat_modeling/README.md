@@ -1,61 +1,24 @@
-Journalist Threat Models
+Understanding Threats to Your Digital Security (Threat Models)
 =========================
 
 The axiom of journalists is often "trust, but verify"; or, "if your mother says she loves you, check it out." For the purposes of  investigative journalism and conflict correspondence, we should take the "zero trust architecture" (ZTA) approach to our work.
 
-These models should be considered progressive steps to keeping you safe online and, by extension, your sources and the information in your possession.
-
-There are four major tiers of threat modeling, as described by Cupwire[^1]. The below are what I believe are must-haves for several beat areas and the requisite digital and operational security. You might find a mix of all work, but consider the checklist as one that gets progressively more aggressive on digital and personal security.
+These models and examples are meant to help you (very briefly) recognize threats before moving into implementation so that you're prepared to understand how each change seeks to address any gaps in the security of yourself, your sources, and your work. 
 
 One final note: these measures can help prevent, at the very least mitigate, law enforcement and intelligence agencies from snooping your work, but these are not the finite methods to doing so. They are merely the foundation. The single-point of failure is always being human.
 
-**Local Journalist
-** 
-Your daily work brings you to and from the newsroom regularly. You meet with sources in a tristate area. The stories you most frequently work on are of marginal security concern, but access to your work may still jeapordize others in your newsroom or organization. You fear potential digital intrusion from roommates or family members and perhaps break-ins are common in your neighborhood. Generally concerned about digital security while online.
+There are four major tiers of threat modelling, as described by Cupwire[^1]. The below summarize the scenarios regularly encountered by journalists and the requisite digital and operational security practices.
 
-- [ ] a.) TKTK
-- [ ] b.) TKTK
-- [ ] c.) TKTK
-- [ ] d.) TKTK
-- [ ] e.) TKTK
-- [ ] f.) TKTK
+TKTKT
 
-**Roving Journalist
-**  
-The national or foreign correspondent who works from home or, more often, the road. From hotel rooms to embeds with sources, organizations, and weeks-long trips in unfamiliar places. You cross borders regularly. Your work is researched, written, and filed on one computer. You use a smartphone for work and personal calls.  You are presented with maintaining source lists over longer periods and require access to documents, accounts, and research while traveling. Moderatley concerned about online security, but aprehensive about how or what steps to take.
-
-- [ ] g.) TKTK
-- [ ] h.) TKTK
-- [ ] i.) TKTK
-- [ ] j.) TKTK
-- [ ] k.) TKTK
-- [ ] l.) TKTK
-
-**Investigative Journalist
-** 
-
-Keenly aware of threats and their potential to disrupt your work and bring harm to yourself or your sources. You use multiple computers and smartphones to partition your personal and reporting lives. You have generally done some or all of the checklist items mentioned above, but want to increase your digital security and lower your attack surfaces online and offline.
-
-- [ ] m.) TKTK
-- [ ] n.) TKTK
-- [ ] o.) TKTK
-- [ ] p.) TKTK
-- [ ] q.) TKTK
-- [ ] r.) TKTK
-
-###### Implementation
-
-Make a list of the alphabetical steps you plan to take above (i.e.: a,b,d,f,i,k,q). Move to section 4.1 in the Wiki to find quick-implementation guides for each step. Where noted, you will find separate folders within the repository containing all required software, ISOs, ZIP folders, etc..
 
 ###### A Quick Note for Newsrooms and Journalists Who Rely on Google Workspace
 
-This guide assumes you'd like to limit Google's presence in your digital sphere and workflow. As a working journalist, I know that's virtually impossible until a sea-change occurs within the industry. Google is safe and getting better, but it's tracking processes are of great concern. Apple shows similar signs of faults that could compromise journalists. Meta has already shown an inability, or unwillingness, to protect those who use their platforms for reporting and communicating with sources. Take suggestions when they work best with your organization's structure and have frank conversations with the newsroom's CTO and CSO if the opportunity arises to express your concerns and desires to move away from the "Big Five."
+This guide assumes you're forced to rely on Google Suite. Google is safe and getting better, but it's tracking processes are of great concern. Apple shows similar signs of faults that could compromise journalists. Meta has already shown an inability, or unwillingness, to protect those who use their platforms for reporting and communicating with sources. A large part of the threat modelling in this guide is prefaced on the assumption that you're moving to partition your work and personal lives.
 
 ###### Further reading
 
 https://ssd.eff.org/en/module-categories/security-scenarios
-
-
 
 ###### Sources
 

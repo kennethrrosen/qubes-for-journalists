@@ -18,15 +18,18 @@ The author, Kristen Berdan, continues:
 
 Berdan concludes advice available online "provide[s] no clear path for users to improve their security in a time-efficient way."[^8]
 
-This guide &mdash; which curates and streamlines the myriad viable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents &mdash; aims to help journalists a) understand their threat model and b) assist in easily integrating security practices into their workflow, despite hurdles presented by company-proffered equipment and systems. *This guide also takes the view that risk assessments and physical security are never under-served in conflict zones; and the internet is just another hostile environment.*
+This guide &mdash; which curates and streamlines the myriad viable online sources to focus primarily on use by working investigative journalists, conflict reporters, and war correspondents &mdash; aims to help journalists a) understand their threat model and b) assist in easily integrating security practices into their workflow, despite hurdles presented by company-proffered equipment and systems and c) ultimately hopes to migrate journalists to using such software as QubesOS and GrapheneOS for their work while gradually imparting best-practices and a greater understanding of how to mitigate threats (seen and unseen).
+
+*This guide also takes the view that risk assessments and physical security are never under-served in conflict zones; and the internet is just another hostile environment.*
 
 ### 🟧 how to use this guide/repository
-1. Consider your threat model, then choose from the checklist which actions you are able, willing, or must take (Read time: ~15 minutes.)
-2. Read section 4.1 of the Wiki for guidance on implementation of your threat model actions. (implementation time: varies.)
-3. Browse Wiki section 6.1 (Additional Resources) for beat-specific examples and scenarios
-4. If you've the time, read the Wiki in its entirety (Read time: ~45 minutes, excluding implementation section 4.1)
-5. Reach out with any questions, comments or suggestions: kenrosen@proton.me (or through any number of other secure channels: https://kennethrrosen.com/secure)
-* to journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
+1. Understand journalist threat models and the partitioning practices outlined in this guide. (Read time: ~15 minutes.)
+2. TKTK
+3. TKTK
+4. TKTK
+5. TKTK
+
+Please reach out with any questions, comments or suggestions: kenrosen@proton.me (or through any number of other secure channels: https://kennethrrosen.com/secure). Journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
 
 <b>Remember:</b> you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversarial tactics, and limit any distractions or obstacles to getting and publishing the story.
 
