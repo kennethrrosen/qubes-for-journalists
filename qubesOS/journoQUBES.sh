@@ -26,7 +26,6 @@ appvm_VPN_template="fedora-36-minimal"
 qubes_networking_packages=("qubes-core-agent-networking" "qubes-core-agent-network-manager" "qubes-network-manager")
 required_packages=("openvpn" "qubes-core-agent-networking" "qubes-core-agent-network-manager" "qubes-network-manager")
 
-
 # Install pv if not already installed
 if ! type pv > /dev/null; then
     echo "Installing pv..."
@@ -43,50 +42,113 @@ run_in_writ_vm() {
 # Install templates and default appVMs
 for template in "${templates[@]}"; do
     echo "Installing $template template..."
-    qubesctl --skip-dom0 --targets="$template" --show-output state.sls qvm.present | pv -p -t -e -b > /dev/null
+    if ! qubesctl --skip-dom0 --targets="$template" --show-output state.sls qvm.present | pv -p -t -e -b > /dev/null; then
+        echo "Error: Failed to install $template template"
+        exit 1
+    fi
 done
 echo "Installing the default templates and appVMs..."
-qubesctl state.sls qvm.template qvm.app | pv -p -t -e -b > /dev/null
+if ! qubesctl state.sls qvm.template qvm.app | pv -p -t -e -b > /dev/null; then
+    echo "Error: Failed to install default templates and appVMs"
+    exit 1
+fi
 
-# Create a simple personal qube with the specified options
+# Create a simple personal AppVM
 echo "Creating Personal qube..."
-qvm-create -v --class AppVM --template fedora-36 --label green --mem 2048 --maxmem 4096 --netvm sys-firewall --name personal | pv -p
+if ! qvm-create -v --class AppVM --template fedora-36 --label green --mem 2048 --maxmem 4096 --netvm sys-firewall --name personal | pv -p; then
+    echo "Error: Failed to create Personal qube"
+    exit 1
+fi
 
 # Add personal qube menu items
 echo "Adding menu items..."
-qvm-run -a personal 'echo -e "[Desktop Entry]\nName=Firefox\nExec=/usr/bin/firefox\nIcon=/usr/share/icons/hicolor/32x32/apps/firefox.png\nType=Application\nCategories=Network;" > ~/.local/share/applications/firefox.desktop' | pv -p
-qvm-run -a personal 'echo -e "[Desktop Entry]\nName=File Viewer\nExec=/usr/bin/nautilus\nIcon=/usr/share/icons/hicolor/32x32/apps/system-file-manager.png\nType=Application\nCategories=Utility;" > ~/.local/share/applications/file_viewer.desktop' | pv -p
-qvm-run -a personal 'echo -e "[Desktop Entry]\nName=LibreOffice\nExec=/usr/bin/libreoffice\nIcon=/usr/share/icons/hicolor/32x32/apps/libreoffice-main.png\nType=Application\nCategories=Office;" > ~/.local/share/applications/libreoffice.desktop' | pv -p
-
+if ! qvm-run -a personal 'echo -e "[Desktop Entry]\nName=Firefox\nExec=/usr/bin/firefox\nIcon=/usr/share/icons/hicolor/32x32/apps/firefox.png\nType=Application\nCategories=Network;" > ~/.local/share/applications/firefox.desktop' | pv -p; then
+    echo "Error: Failed to add Firefox menu item"
+    exit 1
+fi
+if ! qvm-run -a personal 'echo -e "[Desktop Entry]\nName=File Viewer\nExec=/usr/bin/nautilus\nIcon=/usr/share/icons/hicolor/32x32/apps/system-file-manager.png\nType=Application\nCategories=Utility;" > ~/.local/share/applications/file_viewer.desktop' | pv -p; then
+    echo "Error: Failed to add File Viewer menu item"
+    exit 1
+fi
+if ! qvm-run -a personal 'echo -e "[Desktop Entry]\nName=LibreOffice\nExec=/usr/bin/libreoffice\nIcon=/usr/share/icons/hicolor/32x32/apps/libreoffice-main.png\nType=Application\nCategories=Office;" > ~/.local/share/applications/libreoffice.desktop' | pv -p; then
+    echo "Error: Failed to add LibreOffice menu item"
+    exit 1
+fi
 
 # Create a standalone writer offline VM and install applications
 echo "Creating the writ VM..."
-qvm-create -v --class Standalone --template "$writ_vm_template" --label blue "$writ_vm" --standalone --no-netvm | pv -p -t -e -b > /dev/null
-run_in_writ_vm 'echo "deb http://deb.playonlinux.com/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/playonlinux.list'
-run_in_writ_vm 'wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add -'
-run_in_writ_vm 'sudo apt-get update && sudo apt-get install -y playonlinux'
-run_in_writ_vm 'POL_WINEVERSION="5.22" playonlinux --run "Scrivener" /silent /sp- /no-desktop'
-run_in_writ_vm 'sudo apt-get update && sudo apt-get install -y libreoffice'
-run_in_writ_vm 'sudo apt-get clean'
+if ! qvm-create -v --class Standalone --template "$writ_vm_template" --label blue "$writ_vm" --standalone --no-netvm | pv -p -t -e -b > /dev/null; then
+    echo "Error: Failed to create writ VM"
+    exit 1
+fi
+
+if ! run_in_writ_vm 'echo "deb http://deb.playonlinux.com/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/playonlinux.list'; then
+    echo "Error: Failed to add PlayOnLinux repository to writ VM"
+    exit 1
+fi
+
+if ! run_in_writ_vm 'wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add -'; then
+    echo "Error: Failed to add PlayOnLinux key to writ VM"
+    exit 1
+fi
+
+if ! run_in_writ_vm 'sudo apt-get update && sudo apt-get install -y playonlinux'; then
+    echo "Error: Failed to install PlayOnLinux in writ VM"
+    exit 1
+fi
+
+if ! run_in_writ_vm 'POL_WINEVERSION="5.22" playonlinux --run "Scrivener" /silent /sp- /no-desktop'; then
+    echo "Error: Failed to install Scrivener in writ VM"
+    exit 1
+fi
+
+if ! run_in_writ_vm 'sudo apt-get update && sudo apt-get install -y libreoffice'; then
+    echo "Error: Failed to install LibreOffice in writ VM"
+    exit 1
+fi
+
+if ! run_in_writ_vm 'sudo apt-get clean'; then
+    echo "Error: Failed to clean apt cache in writ VM"
+    exit 1
+fi
+
 echo "Configuration of writ VM complete."
 
 # Create template for AV
 echo "Creating template for AV..."
-qvm-create -v --class Template --label red --template fedora-36-minimal --property virt_mode=appvm --property kernelopts=console=ttyS0,115200n8 --property virt_mode=appvm t-av | pv -p -t -e -b > /dev/null || { echo "Failed to create the t-av template. Aborting." >&2; exit 1; }
+if ! qvm-create -v --class Template --label red --template fedora-36-minimal --property virt_mode=appvm --property kernelopts=console=ttyS0,115200n8 --property virt_mode=appvm t-av | pv -p -t -e -b > /dev/null; then
+    echo "Failed to create the t-av template. Aborting." >&2
+    exit 1
+fi
 
 # Install required Qubes services for networking
 echo "Installing required Qubes services for networking..."
-qvm-run -v -a t-av 'sudo dnf install -y qubes-core-agent-networking qubes-core-agent-dom0-updates qubes-core-agent-passwordless-root' | pv -p -t -e -b > /dev/null || { echo "Failed to install required Qubes services for networking. Aborting." >&2; exit 1; }
+if ! qvm-run -v -a t-av 'sudo dnf install -y qubes-core-agent-networking qubes-core-agent-dom0-updates qubes-core-agent-passwordless-root' | pv -p -t -e -b > /dev/null; then
+    echo "Failed to install required Qubes services for networking. Aborting." >&2
+    exit 1
+fi
 
 # Install Zoom, Teams, and Google Chat in the t-av template
 echo "Installing Zoom, Teams, and Google Chat in the t-av template..."
-qvm-run -v -a t-av 'sudo dnf install -y https://dl.zoom.us/linux/client/zoom_x86_64.rpm' | pv -p -t -e -b > /dev/null || { echo "Failed to install Zoom in the t-av template. Aborting." >&2; exit 1; }
-qvm-run -v -a t-av 'sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc && sudo curl -o /etc/yum.repos.d/teams.repo https://packages.microsoft.com/yumrepos/ms-teams.repo && sudo dnf install -y teams' | pv -p -t -e -b > /dev/null || { echo "Failed to install Teams in the t-av template. Aborting." >&2; exit 1; }
-qvm-run -v -a t-av 'sudo dnf install -y google-chrome-stable' | pv -p -t -e -b > /dev/null || { echo "Failed to install Google Chat in the t-av template. Aborting." >&2; exit 1; }
+if ! qvm-run -v -a t-av 'sudo dnf install -y https://dl.zoom.us/linux/client/zoom_x86_64.rpm' | pv -p -t -e -b > /dev/null; then
+    echo "Failed to install Zoom in the t-av template. Aborting." >&2
+    exit 1
+fi
+if ! qvm-run -v -a t-av 'sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc && sudo curl -o /etc/yum.repos.d/teams.repo https://packages.microsoft.com/yumrepos/ms-teams.repo && sudo dnf install -y teams' | pv -p -t -e -b > /dev/null; then
+    echo "Failed to install Teams in the t-av template. Aborting." >&2
+    exit 1
+fi
+if ! qvm-run -v -a t-av 'sudo dnf install -y google-chrome-stable' | pv -p -t -e -b > /dev/null; then
+    echo "Failed to install Google Chat in the t-av template. Aborting." >&2
+    exit 1
+fi
 
 # Create Qube for AV
 echo "Creating the AV Qube..."
-qvm-create -v --label red --template t-av --property virt_mode=appvm --property kernelopts=console=ttyS0,115200n8 AV | pv -p -t -e -b > /dev/null || { echo "Failed to create the AV Qube. Aborting." >&2; exit 1; }
+if ! qvm-create -v --label red --template t-av --property virt_mode=appvm --property kernelopts=console=ttyS0,115200n8 AV | pv -p -t -e -b > /dev/null; then
+    echo "Failed to create the AV Qube. Aborting." >&2
+    exit 1
+fi
 
 echo "Configuration of AV VM and template complete...."
 
@@ -162,17 +224,7 @@ if ! qvm-create --label red --template "$TEMPLATE_COMMS_NAME" "$VM_COMMS_NAME" |
     echo "Failed to create and configure the new AppVM '$VM_COMMS_NAME'. Aborting." >&2
     exit 1
 fi
-echo "The new AppVM '$VM_COMMS_NAME' has been created and configured successfully."
-
-#!/bin/bash
-
-set -euo pipefail
-
-# Check if running as root
-if [ "$(id -u)" != "0" ]; then
-    echo "This script must be run as root." >&2
-    exit 1
-fi
+echo "The AppVM '$VM_COMMS_NAME' has been created and configured successfully."
 
 # Check if VPN config file exists
 if [ ! -f "$vpn_config_file" ]; then
@@ -182,33 +234,48 @@ fi
 
 # Create the AppVM for VPN
 echo "Creating the AppVM for VPN: $appvm_name..."
-qvm-create --label black --template "$appvm__VPN_template" "$appvm_VPN_name" \
-  && qvm-run --pass-io $appvm_VPN_name "sudo dnf install -y ${qubes_networking_packages[*]} qubes-core-agent-passwordless-root" \
-  || { echo "Error: Failed to create the AppVM for VPN." >&2; exit 1; }
+if ! qvm-create --label black --template "$appvm__VPN_template" "$appvm_VPN_name"; then
+  echo "Error: Failed to create the AppVM for VPN."
+  exit 1
+fi
+if ! qvm-run --pass-io $appvm_VPN_name "sudo dnf install -y ${qubes_networking_packages[*]} qubes-core-agent-passwordless-root"; then
+  echo "Error: Failed to install required packages in the AppVM."
+  exit 1
+fi
 
 # Install required packages in the AppVM
 for package in "${required_packages[@]}"; do
   if ! qvm-run -a "$appvm_VPN_name" "which $package" > /dev/null; then
     echo "Installing $package..."
-    qvm-run -a "$appvm_VPN_name" "sudo dnf install -y $package" \
-      || { echo "Error: Failed to install $package in the AppVM." >&2; exit 1; }
+    if ! qvm-run -a "$appvm_VPN_name" "sudo dnf install -y $package"; then
+      echo "Error: Failed to install $package in the AppVM."
+      exit 1
+    fi
   fi
 done
 
 # Copy VPN config file to the AppVM
 echo "Copying VPN config file to AppVM: $appvm_VPN_name..."
-qvm-run --pass-io "$appvm_VPN_name" "cat > /rw/config/vpn_config.ovpn" < "$vpn_config_file"
+if ! qvm-run --pass-io "$appvm_VPN_name" "cat > /rw/config/vpn_config.ovpn" < "$vpn_config_file"; then
+  echo "Error: Failed to copy VPN config file to AppVM."
+  exit 1
+fi
 
 # Install and set up OpenVPN in the AppVM
 echo "Setting up OpenVPN in AppVM: $appvm_VPN_name..."
-qvm-run -p "$appvm_VPN_name" "sudo dnf install -y openvpn" \
-  && qvm-run --pass-io -p "$appvm_VPN_name" "sudo openvpn --config /rw/config/vpn_config.ovpn &" \
-  || { echo "Error: Failed to set up OpenVPN in the AppVM." >&2; exit 1; }
+if ! qvm-run -p "$appvm_VPN_name" "sudo dnf install -y openvpn"; then
+  echo "Error: Failed to install OpenVPN in the AppVM."
+  exit 1
+fi
+if ! qvm-run --pass-io -p "$appvm_VPN_name" "sudo openvpn --config /rw/config/vpn_config.ovpn &"; then
+  echo "Error: Failed to set up OpenVPN in the AppVM."
+  exit 1
+fi
 
 echo "VPN is now running in AppVM: $appvm_VPN_name."
 
 # Notes for the user to complete the setup:
-echo "Please manually configure the AppVM to use the VPN for network traffic.
+echo "Please manually configure sys-vpm to use the VPN for network traffic.
 - Open NetworkManager from the system tray or in the AppVM's settings.
 - In the VPN tab, click 'Add'.
 - Select 'Import from file' and select the VPN config file from /rw/config/vpn_config.ovpn.
