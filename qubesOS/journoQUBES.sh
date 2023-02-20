@@ -1,10 +1,17 @@
 
 /******
+* THIS CODE IS A WORK IN PROCESS AND NOT IN PRODUCTION
 *    name: journoQUBES Qube installer for journalists
 *    date: 20 February 2023
-*    NOTES:
 *    a simple script for installing Qubes configurations for journalists in a raw QubesOS 4.1 install
 *    see https://github.com/kennethrrosen/ for license and contact.
+*
+* The following script installs * Qubes through a simple command 'sudo install ./journoQubes.sh' in a dom0 terminal. 
+* THIS CODE IS A WORK IN PROCESS AND NOT IN PRODUCTION
+*
+*
+* TODO: 
+*
 ******/
 
 #!/bin/bash
@@ -19,6 +26,7 @@ fi
 
 # Define variables
 templates=("fedora-36" "fedora-36-minimal" "debian-11" "debian-11-minimal")
+MIRAGE_FIREWALL_REPO_URL="https://github.com/mirage/qubes-mirage-firewall/releases/download/v0.8.4/mirage-firewall.tar.bz2"
 writ_vm="writ"
 writ_vm_template="debian-11"
 template_browser_name="t-browser"
@@ -35,130 +43,129 @@ appvm_VPN_template="fedora-36-minimal"
 qubes_networking_packages=("qubes-core-agent-networking" "qubes-core-agent-network-manager" "qubes-network-manager")
 required_packages=("openvpn" "qubes-core-agent-networking" "qubes-core-agent-network-manager" "qubes-network-manager")
 
-# Install pv if not already installed
-if ! type pv > /dev/null; then
-    echo "Installing pv..."
-    sudo qubes-dom0-update pv
-    echo "pv installation complete."
-fi
+# Define a function to display error message and provide options to the user for troubleshooting
+display_error() {
+    echo "Options:"
+    echo "1. Re-try the script."
+    echo "2. Continue anyway."
+    echo "3. Contact support."
+    read -p "Enter your choice (1/2/3): " choice
+    case $choice in
+        1) bash /path/to/script.sh;;
+        2) return;;
+        3) echo "Please contact support for assistance." && exit 1;;
+        *) echo "Invalid option. Please try again." && display_error;;
+    esac
+}
+
+############BEGIN SETUP OF FURNITURE FOR SCRIPT
+
+# Install pv for error checking if not already installed
+type pv > /dev/null || (echo "Installing pv..." && sudo qubes-dom0-update pv && echo "pv installation complete.") || display_error "Failed to install pv"
+
 
 # Define a function to run a command in the writ VM
 run_in_writ_vm() {
     echo "Running command in writ VM: $1"
-    qvm-run -v -a "$writ_vm" "$1" | pv -p -t -e -b > /dev/null
+    qvm-run -v -a "$writ_vm" "$1" | pv -p -t -e -b > /dev/null || display_error "Error: Failed to run command in writ VM"
 }
+
+############BEGIN SETUP OF QubesOS DEPENDENCIES DISPLAY ERROR FUNCTION NOT INCLUDED BELOW YET
 
 # Install templates and default appVMs
 for template in "${templates[@]}"; do
     echo "Installing $template template..."
-    if ! qubesctl --skip-dom0 --targets="$template" --show-output state.sls qvm.present | pv -p -t -e -b > /dev/null; then
-        echo "Error: Failed to install $template template"
-        exit 1
-    fi
+    qubesctl --skip-dom0 --targets="$template" --show-output state.sls qvm.present | pv -p -t -e -b > /dev/null || { echo "Error: Failed to install $template template"; exit 1; }
 done
+
 echo "Installing the default templates and appVMs..."
-if ! qubesctl state.sls qvm.template qvm.app | pv -p -t -e -b > /dev/null; then
-    echo "Error: Failed to install default templates and appVMs"
-    exit 1
-fi
+qubesctl state.sls qvm.template qvm.app | pv -p -t -e -b > /dev/null || { echo "Error: Failed to install default templates and appVMs"; exit 1; }
+
+############BEGIN SETUP OF QubesOS DEPENDENCIES
+
+# Download the Mirage Firewall repository
+echo "Downloading Mirage Firewall repository..."
+curl -L -o mirage-firewall.tar.bz2 $REPO_URL || { echo "Failed to download Mirage Firewall repository"; exit 1; }
+
+# Extract the kernel image and initramfs
+echo "Extracting kernel image and initramfs..."
+mkdir -p /var/lib/qubes/vm-kernels/mirage-firewall || { echo "Failed to make mirage firewall directory"; exit 1; }
+tar -xjf mirage-firewall.tar.bz2 -C $KERNEL_DIR || { echo "Failed to extract kernel image and initramfs"; exit 1; }
+
+# Create the Mirage Firewall VM
+echo "Creating sys-mirage-firewall..."
+qvm-create \
+  --property kernel=mirage-firewall \
+  --property kernelopts='' \
+  --property memory=32 \
+  --property maxmem=32 \
+  --property netvm=sys-net \
+  --property provides_network=True \
+  --property vcpus=1 \
+  --property virt_mode=pvh \
+  --label=green \
+  --class StandaloneVM \
+  sys-mirage-firewall || { echo "Failed to create sys-mirage-firewall"; exit 1; }
+
+# Set sys-mirage-firewall as the default firewall for all VMs
+echo "Setting Mirage Firewall as the default firewall for all VMs..."
+for vm in $(qvm-ls --raw); do
+  if [ "$(qvm-prefs $vm netvm)" = "sys-firewall" ]; then
+    qvm-prefs $vm netvm=mirage-firewall || { echo "Failed to set sys-mirage-firewall as default firewall"; exit 1; }
+  fi
+done
+
+# Enable the Qubes Firewall service in the Mirage Firewall VM
+echo "Enabling the Qubes Firewall service in the Mirage Firewall VM..."
+qvm-features mirage-firewall qubes-firewall 1 || { echo "Failed to enable Qubes Firewall service in Mirage Firewall VM"; exit 1; }
+
+# Disable the default kernel options in the Mirage Firewall VM
+echo "Disabling the default kernel options in the Mirage Firewall VM..."
+qvm-features mirage-firewall no-default-kernelopts 1 || { echo "Failed to disable default kernel options in Mirage Firewall VM"; exit 1; }
+echo "Mirage Firewall setup complete!"
+
+############Begin setup of journoQUBES
 
 # Create a simple personal AppVM
 echo "Creating Personal qube..."
-if ! qvm-create -v --class AppVM --template fedora-36 --label green --mem 2048 --maxmem 4096 --netvm sys-firewall --name personal | pv -p; then
-    echo "Error: Failed to create Personal qube"
-    exit 1
-fi
+qvm-create -v --class AppVM --template fedora-36 --label green --mem 2048 --maxmem 4096 --netvm sys-firewall --name personal | pv -p -t -e -b || { echo "Error: Failed to create Personal qube" >&2; exit 1; }
 
 # Add personal qube menu items
-echo "Adding menu items..."
-if ! qvm-run -a personal 'echo -e "[Desktop Entry]\nName=Firefox\nExec=/usr/bin/firefox\nIcon=/usr/share/icons/hicolor/32x32/apps/firefox.png\nType=Application\nCategories=Network;" > ~/.local/share/applications/firefox.desktop' | pv -p; then
-    echo "Error: Failed to add Firefox menu item"
-    exit 1
-fi
-if ! qvm-run -a personal 'echo -e "[Desktop Entry]\nName=File Viewer\nExec=/usr/bin/nautilus\nIcon=/usr/share/icons/hicolor/32x32/apps/system-file-manager.png\nType=Application\nCategories=Utility;" > ~/.local/share/applications/file_viewer.desktop' | pv -p; then
-    echo "Error: Failed to add File Viewer menu item"
-    exit 1
-fi
-if ! qvm-run -a personal 'echo -e "[Desktop Entry]\nName=LibreOffice\nExec=/usr/bin/libreoffice\nIcon=/usr/share/icons/hicolor/32x32/apps/libreoffice-main.png\nType=Application\nCategories=Office;" > ~/.local/share/applications/libreoffice.desktop' | pv -p; then
-    echo "Error: Failed to add LibreOffice menu item"
-    exit 1
-fi
+echo "Adding Personal qube menu items..."
+qvm-run -a personal 'echo -e "[Desktop Entry]\nName=Firefox\nExec=/usr/bin/firefox\nIcon=/usr/share/icons/hicolor/32x32/apps/firefox.png\nType=Application\nCategories=Network;" > ~/.local/share/applications/firefox.desktop' | pv -p -t -e -b || { echo "Error: Failed to add Firefox menu item" >&2; exit 1; }
+qvm-run -a personal 'echo -e "[Desktop Entry]\nName=File Viewer\nExec=/usr/bin/nautilus\nIcon=/usr/share/icons/hicolor/32x32/apps/system-file-manager.png\nType=Application\nCategories=Utility;" > ~/.local/share/applications/file_viewer.desktop' | pv -p -t -e -b || { echo "Error: Failed to add File Viewer menu item" >&2; exit 1; }
+qvm-run -a personal 'echo -e "[Desktop Entry]\nName=LibreOffice\nExec=/usr/bin/libreoffice\nIcon=/usr/share/icons/hicolor/32x32/apps/libreoffice-main.png\nType=Application\nCategories=Office;" > ~/.local/share/applications/libreoffice.desktop' | pv -p -t -e -b || { echo "Error: Failed to add LibreOffice menu item" >&2; exit 1; }
+echo "Creation of Personal qube complete."
 
 # Create a standalone writer offline VM and install applications
 echo "Creating the writ VM..."
-if ! qvm-create -v --class Standalone --template "$writ_vm_template" --label blue "$writ_vm" --standalone --no-netvm | pv -p -t -e -b > /dev/null; then
-    echo "Error: Failed to create writ VM"
-    exit 1
-fi
-
-if ! run_in_writ_vm 'echo "deb http://deb.playonlinux.com/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/playonlinux.list'; then
-    echo "Error: Failed to add PlayOnLinux repository to writ VM"
-    exit 1
-fi
-
-if ! run_in_writ_vm 'wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add -'; then
-    echo "Error: Failed to add PlayOnLinux key to writ VM"
-    exit 1
-fi
-
-if ! run_in_writ_vm 'sudo apt-get update && sudo apt-get install -y playonlinux'; then
-    echo "Error: Failed to install PlayOnLinux in writ VM"
-    exit 1
-fi
-
-if ! run_in_writ_vm 'POL_WINEVERSION="5.22" playonlinux --run "Scrivener" /silent /sp- /no-desktop'; then
-    echo "Error: Failed to install Scrivener in writ VM"
-    exit 1
-fi
-
-if ! run_in_writ_vm 'sudo apt-get update && sudo apt-get install -y libreoffice'; then
-    echo "Error: Failed to install LibreOffice in writ VM"
-    exit 1
-fi
-
-if ! run_in_writ_vm 'sudo apt-get clean'; then
-    echo "Error: Failed to clean apt cache in writ VM"
-    exit 1
-fi
-
+qvm-create -v --class Standalone --template "$writ_vm_template" --label blue "$writ_vm" --standalone --no-netvm | pv -p -t -e -b > /dev/null || { echo "Error: Failed to create writ VM"; exit 1; }
+echo "Adding software and packages items..."
+run_in_writ_vm 'echo "deb http://deb.playonlinux.com/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/playonlinux.list' || { echo "Error: Failed to add PlayOnLinux repository to writ VM"; exit 1; }
+run_in_writ_vm 'wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add -' || { echo "Error: Failed to add PlayOnLinux key to writ VM"; exit 1; }
+run_in_writ_vm 'sudo apt-get update && sudo apt-get install -y playonlinux' || { echo "Error: Failed to install PlayOnLinux in writ VM"; exit 1; }
+run_in_writ_vm 'POL_WINEVERSION="5.22" playonlinux --run "Scrivener" /silent /sp- /no-desktop' || { echo "Error: Failed to install Scrivener in writ VM"; exit 1; }
+run_in_writ_vm 'sudo apt-get update && sudo apt-get install -y libreoffice' || { echo "Error: Failed to install LibreOffice in writ VM"; exit 1; }
+run_in_writ_vm 'sudo apt-get clean' || { echo "Error: Failed to clean apt cache in writ VM"; exit 1; }
 echo "Configuration of writ VM complete."
 
 # Create template for AV
 echo "Creating template for AV..."
-if ! qvm-create -v --class Template --label red --template fedora-36-minimal --property virt_mode=appvm --property kernelopts=console=ttyS0,115200n8 --property virt_mode=appvm t-av | pv -p -t -e -b > /dev/null; then
-    echo "Failed to create the t-av template. Aborting." >&2
-    exit 1
-fi
+qvm-create -v --class Template --label red --template fedora-36-minimal --property virt_mode=appvm --property kernelopts=console=ttyS0,115200n8 --property virt_mode=appvm t-av | pv -p -t -e -b > /dev/null || { echo "Failed to create the t-av template. Aborting." >&2; exit 1; }
 
 # Install required Qubes services for networking
 echo "Installing required Qubes services for networking..."
-if ! qvm-run -v -a t-av 'sudo dnf install -y qubes-core-agent-networking qubes-core-agent-dom0-updates qubes-core-agent-passwordless-root' | pv -p -t -e -b > /dev/null; then
-    echo "Failed to install required Qubes services for networking. Aborting." >&2
-    exit 1
-fi
+qvm-run -v -a t-av 'sudo dnf install -y qubes-core-agent-networking qubes-core-agent-dom0-updates qubes-core-agent-passwordless-root' | pv -p -t -e -b > /dev/null || { echo "Failed to install required Qubes services for networking. Aborting." >&2; exit 1; }
 
 # Install Zoom, Teams, and Google Chat in the t-av template
 echo "Installing Zoom, Teams, and Google Chat in the t-av template..."
-if ! qvm-run -v -a t-av 'sudo dnf install -y https://dl.zoom.us/linux/client/zoom_x86_64.rpm' | pv -p -t -e -b > /dev/null; then
-    echo "Failed to install Zoom in the t-av template. Aborting." >&2
-    exit 1
-fi
-if ! qvm-run -v -a t-av 'sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc && sudo curl -o /etc/yum.repos.d/teams.repo https://packages.microsoft.com/yumrepos/ms-teams.repo && sudo dnf install -y teams' | pv -p -t -e -b > /dev/null; then
-    echo "Failed to install Teams in the t-av template. Aborting." >&2
-    exit 1
-fi
-if ! qvm-run -v -a t-av 'sudo dnf install -y google-chrome-stable' | pv -p -t -e -b > /dev/null; then
-    echo "Failed to install Google Chat in the t-av template. Aborting." >&2
-    exit 1
-fi
+qvm-run -v -a t-av 'sudo dnf install -y https://dl.zoom.us/linux/client/zoom_x86_64.rpm' | pv -p -t -e -b > /dev/null || { echo "Failed to install Zoom in the t-av template. Aborting." >&2; exit 1; }
+qvm-run -v -a t-av 'sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc && sudo curl -o /etc/yum.repos.d/teams.repo https://packages.microsoft.com/yumrepos/ms-teams.repo && sudo dnf install -y teams' | pv -p -t -e -b > /dev/null || { echo "Failed to install Teams in the t-av template. Aborting." >&2; exit 1; }
+qvm-run -v -a t-av 'sudo dnf install -y google-chrome-stable' | pv -p -t -e -b > /dev/null || { echo "Failed to install Google Chat in the t-av template. Aborting." >&2; exit 1; }
 
 # Create Qube for AV
 echo "Creating the AV Qube..."
-if ! qvm-create -v --label red --template t-av --property virt_mode=appvm --property kernelopts=console=ttyS0,115200n8 AV | pv -p -t -e -b > /dev/null; then
-    echo "Failed to create the AV Qube. Aborting." >&2
-    exit 1
-fi
-
+qvm-create -v --label red --template t-av --property virt_mode=appvm --property kernelopts=console=ttyS0,115200n8 AV | pv -p -t -e -b > /dev/null || { echo "Failed to create the AV Qube. Aborting." >&2; exit 1; }
 echo "Configuration of AV VM and template complete...."
 
 # Create template for browser
