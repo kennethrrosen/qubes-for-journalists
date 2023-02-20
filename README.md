@@ -41,6 +41,10 @@ Please reach out with any questions, comments or suggestions: kenrosen@proton.me
  - [wiki](https://github.com/kennethrrosen/journoQUBES/wiki)
  - [common questions and answers](TKTK)
  - [about the author](https://www.kennethrrosen.com/)
+ 
+ ### 🟧 journoQUBES tools
+ - [Plausible deniability PAM distress login for QubesOS](https://github.com/kennethrrosen/qubes-PAM-distress-login/)
+ - [Qube-builder for journalists and human rights defenders](https://github.com/kennethrrosen/journoQUBES/blob/main/qubesOS/journoQUBES.sh)
 
 ### 🟧 acknowledgments
 Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all.
