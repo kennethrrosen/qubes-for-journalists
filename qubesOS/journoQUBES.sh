@@ -20,6 +20,12 @@ appvm_vault_name="source"
 vm_comms_name="comms"
 template_comms_name="debian-11-minimal"
 comms_apt_packages="whatsdesk curl signal-desktop telegram-desktop"
+vpn_config_file="/home/user/vpn_config.ovpn"
+appvm_VPN_name="fedora-vpn"
+appvm_VPN_template="fedora-36-minimal"
+qubes_networking_packages=("qubes-core-agent-networking" "qubes-core-agent-network-manager" "qubes-network-manager")
+required_packages=("openvpn" "qubes-core-agent-networking" "qubes-core-agent-network-manager" "qubes-network-manager")
+
 
 # Install pv if not already installed
 if ! type pv > /dev/null; then
@@ -146,6 +152,58 @@ if ! qvm-create --label red --template "$TEMPLATE_COMMS_NAME" "$VM_COMMS_NAME" |
     exit 1
 fi
 echo "The new AppVM '$VM_COMMS_NAME' has been created and configured successfully."
+
+#!/bin/bash
+
+set -euo pipefail
+
+# Check if running as root
+if [ "$(id -u)" != "0" ]; then
+    echo "This script must be run as root." >&2
+    exit 1
+fi
+
+# Check if VPN config file exists
+if [ ! -f "$vpn_config_file" ]; then
+  echo "Error: VPN config file $vpn_config_file not found."
+  exit 1
+fi
+
+# Create the AppVM for VPN
+echo "Creating the AppVM for VPN: $appvm_name..."
+qvm-create --label black --template "$appvm__VPN_template" "$appvm_VPN_name" \
+  && qvm-run --pass-io $appvm_VPN_name "sudo dnf install -y ${qubes_networking_packages[*]} qubes-core-agent-passwordless-root" \
+  || { echo "Error: Failed to create the AppVM for VPN." >&2; exit 1; }
+
+# Install required packages in the AppVM
+for package in "${required_packages[@]}"; do
+  if ! qvm-run -a "$appvm_VPN_name" "which $package" > /dev/null; then
+    echo "Installing $package..."
+    qvm-run -a "$appvm_VPN_name" "sudo dnf install -y $package" \
+      || { echo "Error: Failed to install $package in the AppVM." >&2; exit 1; }
+  fi
+done
+
+# Copy VPN config file to the AppVM
+echo "Copying VPN config file to AppVM: $appvm_VPN_name..."
+qvm-run --pass-io "$appvm_VPN_name" "cat > /rw/config/vpn_config.ovpn" < "$vpn_config_file"
+
+# Install and set up OpenVPN in the AppVM
+echo "Setting up OpenVPN in AppVM: $appvm_VPN_name..."
+qvm-run -p "$appvm_VPN_name" "sudo dnf install -y openvpn" \
+  && qvm-run --pass-io -p "$appvm_VPN_name" "sudo openvpn --config /rw/config/vpn_config.ovpn &" \
+  || { echo "Error: Failed to set up OpenVPN in the AppVM." >&2; exit 1; }
+
+echo "VPN is now running in AppVM: $appvm_VPN_name."
+
+# Notes for the user to complete the setup:
+echo "Please manually configure the AppVM to use the VPN for network traffic.
+- Open NetworkManager from the system tray or in the AppVM's settings.
+- In the VPN tab, click 'Add'.
+- Select 'Import from file' and select the VPN config file from /rw/config/vpn_config.ovpn.
+- In the General tab, make sure 'Automatically connect to VPN when using this connection' is checked.
+- Save and close the VPN settings.
+- Restart the network service: sudo systemctl restart NetworkManager."
 
 echo "All VMs created successfully!"
 echo "journoQUBES install complete."
