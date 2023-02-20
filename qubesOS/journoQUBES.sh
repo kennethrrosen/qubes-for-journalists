@@ -44,9 +44,9 @@ required_packages=("openvpn" "qubes-core-agent-networking" "qubes-core-agent-net
 # Define a function to display error message and provide options to the user for troubleshooting
 display_error() {
     echo "Options:"
-    echo "1. Re-try the script."
+    echo "1. Retry the script."
     echo "2. Continue anyway (not recommended)."
-    echo "3. Contact support."
+    echo "3. Contact author."
     read -p "Enter your choice (1/2/3): " choice
     case $choice in
         1) echo "Re-trying journoQUBES script..." && bash /path/to/script.sh;;
