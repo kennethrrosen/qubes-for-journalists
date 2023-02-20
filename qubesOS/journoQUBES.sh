@@ -48,6 +48,17 @@ done
 echo "Installing the default templates and appVMs..."
 qubesctl state.sls qvm.template qvm.app | pv -p -t -e -b > /dev/null
 
+# Create a simple personal qube with the specified options
+echo "Creating Personal qube..."
+qvm-create -v --class AppVM --template fedora-36 --label green --mem 2048 --maxmem 4096 --netvm sys-firewall --name personal | pv -p
+
+# Add personal qube menu items
+echo "Adding menu items..."
+qvm-run -a personal 'echo -e "[Desktop Entry]\nName=Firefox\nExec=/usr/bin/firefox\nIcon=/usr/share/icons/hicolor/32x32/apps/firefox.png\nType=Application\nCategories=Network;" > ~/.local/share/applications/firefox.desktop' | pv -p
+qvm-run -a personal 'echo -e "[Desktop Entry]\nName=File Viewer\nExec=/usr/bin/nautilus\nIcon=/usr/share/icons/hicolor/32x32/apps/system-file-manager.png\nType=Application\nCategories=Utility;" > ~/.local/share/applications/file_viewer.desktop' | pv -p
+qvm-run -a personal 'echo -e "[Desktop Entry]\nName=LibreOffice\nExec=/usr/bin/libreoffice\nIcon=/usr/share/icons/hicolor/32x32/apps/libreoffice-main.png\nType=Application\nCategories=Office;" > ~/.local/share/applications/libreoffice.desktop' | pv -p
+
+
 # Create a standalone writer offline VM and install applications
 echo "Creating the writ VM..."
 qvm-create -v --class Standalone --template "$writ_vm_template" --label blue "$writ_vm" --standalone --no-netvm | pv -p -t -e -b > /dev/null
