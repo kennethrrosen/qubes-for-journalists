@@ -1,3 +1,12 @@
+
+/******
+*    name: journoQUBES Qube installer for journalists
+*    date: 20 February 2023
+*    NOTES:
+*    a simple script for installing Qubes configurations for journalists in a raw QubesOS 4.1 install
+*    see https://github.com/kennethrrosen/ for license and contact.
+******/
+
 #!/bin/bash
 
 set -euo pipefail
