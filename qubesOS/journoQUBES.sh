@@ -1,15 +1,11 @@
-/******
-* THIS CODE IS A WORK IN PROCESS AND NOT IN PRODUCTION
-*    name: journoQUBES Qube installer for journalists
-*    date: 20 February 2023
-*    a simple script for installing Qubes configurations for journalists in a raw QubesOS 4.1 install
-*    see https://github.com/kennethrrosen/ for license and contact.
-*
-* The following script installs * Qubes through a simple command 'sudo install ./journoQubes.sh' in a dom0 terminal. 
-* THIS CODE IS A WORK IN PROCESS AND NOT IN PRODUCTION
-*
-*
-******/
+# THIS CODE IS A WORK IN PROCESS AND NOT IN PRODUCTION
+#    name: journoQUBES Qube installer for journalists
+#    date: 20 February 2023
+#    see: https://github.com/kennethrrosen/ for license and contact.
+#
+# a simple script for installing Qubes configurations for journalists in a raw QubesOS 4.1 install. The following script installs several
+# Qubes through a simple command 'sudo install ./journoQubes.sh' in a dom0 terminal. A Salt version and GUI is in development
+# THIS CODE IS A WORK IN PROCESS AND NOT IN PRODUCTION
 
 #!/bin/bash
 
@@ -18,31 +14,34 @@ set - euo pipefail
   if["$(id -u)" != "0"];
 then echo "This script must be run as root." > &2 exit 1 fi
 #Define variables
-  templates =
-  ("fedora-36" "fedora-36-minimal" "debian-11" "debian-11-minimal")
-  MIRAGE_FIREWALL_REPO_URL =
-  "https://github.com/mirage/qubes-mirage-firewall/releases/download/v0.8.4/mirage-firewall.tar.bz2"
-  writ_vm = "writ" writ_vm_template = "debian-11" template_browser_name =
-  "t-browser" appvm_browser_name = "browser" browsers =
-  "chromium torbrowser-launcher firefox-esr" template_vault_name =
-  "t-vault" appvm_vault_name = "source" vm_comms_name =
-  "comms" template_comms_name = "debian-11-minimal" comms_apt_packages =
-  "whatsdesk curl signal-desktop telegram-desktop" vpn_config_file =
-  "/home/user/vpn_config.ovpn" appvm_VPN_name =
-  "fedora-vpn" appvm_VPN_template =
-  "fedora-36-minimal" qubes_networking_packages =
-  ("qubes-core-agent-networking" "qubes-core-agent-network-manager"
-   "qubes-network-manager") required_packages =
-  ("openvpn" "qubes-core-agent-networking" "qubes-core-agent-network-manager"
-   "qubes-network-manager")
-#Define a function to display error message and provide options to the user for troubleshooting
+  templates = ("fedora-36" "fedora-36-minimal" "debian-11" "debian-11-minimal")
+  MIRAGE_FIREWALL_REPO_URL = "https://github.com/mirage/qubes-mirage-firewall/releases/download/v0.8.4/mirage-firewall.tar.bz2"
+  writ_vm = "writ" 
+  writ_vm_template = "debian-11" 
+  template_browser_name = "t-browser" 
+  appvm_browser_name = "browser" 
+  browsers = "chromium torbrowser-launcher firefox-esr" 
+  template_vault_name = "t-vault" 
+  appvm_vault_name = "source" 
+  vm_comms_name = "comms" 
+  template_comms_name = "debian-11-minimal"
+  comms_apt_packages =
+  "whatsdesk curl signal-desktop telegram-desktop"
+  vpn_config_file = "/home/user/vpn_config.ovpn" #TODO replace with RPM file destination
+  appvm_VPN_name = "fedora-vpn"
+  appvm_VPN_template = "fedora-36-minimal" 
+  qubes_networking_packages = ("qubes-core-agent-networking" "qubes-core-agent-network-manager" #TODO check for all required packages
+   "qubes-network-manager") 
+  required_packages = ("openvpn" "qubes-core-agent-networking" "qubes-core-agent-network-manager" "qubes-network-manager") #TODO check for all required packages
+   
+#Defines a function to display error message and provide options to the user for troubleshooting
   display_error ()
 {
   echo "Options:"
-    echo "1. Retry the script."
+    echo "1. Retry the script (may lead to duplicates)" #TODO fix error-handling
     echo "2. Continue anyway (not recommended)."
     echo "3. Contact author."
-    read - p "Enter your choice (1/2/3): " choice
+    read - p "Enter your choice (1-3): " choice
     case $choice in
     1) echo "Re-trying journoQUBES script..."
     && bash / path / to / script.sh;;
@@ -50,8 +49,6 @@ then echo "This script must be run as root." > &2 exit 1 fi
   3) echo "Please send an email to kennethrrosen@proton.me" && exit 1;;
   *)echo "Invalid option. Please try again." && display_error;;
 esac}
-
-############BEGIN SETUP OF FURNITURE FOR SCRIPT
 
 #Install pv for error checking if not already installed
 type pv > /dev / null || (echo "Installing pv..."
@@ -65,8 +62,6 @@ echo "Running command in writ VM: $1"
     qvm - run - v - a "$writ_vm" "$1" | pv - p - t - e - b > /dev / null
     || display_error "Error: Failed to run command in writ VM"}
 
-############BEGIN SETUP OF QubesOS DEPENDENCIES DISPLAY ERROR FUNCTION NOT INCLUDED BELOW YET
-
 #Install templates and default appVMs
 for template
   in "${templates[@]}";
@@ -79,7 +74,7 @@ do
     "Installing the default templates and appVMs..." qubesctl state.sls qvm.
     template qvm.app | pv - p - t - e - b > /dev / null
     || display_error "Failed to install default templates and appVMs"
-############BEGIN SETUP OF QubesOS DEPENDENCIES
+
 #Download the Mirage Firewall repository
     echo "Downloading Mirage Firewall repository..."
     curl - L - o mirage - firewall.tar.bz2 $REPO_URL
@@ -120,7 +115,7 @@ then
   || display_error
   "Failed to disable default kernel options in Mirage Firewall VM" echo
   "Mirage Firewall setup complete!"
-############Begin setup of journoQUBES
+
 #Create a simple personal AppVM
   echo "Creating Personal qube..."
   qvm - create - v-- class AppVM-- template fedora -
