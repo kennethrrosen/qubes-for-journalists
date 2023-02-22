@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 # Block bogons and private networks on WAN
 pfctl -t bogons -T add -f /usr/local/etc/pfBlockerNG/bogons.txt
