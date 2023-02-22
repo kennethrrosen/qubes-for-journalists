@@ -1,3 +1,5 @@
+# Arkenfox config install for journalists
+```
 install_journoSEC_config/
 ├── install_journoSEC_config/
 │   ├── __init__.py
@@ -7,3 +9,4 @@ install_journoSEC_config/
 ├── user-overrides.js
 ├── setup.py
 └── MANIFEST.in
+```
