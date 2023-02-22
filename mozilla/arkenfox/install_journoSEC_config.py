@@ -17,10 +17,6 @@ def move_user_js(username, user_js_path, user_overrides_js_path):
     """Move the user.js and user-overrides.js files to the appropriate location in the .mozilla folder of Firefox."""
     firefox_profile_path = get_firefox_profile_path(username)
     firefox_profile_path = firefox_profile_path.replace("*", "")
-    
-    # Create the necessary folders if they don't already exist
-    if not os.path.exists(firefox_profile_path):
-        os.makedirs(firefox_profile_path)
 
     # Copy the user.js file to the Firefox profile folder
     if os.path.exists(user_js_path):
