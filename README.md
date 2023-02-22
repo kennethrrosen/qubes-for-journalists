@@ -1,4 +1,4 @@
-journoQUBES
+journoSEC
 =========================
 
 Existing guides and infrastructure for journalists insufficiently prepares them for digitally interacting with sources, working on sensitive stories while protecting sensitive materials offline and online, and traveling cross borders with personal and professional data.
@@ -38,13 +38,16 @@ Please reach out with any questions, comments or suggestions: kenrosen@proton.me
 **This repo is a work in process, [Nov. 2022]
 
 ### 🟧 sitemap
- - [wiki](https://github.com/kennethrrosen/journoQUBES/wiki)
+ - [wiki](https://github.com/kennethrrosen/journoSEC/wiki)
  - [common questions and answers](TKTK)
  - [about the author](https://www.kennethrrosen.com/)
  
- ### 🟧 journoQUBES tools
+ ### 🟧 journoSEC tools
  - [Plausible deniability PAM distress login for QubesOS](https://github.com/kennethrrosen/qubes-PAM-distress-login/)
- - [Qube-builder for journalists and human rights defenders](https://github.com/kennethrrosen/journoQUBES/blob/main/qubesOS/journoQUBES.sh)
+ - [Qube-builder for journalists and human rights defenders](https://github.com/kennethrrosen/journoSEC/blob/main/qubesOS/journoQUBES.sh)
+ - [Custom Arkenfox user.js file] ()
+ - [Custom Librewolf user.js file] ()
+ - [Easy-to-deploy OPNsense home office router firewall] ()
 
 ### 🟧 acknowledgments
 Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all.
