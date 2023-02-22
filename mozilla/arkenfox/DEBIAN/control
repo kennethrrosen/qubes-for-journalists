@@ -1,0 +1,6 @@
+Package: install-journosec-firefox-config
+Version: 1.0
+Architecture: all
+Maintainer: Kenneth R. Rosen <kennethrrosen@proton.me>
+Depends: python
+Description: Install JournoSEC Arkenfox Firefox configuration files
