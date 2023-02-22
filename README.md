@@ -45,9 +45,10 @@ Please reach out with any questions, comments or suggestions: kenrosen@proton.me
  ### 🟧 journoSEC tools
  - [Plausible deniability PAM distress login for QubesOS](https://github.com/kennethrrosen/qubes-PAM-distress-login/)
  - [Qube-builder for journalists and human rights defenders](https://github.com/kennethrrosen/journoSEC/blob/main/qubesOS/journoQUBES.sh)
- - [Custom Arkenfox user.js file] ()
- - [Custom Librewolf user.js file] ()
- - [Easy-to-deploy OPNsense home office router firewall] ()
+ - [Custom user-overrides.js for Firefox, based on Arkenfox] (https://github.com/kennethrrosen/journoSEC/blob/main/mozilla/arkenfox/user-overrides.js)
+ - [Custom user.js for Librewolf] (https://github.com/kennethrrosen/journoSEC/blob/main/mozilla/librewolf/LibreWolf.js)
+ - [Custom user-overrides.js for Thunderbird] (https://github.com/kennethrrosen/journoSEC/blob/main/mozilla/thunderbird/user-overrides.js)
+ - [Easy-to-deploy OPNsense home office router firewall] (https://github.com/kennethrrosen/journoSEC/blob/main/OPNsense/journoSEC_firewall.sh)
 
 ### 🟧 acknowledgments
 Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all.
