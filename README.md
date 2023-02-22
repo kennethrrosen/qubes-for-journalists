@@ -62,5 +62,5 @@ Literally thousands of sources, mentors, guides, books and my own failures. Many
 [^4]: https://www.amazon.com/Extreme-Privacy-What-Takes-Disappear/dp/B0898YGR58
 [^5]: Quote by Edward Snowden, on Twitter (looking for source)
 [^6]: 2015, "Investigating the Computer Security Practices and Needs of Journalists" https://www.franziroesner.com/pdf/journalism-sec15.pdf
-[^7]: https://news.un.org/en/story/2020/09/1071492
+[^7]: https://news.un.org/en/story/2020/09/1071492 
 [^8]: 2021, "An Evaluation of Online Security Guides for Journalists" https://cltc.berkeley.edu/wp-content/uploads/2021/01/Online_Security_Guides_for_Journalists.pdf
