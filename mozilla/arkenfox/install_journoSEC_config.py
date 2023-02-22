@@ -18,6 +18,10 @@ def move_user_js(username, user_js_path, user_overrides_js_path):
     firefox_profile_path = get_firefox_profile_path(username)
     firefox_profile_path = firefox_profile_path.replace("*", "")
     
+    # Create the necessary folders if they don't already exist
+    if not os.path.exists(firefox_profile_path):
+        os.makedirs(firefox_profile_path)
+
     # Copy the user.js file to the Firefox profile folder
     if os.path.exists(user_js_path):
         shutil.copy(user_js_path, os.path.join(firefox_profile_path, "user.js"))
@@ -26,9 +30,6 @@ def move_user_js(username, user_js_path, user_overrides_js_path):
     if os.path.exists(user_overrides_js_path):
         shutil.copy(user_overrides_js_path, os.path.join(firefox_profile_path, "user-overrides.js"))
 
-username = get_username()
-
-# Replace the values below with the appropriate paths for your system
-user_js_path = f"/home/{username}/Downloads/user.js"
-user_overrides_js_path = f"/home/{username}/Downloads/user-overrides.js"
-move_user_js(username, user_js_path, user_overrides_js_path)
+if __name__ == '__main__':
+    # Get the current user's username
+    username = get_username()
