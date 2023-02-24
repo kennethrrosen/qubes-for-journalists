@@ -1,8 +1,6 @@
 QubesOS for Journalists
 =========================
 
-journoQUBES
-=========================
 These is an open repository containing my notes from intitialization of the Qubes 4.1.1 (on a Librem 14), a running tab of work done to it for future reference and backup purposes; also, for future project on journalist digital security. It is also a description of my various Qubes and their setups.
 
 ## Contents 
