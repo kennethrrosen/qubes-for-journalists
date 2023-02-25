@@ -1,0 +1,138 @@
+#!/usr/bin/python3
+# journo-qubes-task-gui.py
+import subprocess
+import sys
+
+from PyQt5 import QtWidgets, QtGui, uic
+from PyQt5.QtWidgets import (
+    QWidget, QApplication, QButtonGroup, QHBoxLayout, QVBoxLayout,
+    QCheckBox, QLabel, QLineEdit, QMainWindow, QPushButton, QScrollArea, 
+    QSizePolicy, QSpacerItem )
+
+from PyQt5.QtCore import QObject, Qt, pyqtSignal, QProcess
+from PyQt5.QtGui import QPainter, QFont, QColor, QPen
+#from row import TaskRowWidget
+from qubesadmin.tools.qubes_task import *
+from qubesadmin.tools.qvm_template import Template as Task
+
+appl = qubesadmin.Qubes()
+args=['dict']
+p_args, args = parser.parse_known_args(args)
+p_args = parser.parse_args(args, p_args)
+p_args.repo_files = REPO_FILE
+p_args.updatevm = appl.updatevm
+outputs={}
+outputs=list_tasks(p_args ,appl, 'dict')
+widget_names =  outputs.keys()
+
+class TaskRowWidget(QWidget):
+
+    def __init__(self, parent, name, summary):
+        super(TaskRowWidget, self).__init__()
+        self.parent = parent
+        self.name = name # Name of widget used for searching.
+        self.summary = summary 
+        self.is_on = False 
+
+        self.setAccessibleName = name
+        self.lbl2 = QLabel(self.summary)
+        self.checked = QCheckBox(self.name)
+        parent.taskGroup.addButton(self.checked)
+        self.btn_details = QPushButton("Details")
+        self.btn_details.setAccessibleName(name)
+        self.btn_details.setCheckable(False)
+        self.btn_details.clicked.connect(parent.details_clicked)
+
+        self.hbox = QHBoxLayout()
+        self.hbox.addWidget(self.checked,20)
+        self.hbox.addWidget(self.lbl2,60)
+        self.hbox.addWidget(self.btn_details)
+        self.setLayout(self.hbox)
+
+
+class MainWindow(QMainWindow):
+
+
+    def __init__(self, command='dict', *args, **kwargs):
+        super().__init__()
+
+        self.tasks = QWidget()  # Tasks container widget.
+        self.tasksLayout = QVBoxLayout()   # Tasks container layout.
+        self.taskGroup = QButtonGroup()
+        self.taskGroup.setExclusive(False)
+
+        self.widgets = []
+
+        for name in widget_names:
+            detail = outputs[name]['summary']
+            item = TaskRowWidget(self, name, detail)
+            self.tasksLayout.addWidget(item)
+            self.widgets.append(item)
+
+        spacer = QSpacerItem(1, 1, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.tasksLayout.addItem(spacer)
+        self.tasks.setLayout(self.tasksLayout)
+        self.lbl = QLabel(""" Description
+""")
+        self.lbl.setAlignment(Qt.AlignTop)
+        # Scroll Area Properties.
+        self.scroll = QScrollArea()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(self.tasks)
+
+        self.scroll2 = QScrollArea()
+        self.scroll2.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll2.setWidgetResizable(True)
+        self.scroll2.setWidget(self.lbl)
+
+        self.searchbar = QLineEdit()
+        self.btn_install = QPushButton("Install")
+        self.btn_install.setCheckable(False)
+        self.btn_install.clicked.connect(self.install_tasks)
+
+        # Add the items to VBoxLayout (applied to container widget)
+        # which encompasses the whole window.
+        container = QWidget()
+        containerLayout = QVBoxLayout()
+        #containerLayout.addWidget(self.searchbar)
+        containerLayout.addWidget(self.btn_install)
+        containerLayout.addWidget(self.scroll,60)
+        containerLayout.addWidget(self.scroll2,40)
+
+        container.setLayout(containerLayout)
+        self.setCentralWidget(container)
+
+        self.setGeometry(600, 100, 900, 600)
+        self.setWindowTitle('Journo-Qubes Task Manager')
+        self.setWindowIcon = QtGui.QIcon.fromTheme("journo-qubes-manager")
+    
+
+    def details_clicked(widget,state):
+        sending_widget = widget.sender()
+        name = (sending_widget.accessibleName())
+        desc = outputs[name]['description']
+        w.lbl.setText(desc)
+
+    def install_tasks(widget,state):
+        update_cmd = "sudo qubes-dom0-update "
+        prefix = "journo-qubes-"
+        checked_buttons = [i for i, button in enumerate(w.taskGroup.buttons()) if button.isChecked()]
+        pkgs_to_install = []
+        for i in checked_buttons:
+            pkgs_to_install.append(prefix+w.taskGroup.buttons()[i].text())
+        try:
+            install_list = " ".join(pkgs_to_install)
+            child = subprocess.Popen(update_cmd + install_list,shell=True)
+            output = child.communicate()[0]
+        except Exception as e:  # pylint: disable=broad-except
+            #output = child.communicate()[0]
+            return 1
+        return 0
+
+app = QtWidgets.QApplication(sys.argv)
+w = MainWindow()
+w.show()
+sys.exit(app.exec_())
