@@ -38,7 +38,7 @@ TKTKTKT overview
 
 #### Example Advanced Qube Configurations
 
-TKTKTKT overview
+TKTKTKT overview, include split-proton-vms
 
 ``````
 (clockvm)-------------------------------------------------------+
