@@ -65,11 +65,22 @@ Reboot.
 sudo lvresize --size 25G /dev/mapper/qubes_dom0-root
 sudo resize2fs /dev/mapper/qubes_dom0-root
 ```
+### install TLP power management utility
+```
+sudo qubes-dom0-update tlp
+install and configure tlp in dom0 (file is here: /etc/tlp.conf)
+add PM_RUNTIME=y
+systemctl mask systemd-rfkill.socket
+Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+Rebuild initrd sudo dracut -f
+reboot
+```
 
 ### install librem-ec-acpi-dkms
 https://source.puri.sm/-/snippets/1170
 ```
 Have had issues with this before, but will continue trying.
+Persist with: sudo modprobe ledtrig-netdev
 ```
 
 ### swap sys-firewall for mirage-firewall
@@ -101,3 +112,11 @@ qvm-create \
 qvm-features mirage-firewall qubes-firewall 1
 qvm-features mirage-firewall no-default-kernelopts 1
 ```
+### add /.config/devilspie2/ config
+```
+tktktkt
+```
+
+### enable Yubikey for mandatory login removal lockswitch
+```
+https://www.qubes-os.org/doc/yubikey/
