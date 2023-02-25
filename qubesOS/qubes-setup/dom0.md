@@ -75,12 +75,22 @@ Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 Rebuild initrd sudo dracut -f
 reboot
 ```
+### Adjust battery charging thershold
+```
+cat /sys/class/power_supply/BAT0/charge_control_start_threshold
+cat /sys/class/power_supply/BAT0/charge_control_end_threshold
+nano /sys/class/power_supply/BAT0/charge_control_start_threshold
+nano /sys/class/power_supply/BAT0/charge_control_end_threshold
+```
 
 ### install librem-ec-acpi-dkms
-https://source.puri.sm/-/snippets/1170
+https://source.puri.sm/-/snippets/1170. Have had issues with this before. LED persist:
+
 ```
-Have had issues with this before, but will continue trying.
-Persist with: sudo modprobe ledtrig-netdev
+sudo -i
+sudo modprobe ledtrig-netdev
+echo netdev > /sys/class/leds/librem_ec\:airplane/trigger
+
 ```
 
 ### swap sys-firewall for mirage-firewall
