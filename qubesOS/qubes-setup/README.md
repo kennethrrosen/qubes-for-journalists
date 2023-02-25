@@ -38,7 +38,7 @@ TKTKTKT overview
 
 #### Example Advanced Qube Configurations
 
-TKTKTKT overview, include split-proton-vms
+TKTKTKT overview, include split-proton-vms, clearnet-tunnel
 
 ``````
 (clockvm)-------------------------------------------------------+
