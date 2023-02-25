@@ -1,4 +1,4 @@
-#### Example Qube Configurations
+#### Example Basic Qube Configurations
 
 TKTKTKT overview
 
@@ -18,7 +18,25 @@ TKTKTKT overview
 
 tktktktkt explainer
 
-#### Example [Advanced/Convoluted] Qube Configurations
+#### Example Intermediate Qube Configurations
+
+TKTKTKT overview
+
+``````
+(clockvm)-------------------------------------------------------+
+                                                                |
+(updates)-----------+                                           |
+                    |                                           |
+{private-*}--[sys-firewall-anon]--[sys-tor]--[sys-firewall]--[sys-net]
+                                      |             |
+(dvm-anon)----------------------------+             |
+                                                    |
+(dvm-cleanet)---------------------------------------+
+                                                    |
+{work-*}--------------------------------------------+
+``````
+
+#### Example Advanced Qube Configurations
 
 TKTKTKT overview
 
@@ -36,4 +54,3 @@ TKTKTKT overview
 {work-*}--------------------------------------------+
 ``````
 tktktktkt explainer
-
