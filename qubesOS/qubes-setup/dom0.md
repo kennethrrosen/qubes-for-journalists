@@ -88,10 +88,15 @@ https://source.puri.sm/-/snippets/1170. Have had issues with this before. LED pe
 
 ```
 sudo -i
-sudo modprobe ledtrig-netdev
+modprobe ledtrig-netdev
 echo netdev > /sys/class/leds/librem_ec\:airplane/trigger
+echo wls6 > /sys/class/leds/librem_ec\:airplane/device_name
+echo 1 > /sys/class/leds/librem_ec\:airplane/rx
+echo 1 > /sys/class/leds/librem_ec\:airplane/tx
+exit
 
 ```
+Now place all these as a command in the `session and starup` section of the Qubes menu to allow the wifi/bluetooh light to persist.
 
 ### swap sys-firewall for mirage-firewall
 Following: https://builds.robur.coop/job/qubes-firewall
