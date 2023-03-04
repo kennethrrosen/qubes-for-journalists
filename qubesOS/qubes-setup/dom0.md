@@ -132,6 +132,16 @@ qvm-features mirage-firewall no-default-kernelopts 1
 tktktkt
 ```
 
+### add split-ssh
+```
+tktktkt
+```
+
+### add dom0 backup local
+```
+tktktkt
+```
+
 ### enable Yubikey for mandatory login removal lockswitch
 ```
 https://www.qubes-os.org/doc/yubikey/
