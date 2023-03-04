@@ -56,6 +56,11 @@ suricatasc -c dump eve.json alert | sed -e 's/^/<pre>/' -e 's/$/<\\/pre>/'
 # Run shell command and collect output
 result = subprocess.run(['sh', '-c', shell_command], capture_output=True, text=True)
 
+# Capture network traffic data
+os.makedirs('/var/log/tcpdump', exist_ok=True)
+tcpdump_command = ['/usr/sbin/tcpdump', '-i', 'lan0', '-w', '/var/log/tcpdump/lan0.pcap']
+subprocess.run(tcpdump_command)
+
 # Construct the email message
 body = '<html><head></head><body><table border="1">'
 body += '<tr><th>Category</th><th>Details</th></tr>'
@@ -65,6 +70,12 @@ for section, output in output_dict.items():
 
 body += '</table></body></html>'
 message = f'To: {smtp_to}\nFrom: {smtp_from}\nSubject: {subject}\nContent-Type: text/html\n\n{body}'
+
+# Attach network switch traffic data to the email
+attachment_path = '/var/log/tcpdump/lan0.pcap'
+with open(attachment_path, 'rb') as attachment:
+    attachment_data = attachment.read()
+attachment_name = os.path.basename(attachment_path)
 
 # Send the email using Postfix
 sendmail_command = ['/usr/sbin/sendmail', '-t']
