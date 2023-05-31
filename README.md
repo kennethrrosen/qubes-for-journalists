@@ -1,3 +1,5 @@
+**This repo, a labor of love and learning, is a work in process. You've been warned. [Last updated: Feb. 2023]
+
 journoSEC
 =========================
 
@@ -35,7 +37,7 @@ Please reach out with any questions, comments or suggestions: kenrosen@proton.me
 
 <b>Remember:</b> you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversarial tactics, and limit any distractions or obstacles to getting and publishing the story.
 
-**This repo is a work in process, [Last updated: Feb. 2023]
+
 
 ### 🟧 sitemap
  - [wiki](https://github.com/kennethrrosen/journoSEC/wiki)
