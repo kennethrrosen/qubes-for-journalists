@@ -1,4 +1,4 @@
-# dom0 tuning (Librem 14)
+# dom0 tuning (T480)
 
 post-installation OS configurations
 --------
@@ -16,24 +16,6 @@ post-installation OS configurations
 - configure a system-wide URL-redirector: https://github.com/raffaeleflorio/qubes-url-redirector
 - configure app-speciic (Thunderbird) URL-redirector: https://github.com/Qubes-Community/Contents/blob/master/docs/common-tasks/opening-urls-in-vms.md
 
-### swap PureBoot to Coreboot and SeaBIOS
-Secure boot is necessary; but with the system changes ahead, I've found it easier to switch to Coreboot before reverting after all initial system setup changes are made. 
-
-```
-mkdir ~/updates 
-cd ~/updates 
-wget https://source.puri.sm/coreboot/utility/raw/master/coreboot_util.sh -O coreboot_util.sh 
-sudo bash ./coreboot_util.sh
-
-(follow prompts:)
-1. 
-(Default) 
-Standard 
-1. 
-Select desired boot device 
-Y 
-
-```
 ### disable Qubes splash screen
 In Dom0 -- (TODO: consider organizing under dom0 customization header)
 ```
@@ -59,7 +41,6 @@ sudo nano /etc/modules-load.d/xen-acpi-processor.conf
 Write xen-acpi-processor and save.
 Reboot.
 ```
-
 ### resize dom0
 ```
 sudo lvresize --size 25G /dev/mapper/qubes_dom0-root
@@ -75,28 +56,41 @@ Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 Rebuild initrd sudo dracut -f
 reboot
 ```
+
+### config thinkfan
+`sudo qubes-dom0-update thinkfan` then add `/etc/thinkfan.conf`:
+```
+tp_fan /proc/acpi/ibm/fan
+tp_thermal /proc/acpi/ibm/thermal (0, 10, 15, 2, 10, 5, 0, 3)
+
+hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp6_input
+hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp3_input
+hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp7_input
+hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp4_input
+hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp8_input
+hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp1_input
+hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp5_input
+#hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp2_input
+hwmon /sys/devices/virtual/thermal/thermal_zone0/hwmon1/temp1_input
+hwmon /sys/devices/virtual/thermal/thermal_zone3/hwmon4/temp1_input
+
+(0,	0,	65)
+(1,	65,	75)
+(2,	75,	80)
+(3,	80,	85)
+(4,	85,	90)
+(5,	90,	95)
+(7,	95,	32767)
+
+```
+### Add dom0 startup menu
+```
+[see start menu repo](https://github.com/kennethrrosen/qubes-boot-verification)
+```
 ### Adjust battery charging thershold
 ```
-cat /sys/class/power_supply/BAT0/charge_control_start_threshold
-cat /sys/class/power_supply/BAT0/charge_control_end_threshold
-nano /sys/class/power_supply/BAT0/charge_control_start_threshold
-nano /sys/class/power_supply/BAT0/charge_control_end_threshold
+[see 'toggle_mode' repo](https://github.com/kennethrrosen/qubes-mode-toggler)
 ```
-
-### install librem-ec-acpi-dkms
-https://source.puri.sm/-/snippets/1170. Have had issues with this before. LED persist:
-
-```
-sudo -i
-modprobe ledtrig-netdev
-echo netdev > /sys/class/leds/librem_ec\:airplane/trigger
-echo wls6 > /sys/class/leds/librem_ec\:airplane/device_name
-echo 1 > /sys/class/leds/librem_ec\:airplane/rx
-echo 1 > /sys/class/leds/librem_ec\:airplane/tx
-exit
-
-```
-If this works, now place all these as a command in the `session and starup` section of the Qubes menu to allow the wifi/bluetooh light to persist: `sudo -i && modprobe ledtrig-netdev && echo netdev > /sys/class/leds/librem_ec\:airplane/trigger && echo wls6 > /sys/class/leds/librem_ec\:airplane/device_name && echo 1 > /sys/class/leds/librem_ec\:airplane/rx && echo 1 > /sys/class/leds/librem_ec\:airplane/tx && exit`
 
 ### swap sys-firewall for mirage-firewall
 Following: https://builds.robur.coop/job/qubes-firewall
@@ -127,9 +121,36 @@ qvm-create \
 qvm-features mirage-firewall qubes-firewall 1
 qvm-features mirage-firewall no-default-kernelopts 1
 ```
+### or swap sys-firewall for sys-pihole
+Following: https://forum.qubes-os.org/t/tool-simple-set-up-of-new-qubes-and-software/13064
+
 ### add /.config/devilspie2/ config
+First `qubes-dom0-update devilspie2`, then add devilspie2 folder to `.config`.
 ```
-tktktkt
+qube = get_window_property("_QUBES_VMNAME");
+ws = 0;
+
+if qube == "dom0" then ws = 0
+elseif qube == "writ" then ws = 2
+elseif qube == "browser" then ws = 1
+elseif qube == "mutli" then ws = 4
+elseif qube == "comms" then ws = 3
+elseif qube == "admin" then ws = 4
+elseif qube == "core-lombroso-admin" then ws = 3
+elseif qube == "vault" then ws = 4
+elseif qube == "win10" then ws = 3
+elseif qube == "core-sdadmin" then ws = 5
+end
+
+if ws > 0 then
+    set_window_workspace(ws);
+    change_workspace(ws);
+end
+
+if (get_window_name() == "win10") then
+    set_window_fullscreen(true);
+end
+
 ```
 
 ### add split-ssh
@@ -145,3 +166,4 @@ tktktkt
 ### enable Yubikey for mandatory login removal lockswitch
 ```
 https://www.qubes-os.org/doc/yubikey/
+```
