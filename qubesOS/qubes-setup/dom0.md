@@ -17,8 +17,9 @@ post-installation OS configurations
 - configure app-speciic (Thunderbird) URL-redirector: https://github.com/Qubes-Community/Contents/blob/master/docs/common-tasks/opening-urls-in-vms.md
 
 ### activate double-tap-to-click
+place in `~/.xsessionrc`
 ```
-xinput --list
+#xinput --list
 xinput --list-props 10
 xinput --set-props 10 324 1
 xinput --set-props 10 325 1
