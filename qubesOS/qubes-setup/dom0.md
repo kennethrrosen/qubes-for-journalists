@@ -24,7 +24,10 @@ xinput --set-props 10 324 1
 xinput --set-props 10 325 1
 xinput --set-props 10 340 1,1
 ```
-
+### add qcrypt to dom0
+```
+https://github.com/3hhh/qcrypt
+```
 ### disable Qubes splash screen
 In Dom0 -- (TODO: consider organizing under dom0 customization header)
 ```
