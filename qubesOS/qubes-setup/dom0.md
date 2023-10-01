@@ -16,6 +16,15 @@ post-installation OS configurations
 - configure a system-wide URL-redirector: https://github.com/raffaeleflorio/qubes-url-redirector
 - configure app-speciic (Thunderbird) URL-redirector: https://github.com/Qubes-Community/Contents/blob/master/docs/common-tasks/opening-urls-in-vms.md
 
+### activate double-tap-to-click
+```
+xinput --list
+xinput --list-props 10
+xinput --set-props 10 324 1
+xinput --set-props 10 325 1
+xinput --set-props 10 340 1,1
+```
+
 ### disable Qubes splash screen
 In Dom0 -- (TODO: consider organizing under dom0 customization header)
 ```
