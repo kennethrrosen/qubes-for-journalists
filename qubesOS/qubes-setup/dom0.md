@@ -29,7 +29,6 @@ xinput --set-props 10 340 1,1
 https://github.com/3hhh/qcrypt
 ```
 ### disable Qubes splash screen
-In Dom0 -- (TODO: consider organizing under dom0 customization header)
 ```
 sudo nano /etc/default/grub
 Remove rhgb from GRUB_CMDLINE_LINUX line
@@ -39,7 +38,6 @@ reboot
 ```
 
 ### install additional repos
-In Dom0 -- (TODO: consider organizing under dom0 customization header)
 ```
 sudo qubes-dom0-update qubes-repo-contrib
 In Fedora: sudo dnf install qubes-repo-contrib
