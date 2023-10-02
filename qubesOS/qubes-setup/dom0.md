@@ -37,7 +37,7 @@ https://github.com/3hhh/qcrypt
 ### disable Qubes splash screen
 ```
 sudo nano /etc/default/grub
-Remove rhgb from GRUB_CMDLINE_LINUX line
+Remove rhgb from GRUB_CMDLINE_LINUX line and add at the end plymouth.enable=0
 Rebuild grub config sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 Rebuild initrd sudo dracut -f
 reboot
