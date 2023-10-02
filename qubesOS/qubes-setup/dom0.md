@@ -17,9 +17,14 @@ post-installation OS configurations
 - configure app-speciic (Thunderbird) URL-redirector: https://github.com/Qubes-Community/Contents/blob/master/docs/common-tasks/opening-urls-in-vms.md
 
 ### activate double-tap-to-click
-place in `~/.xsessionrc`
+- Open the “Session and Startup” option in the Xfce settings.
+- Navigate to the “Application Autostart” tab.
+- Click “Add” to add a new startup application.
+- Enter a name, description, and the command you want to run, then click OK.
+- Create a file in your home directory named set_trackpad.sh.
 ```
 #xinput --list
+#!/bin/bash
 xinput --list-props 10
 xinput --set-props 10 324 1
 xinput --set-props 10 325 1
