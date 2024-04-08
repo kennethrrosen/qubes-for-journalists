@@ -1,6 +1,6 @@
 **This repo, a labor of love and learning, is a work in process. You've been warned. [Last updated: April 2024; salt configuration files coming soon]
 
-journoSEC
+qubes-for-journalists
 =========================
 
 Existing guides and infrastructure for journalists insufficiently prepares them for digitally interacting with sources, working on sensitive stories while protecting sensitive materials offline and online, and traveling cross borders with personal and professional data.
