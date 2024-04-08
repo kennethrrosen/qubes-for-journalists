@@ -37,20 +37,13 @@ Please reach out with any questions, comments or suggestions: kenrosen@proton.me
 
 <b>Remember:</b> you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversarial tactics, and limit any distractions or obstacles to getting and publishing the story.
 
-
-
 ### 🟧 sitemap
  - [wiki](https://github.com/kennethrrosen/journoSEC/wiki)
  - [common questions and answers](TKTK)
  - [about the author](https://www.kennethrrosen.com/)
  
  ### 🟧 journoSEC tools
- - [Plausible deniability PAM distress login for QubesOS](https://github.com/kennethrrosen/qubes-PAM-distress-login/)
- - [Qube-builder for journalists and human rights defenders](https://github.com/kennethrrosen/journoSEC/blob/main/qubesOS/journoQUBES.sh)
- - [Custom user-overrides.js for Firefox, based on Arkenfox](https://github.com/kennethrrosen/journoSEC/blob/main/mozilla/arkenfox/user-overrides.js)
- - [Custom user.js for Librewolf](https://github.com/kennethrrosen/journoSEC/blob/main/mozilla/librewolf/LibreWolf.js)
- - [Custom user-overrides.js for Thunderbird](https://github.com/kennethrrosen/journoSEC/blob/main/mozilla/thunderbird/user-overrides.js)
- - [Easy-to-deploy OPNsense home office router firewall](https://github.com/kennethrrosen/journoSEC/blob/main/OPNsense/journoSEC_firewall.sh)
+ - TODO
 
 ### 🟧 acknowledgments
 Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all.

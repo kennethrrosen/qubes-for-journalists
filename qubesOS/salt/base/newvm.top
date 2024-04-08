@@ -1,5 +1,0 @@
-# Top file for Salt states
-
-base:
-  'vmname=salt':
-    - new_vm
