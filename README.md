@@ -1,4 +1,4 @@
-**This repo, a labor of love and learning, is a work in process. You've been warned. [Last updated: Feb. 2023]
+**This repo, a labor of love and learning, is a work in process. You've been warned. [Last updated: April 2024; salt configuration files coming soon]
 
 journoSEC
 =========================
