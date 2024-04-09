@@ -21,7 +21,7 @@ tor-browser-present-id:
         - qvm: vms-depends
     - features:
       - set:
-        - menu-items: split-browser.desktop split-browser-safest.desktop
+        - menu-items: "split-browser.desktop split-browser-safest.desktop"
 
 {% elif grains['id'] == 'whonix-workstation-17' %}
 
@@ -32,7 +32,7 @@ whonix-install-contrib-repos:
             - source: salt://tor-browser/files/qubes-contrib.list
             - user: root
             - group: root
-            - mode: 0644
+            - mode: '0644'
             - require:
                 - pkg: qubes-template-whonix-workstation-17
 
@@ -65,7 +65,7 @@ install-contrib-repos:
             - source: salt://tor-browser/files/qubes-contrib-vm-r4.2.repo
             - user: root
             - group: root
-            - mode: 0644
+            - mode: '0644'
             - require:
                 - pkg: qubes-template-fedora-39
 

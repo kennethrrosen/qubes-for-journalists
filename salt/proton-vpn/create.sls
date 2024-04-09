@@ -28,7 +28,7 @@ protonvpn-present-id:
         - qvm: vms-depends
     - features:
       - set:
-        - menu-items: protonvpn-app.desktop
+        - menu-items: "protonvpn-app.desktop"
 
 {% if grains['id'] == 'proton-vpn' %}
 

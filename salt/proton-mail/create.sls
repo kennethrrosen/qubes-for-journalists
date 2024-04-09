@@ -20,7 +20,7 @@ protonmail-present-id:
         - qvm: vms-depends
     - features:
       - set:
-        - menu-items: proton-mail.desktop
+        - menu-items: "proton-mail.desktop"
 
 {% if grains['id'] == 'proton-mail' %}
 

@@ -30,7 +30,7 @@ telegram-present-id:
         - qvm: vms-depends
     - features:
       - set:
-        - menu-items: org.telegram.desktop.desktop org.gnome.Nautilus.desktop
+        - menu-items: "org.telegram.desktop.desktop org.gnome.Nautilus.desktop"
 
 {% elif grains['id'] == 'tpl-telegram' %}
 

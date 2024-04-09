@@ -29,7 +29,7 @@ writing-present-id:
         - qvm: vms-depends
     - features:
       - set:
-        - menu-items: libreoffice-writer.desktop split-browser.desktop split-browser-safest.desktop
+        - menu-items: "libreoffice-writer.desktop split-browser.desktop split-browser-safest.desktop"
         - qubes-update-check: false
 
 writing-running-id:
@@ -75,9 +75,9 @@ syncthing-running-id:
     - name: /etc/qubes/policy.d/30-user.policy
     - text: |
         #syncthing
-        admin.vm.Start + writ syncthing allow target=dom0
-        admin.vm.Shutdown + writ syncthing allow target=dom0
-        service.CheckSyncthing + syncthing writ allow target=dom0
+        admin.vm.Start + writing syncthing allow target=dom0
+        admin.vm.Shutdown + writing syncthing allow target=dom0
+        service.CheckSyncthing + syncthing writing allow target=dom0
     - require:
       - file: /etc/qubes/policy.d
 

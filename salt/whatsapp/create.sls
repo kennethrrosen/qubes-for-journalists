@@ -30,7 +30,7 @@ whatsapp-present-id:
         - qvm: vms-depends
     - features:
       - set:
-        - menu-items: whatsdesk_whatsdesk.desktop
+        - menu-items: "whatsdesk_whatsdesk.desktop"
 
 {% elif grains['id'] == 'tpl-whatsapp' %}
 

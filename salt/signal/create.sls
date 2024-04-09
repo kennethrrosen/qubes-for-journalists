@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 signal-create_template:
   qvm.present:
     - name: tpl-signal
-    - source: fedora-39
+    - source: debian-12
     - properties:
         label: black
         class: TemplateVM
@@ -29,23 +29,32 @@ signal-create_appvm:
           - service.tracker
           - service.evolution-data-server
         - set:
-          - menu-items: "org.signal.Signal.desktop"
+          - menu-items: "signal-desktop.desktop"
 
 {% elif grains['id'] == 'tpl-signal' %}
 
-install-flatpak:
-    pkg.installed:
-        - names:
-            - flatpak
-        - refresh: True
+install-signal-keyring:
+  cmd.run:
+    - name: wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > /usr/share/keyrings/signal-desktop-keyring.gpg
+    - unless: test -f /usr/share/keyrings/signal-desktop-keyring.gpg
 
-install-signal-flatpak:
-    pkg.installed:
-        - names:
-            - org.signal.Signal
-        - refresh: True
-    require:
-        - pkg: install-flatpak
+add-signal-repo:
+  file.managed:
+    - name: /etc/apt/sources.list.d/signal-xenial.list
+    - contents: deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main
+    - mode: '0644'
+    - user: root
+    - group: root
+    - require:
+      - cmd: install-signal-keyring
+
+update-and-install-signal:
+  pkg.installed:
+    - names:
+      - signal-desktop
+    - refresh: True
+    - require:
+      - file: add-signal-repo
 
 {% elif grains['id'] == 'signal' %}
 
@@ -70,8 +79,8 @@ setup_firewall:
 
 setup_desktop_autostart:
   file.symlink:
-    - name: /home/user/.config/autostart/org.Signal.Signal.desktop
-    - target: /usr/share/applications/org.signal.Signal.desktop
+    - name: /home/user/.config/autostart/signal-desktop.desktop
+    - target: /usr/share/applications/signal-desktop.desktop
     - user: user
     - group: user
     - force: True

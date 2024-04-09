@@ -28,7 +28,7 @@ work-present-id:
     - require:
         - qvm: vms-depends
     - set:
-          - menu-items: qubes-start.desktop google-chrome.desktop
+          - menu-items: "qubes-start.desktop google-chrome.desktop"
 
 {% elif grains['id'] == 'tpl-work' %}
 
