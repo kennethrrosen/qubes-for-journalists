@@ -1,0 +1,13 @@
+[qubes-contrib-vm-r4.2-current]
+name = Qubes OS Contrib Repository for VM (updates)
+baseurl = https://contrib.qubes-os.org/yum/r4.2/current/vm/fc$releasever
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-qubes-4-contrib-fedora
+gpgcheck = 1
+enabled=1
+
+[qubes-contrib-vm-r4.2-current-testing]
+name = Qubes OS Contrib Repository for VM (updates-testing)
+baseurl = https://contrib.qubes-os.org/yum/r4.2/current-testing/vm/fc$releasever
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-qubes-4-contrib-fedora
+gpgcheck = 1
+enabled=0

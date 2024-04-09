@@ -1,0 +1,17 @@
+#!/bin/sh
+## SPDX-FileCopyrightText: 2024 Kenneth R. Rosen <kennethrrosen@proton.me>
+## SPDX-License-Identifier: GPL-3.0-or-later
+
+set -eu
+
+test "$(hostname)" = "dom0" || { echo "Must be run from dom0" >&2; exit 1; }
+test "$(id -u)" = "0" || exec sudo "${0}"
+
+group="qujourno"
+file_roots="/srv/salt/${group}"
+
+cd "${0%/*}"/..
+rm -rf "${file_roots}"
+cp -f minion.d/*.conf /etc/salt/minion.d/
+mkdir -p "${file_roots}"
+cp -r salt/* "${file_roots}"

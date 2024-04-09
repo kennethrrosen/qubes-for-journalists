@@ -88,11 +88,28 @@ install-dom0-qubes-shared-folders:
 
 {% elif grains['id'] == 'writing' %}
 
+install-contrib-repos:
+    install-contrib-repos:
+        file.managed:
+            - name: /etc/yum.repos.d/qubes-contrib-vm-r4.2.repo
+            - source: salt://writing/files/qubes-contrib-vm-r4.2.repo
+            - user: root
+            - group: root
+            - mode: 0644
+            - require:
+                - pkg: writing-running-id
+
 writing-update:
   - pkg.uptodate:
     - refresh: True
     - require:
       - qvm: writing-running-id
+
+writing-install-split-browser:
+  pkg.installed:
+    - name: qubes-split-browser
+    - require:
+      - qvm: writing-update
 
 install-crossover:
   qvm.cmd:
