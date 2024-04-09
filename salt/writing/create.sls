@@ -84,7 +84,7 @@ syncthing-running-id:
 install-dom0-qubes-shared-folders:
   pkg.installed:
     - sources:
-      - mypackage: salt://qujourno/files/files/qubes-shared-folders-dom0-0.2.1-53.fc37.noarch.rpm
+      - mypackage: salt://files/qubes-shared-folders-dom0-0.2.1-53.fc37.noarch.rpm
 
 {% elif grains['id'] == 'writing' %}
 

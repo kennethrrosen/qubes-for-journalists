@@ -19,7 +19,7 @@ protonvpn-present-id:
     - memory: 800
     - maxmem: 800
     - autostart: True
-    - provides_network: True
+    - provides-network: True
     - service:
       - enabled:
         - qubes-firewall
