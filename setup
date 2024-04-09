@@ -12,6 +12,6 @@ file_roots="/srv/salt/${group}"
 
 cd "${0%/*}"/..
 rm -rf "${file_roots}"
-cp -f minion.d/*.conf /etc/salt/minion.d/
+cp -f minion.d/qujourno.conf /etc/salt/minion.d/
 mkdir -p "${file_roots}"
 cp -r salt/* "${file_roots}"
