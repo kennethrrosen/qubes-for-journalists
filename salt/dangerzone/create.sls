@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% if grains['id'] == 'dom0' %}
 
-writing_depends:
+dangerzone_depends:
   qvm.template_installed:
     - name: fedora-38
 
@@ -18,7 +18,7 @@ dangerzone-present:
     - properties:
         template_for_dispvms: True
     - require:
-      - cmd: ensure-fedora-38-template
+      - qvm: dangerzone_depends
 
 create-dz-dvm:
   qvm.present:
