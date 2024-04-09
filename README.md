@@ -31,14 +31,14 @@ This project was originally meant to introduce journalists to QubesOS for their 
 4. Introduces you to resources and software to take full advantage and further streamline what steps you took in 2 and 3. (Subjects include amnesiac operating systems, Tor, DNS, 2FA and keyfobs, GrapheneOS, and further reading.)
 5. Configures and migrates workstation/latop to QubesOS.
 
-Please reach out with any questions, comments or suggestions: kenrosen@proton.me (or through any number of other secure channels: https://kennethrrosen.com/secure). Journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
+Please reach out with any questions, comments or suggestions: kennethrrosen@proton.me (or through any number of other secure channels: https://kennethrrosen.com/tips). Journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
 
 <b>Remember:</b> you can go as deep into digital and personal security as any internet rabbit hole. Take those steps which allow you to continue you work with a peace of mind, making you more aware of common pitfalls and adversarial tactics, and limit any distractions or obstacles to getting and publishing the story.
 
 ### 🟧 how to install the salt scripts
  - Ask a network admin or security admin in your newsroom to assist. Buy a new laptop for Qubes only.
  - Write to me kennethrrosen@proton.me
- - There is a helpful `setup` script, but first you must (trust) and then clone this repository to a disp-vm in Qubes, [then transfer to dom0][url](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0), then run the `setup` script. Presently (April, 2024) the setup script does not assume you wish all qubes/applications to be installed, so those commands to install them separately are provided in each README of the various subdirectories.
+ - There is a helpful `setup` script, but first you must (trust) and then clone this repository to a disp-vm in Qubes, [then transfer to dom0](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0), then run the `setup` script. Presently (April, 2024) the setup script does not assume you wish all qubes/applications to be installed, so those commands to install them separately are provided in each README of the various subdirectories.
 
 ### 🟧 sitemap
  - [wiki](https://github.com/kennethrrosen/journoSEC/wiki)
