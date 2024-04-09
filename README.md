@@ -1,5 +1,3 @@
-**This repo, a labor of love and learning, is a work in process. You've been warned. [Last updated: April 2024; salt configuration files coming soon]
-
 qubes-for-journalists
 =========================
 
