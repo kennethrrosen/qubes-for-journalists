@@ -44,7 +44,11 @@ Please reach out with any questions, comments or suggestions: kenrosen@proton.me
  - TODO
 
 ### 🟧 acknowledgments
-Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all.
+Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all, but especially:
+
+ - [Unman](https://github.com/unman/)
+ - [Ben Grande](https://github.com/ben-grande/qusal)
+ - [Deeplow](https://github.com/deeplow/)
 
 ### 🟧 errata
 "Oh?", from my profile bio, is a nod to the moment when a source or story line becomes apparent and an investigation begins.
