@@ -38,7 +38,7 @@ Please reach out with any questions, comments or suggestions: kenrosen@proton.me
 ### 🟧 how to install the salt scripts
  - Ask a network admin or security admin in your newsroom to assist. Buy a new laptop for Qubes only.
  - Write to me kennethrrosen@proton.me
- - There is a helpful `setup` script, but first you must (trust) and then clone this repository to a disp-vm in Qubes, [then transfer to dom0][url](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0), then run the `setup` script. Presently (April, 2024) the setup script does not assume you wish all qubes/applications to be installed, so those commands to install them separately are provided in each README of the various subdirectories.
+ - There is a helpful `setup` script, but first you must (trust) and then clone this repository to a disp-vm in Qubes, [then transfer to dom0](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0), then run the `setup` script. Presently (April, 2024) the setup script does not assume you wish all qubes/applications to be installed, so those commands to install them separately are provided in each README of the various subdirectories.
 
 ### 🟧 sitemap
  - [wiki](https://github.com/kennethrrosen/journoSEC/wiki)
