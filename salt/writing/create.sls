@@ -27,6 +27,10 @@ writing-present-id:
         - service.cups
     - require:
         - qvm: vms-depends
+    - features:
+      - set:
+        - menu-items: split-browser.desktop split-browser-safest.desktop
+        - qubes-update-check: false
 
 writing-running-id:
   qvm.running:
