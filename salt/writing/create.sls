@@ -29,7 +29,7 @@ writing-present-id:
         - qvm: vms-depends
     - features:
       - set:
-        - menu-items: split-browser.desktop split-browser-safest.desktop
+        - menu-items: libreoffice-writer.desktop split-browser.desktop split-browser-safest.desktop
         - qubes-update-check: false
 
 writing-running-id:
@@ -299,10 +299,6 @@ refresh-menu-entries:
     - require:
       - pkg: install-libreoffice
       - pkg: install-crossover
-
-shutdown-writing-vm:
-  cmd.run:
-    - name: qubesctl --targets=writ vm.shutdown
 
 {% elif grains['id'] == 'syncthing' %}
 
