@@ -41,14 +41,15 @@ protonmail-install:
         - require:
             - qvm: protonmail-install-deps
 
-protonmail-autostart:
-    cmd.run:
-        - name: |
-            mkdir -p ~/.config/autostart
-            ln -s /usr/share/applications
-            proton-mail.desktop ~/.config/autostart/
-        - require:
-        - cmd:
-        protonmail-install
+setup-autostart:
+  file.symlink:
+    - name: /home/user/.config/autostart/proton-mail.desktop
+    - target: /usr/share/applications/proton-mail.desktop
+    - user: user
+    - group: user
+    - force: True
+    - makedirs: True
+    - require:
+            - qvm: protonmail-install
 
 {% endif %}

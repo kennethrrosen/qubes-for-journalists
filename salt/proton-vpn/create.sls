@@ -48,14 +48,17 @@ protonvpn-install:
             sudo dnf install --refresh proton-vpn-gnome-desktop
             sudo dnf install libappindicator-gtk3 gnome-shell-extension-appindicator gnome-extensions-app
         - require:
-        - qvm: protonvpn-install-deps
+            - qvm: protonvpn-install-deps
 
-protonvpn-autostart:
-    cmd.run:
-        - name: |
-            mkdir -p ~/.config/autostart
-            ln -s /usr/share/applications/protonvpn-app.desktop ~/.config/autostart/
+setup-autostart:
+  file.symlink:
+    - name: /home/user/.config/autostart/protonvpn-app.desktop
+    - target: /usr/share/applications/protonvpn-app.desktop
+    - user: user
+    - group: user
+    - force: True
+    - makedirs: True
         - require:
-        - cmd: protonvpn-install
+            - qvm: protonvpn-install
 
 {% endif %}
