@@ -1,6 +1,8 @@
 qubes-for-journalists
 =========================
 
+*NOTE: as of April 2024, the journo-task rpm and GUI are not ready for production*
+
 Existing guides and infrastructure for journalists insufficiently prepares them for digitally interacting with sources, working on sensitive stories while protecting sensitive materials offline and online, and traveling cross borders with personal and professional data.
 
 There are myriad good resources for online anonymity,[^1] online privacy,[^2] and circumventing authoritarian regime strangleholds on internet restrictions.[^3] But the job of keeping a secure digital environment is a marathon, not a race,[^4] one which is difficult to maintain while operating in mass media structures reliant on poor digital security infrastructure and loose guidelines for digital health.
