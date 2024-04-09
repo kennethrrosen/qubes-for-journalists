@@ -1,5 +1,5 @@
 #
-# The Qubes OS Project, https://www.qubes-os.org/
+# Reuses code from The Qubes OS Project, https://www.qubes-os.org/
 #
 # Copyright (C) 2022  unman <unman@thirdeyesecurity.org> ***EDITED BY KRR
 #
@@ -20,7 +20,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-"""Tool for managing Tasks."""
+"""Tool for managing Journo Qubes Tasks."""
 
 import argparse
 import collections

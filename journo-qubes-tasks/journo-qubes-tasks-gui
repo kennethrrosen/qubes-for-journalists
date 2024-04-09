@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# journo-qubes-task-gui.py
+# journo-qubes-tasks-gui.py
 import subprocess
 import sys
 
@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QObject, Qt, pyqtSignal, QProcess
 from PyQt5.QtGui import QPainter, QFont, QColor, QPen
 #from row import TaskRowWidget
-from qubesadmin.tools.qubes_task import *
+from qubesadmin.tools.qubes-journo-tasks import *
 from qubesadmin.tools.qvm_template import Template as Task
 
 appl = qubesadmin.Qubes()
@@ -31,8 +31,8 @@ class TaskRowWidget(QWidget):
         super(TaskRowWidget, self).__init__()
         self.parent = parent
         self.name = name # Name of widget used for searching.
-        self.summary = summary 
-        self.is_on = False 
+        self.summary = summary
+        self.is_on = False
 
         self.setAccessibleName = name
         self.lbl2 = QLabel(self.summary)
@@ -108,7 +108,6 @@ class MainWindow(QMainWindow):
         self.setGeometry(600, 100, 900, 600)
         self.setWindowTitle('Journo-Qubes Task Manager')
         self.setWindowIcon = QtGui.QIcon.fromTheme("journo-qubes-manager")
-    
 
     def details_clicked(widget,state):
         sending_widget = widget.sender()

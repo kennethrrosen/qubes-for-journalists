@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from qubesadmin.tools.journo_qubes_task import main
+from qubesadmin.tools.journo_qubes_tasks import main
 import sys
 if __name__ == '__main__':
 	sys.exit(main())
