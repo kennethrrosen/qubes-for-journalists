@@ -48,8 +48,10 @@ Please reach out with any questions, comments or suggestions: kennethrrosen@prot
  - [common questions and answers](TKTK)
  - [about the author](https://www.kennethrrosen.com/)
  
- ### 🟧 journoSEC tools
+### 🟧 journoSEC tools
  - TODO
+ - add qubes-idle-shutdown-app in templates
+ - add Mac-inspired XFCE tray
 
 ### 🟧 acknowledgments
 Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all, but especially:
