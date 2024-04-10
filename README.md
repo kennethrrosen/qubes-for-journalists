@@ -52,6 +52,7 @@ Please reach out with any questions, comments or suggestions: kennethrrosen@prot
  - TODO
  - add qubes-idle-shutdown-app in templates
  - add Mac-inspired XFCE tray
+ - nix gnome-keyring prompt in proton-vpn
 
 ### 🟧 acknowledgments
 Literally thousands of sources, mentors, guides, books and my own failures. Many thanks to all, but especially:
