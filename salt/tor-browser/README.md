@@ -1,11 +1,11 @@
 ### tor-browser
 
-Everyone's heard of the tor network. It helps maintain a semblence of anonymity at the cost of being rather slow. It is also somewhat amnesiatic. Thanks to this configured browser, though, you can still save bookmarks and logins (to websites like X or Facebook) and still browse elsewhere anonymously. 
+Everyone's heard of the Tor network. It helps maintain a semblence of anonymity at the cost of being rather slow. It is also somewhat amnesiatic. Thanks to this configured browser, though, you can still save bookmarks and logins (to websites like X or Facebook) and still browse elsewhere anonymously. 
 
-(Note: A split browser varient was also installed in `writing` so that you may still reference links and source material in a web-connected browser.)
+(Note: A split browser varient is also installed in `writing` so that you may still reference links and source material in a web-connected browser.)
 
 ```
-sudo qubesctl --show-output state.apply qujourno.telegram.create
+sudo qubesctl --targets=fedora-39,whonix-workstation-17 state.apply qujourno.telegram.create
 ```
 
 # Keyboard shortcuts

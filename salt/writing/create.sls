@@ -15,60 +15,50 @@ writing-present-id:
     - template: fedora-39
     - label: blue
     - class: StandaloneVM
-    - netvm: sys-firewall
+
+writing-prefs-id:
+  qvm.prefs:
+    - name: writing
+    - netvm: ''
     - disk: 75G
-    - memory: 8000 
+    - memory: 8000
+    - maxmem: 8000
     - vcpus: 2
     - autostart: false
-    - service:
-      - enabled:
-        - service.cupsd
-        - syncthing
-        - service.cups
-    - require:
-        - qvm: vms-depends
-    - features:
-      - set:
-        - menu-items: "libreoffice-writer.desktop split-browser.desktop split-browser-safest.desktop"
-        - qubes-update-check: false
 
-writing-running-id:
-  qvm.running:
+writing-features-id:
+  qvm.features:
     - name: writing
-    - require:
-      - qvm: writing-present-id
-    - require:
-        - qvm: writing-present-id
-
+    - disable:
+      - service.qubes-update-check
+    - enable:
+      - service.cupsd
+      - syncthing
+      - service.cups
+    - set:
+      - menu-items: libreoffice-writer.desktop split-browser.desktop split-browser-safest.desktop
+      
 syncthing-present-id:
   qvm.present:
     - name: syncthing
     - template: fedora-39
     - label: orange
     - class: StandaloneVM
+
+syncthing-prefs-id:
+  qvm.prefs:
+    - name: syncthing
     - netvm: sys-firewall
     - disk: 75G
     - memory: 800 
+    - maxmem: 800
     - vcpus: 1
-    - autostart: false
-    - service:
-      - enabled:
-        - qubes-update-check
-    - require:
-      - qvm: vm-depends
-      - qvm: writing-present-id
-
-syncthing-running-id:
-  qvm.running:
-    - name: syncthing
-    - require:
-      - qvm: syncthing-present-id
 
 /etc/qubes/policy.d:
   file.directory:
     - user: root
     - group: root
-    - mode: 755
+    - mode: '0755'
 
 /etc/qubes/policy.d/30-user.policy:
   file.append:
@@ -78,63 +68,54 @@ syncthing-running-id:
         admin.vm.Start + writing syncthing allow target=dom0
         admin.vm.Shutdown + writing syncthing allow target=dom0
         service.CheckSyncthing + syncthing writing allow target=dom0
-    - require:
-      - file: /etc/qubes/policy.d
+        #todo shared-folders-permissions        
+
+ensure-qubes-shared-folders-dom0-exists:
+  file.managed:
+    - name: /qubes-shared-folders-dom0.rpm
+    - source: salt://files/qubes-shared-folders-dom0-0.2.1-53.fc37.noarch.rpm
 
 install-dom0-qubes-shared-folders:
-  pkg.installed:
-    - sources:
-      - mypackage: salt://files/qubes-shared-folders-dom0-0.2.1-53.fc37.noarch.rpm
+  cmd.run:
+    - name: sudo dnf install -y /qubes-shared-folders-dom0.rpm
 
 {% elif grains['id'] == 'writing' %}
 
 install-contrib-repos:
-    install-contrib-repos:
-        file.managed:
-            - name: /etc/yum.repos.d/qubes-contrib-vm-r4.2.repo
-            - source: salt://writing/files/qubes-contrib-vm-r4.2.repo
-            - user: root
-            - group: root
-            - mode: 0644
-            - require:
-                - pkg: writing-running-id
+ file.managed:
+     - name: /etc/yum.repos.d/qubes-contrib-vm-r4.2.repo
+     - source: salt://writing/files/qubes-contrib-vm-r4.2.repo
+     - user: root
+     - group: root
+     - mode: '0644'
 
-writing-update:
-  - pkg.uptodate:
-    - refresh: True
-    - require:
-      - qvm: writing-running-id
-
-writing-install-split-browser:
+writing-install-packages:
   pkg.installed:
-    - name: qubes-split-browser
-    - require:
-      - qvm: writing-update
+    - pkgs: 
+      - qubes-split-browser
+      - libreoffice
+#      - wine64
+      - winetricks
+#      - wine32:i386
+#      - winbind
+    - pkg.uptodate:
+      - refresh: True
 
+#todo
 install-crossover:
-  qvm.cmd:
-    - names:
-      - writing: sudo dnf install -y http://crossover.codeweavers.com/redirect/crossover.rpm
-    - require:
-      - qvm: writing-update
+  cmd.run:
+    - name: |
+         curl --proxy http://127.0.0.1:8082/ --tlsv1.2 --proto =https --max-time 180 -0 http://crossover.codeweavers.com/redirect/crossover.rpm --output crossover.rpm
+         dnf install -y ./crossover.rpm
 
-get-and-install-qubes-shared-folders:
-        pkg.installed:
-          - name: qubes-shared-folders
-          - sources:
-            - repo: https://repo.rudd-o.com/unstable/fc39/packages/qubes-shared-folders-0.3.1-63.fc39.x86_64.rpm
-          - require:
-            - qvm: install-crossover
+ensure-qubes-shared-folders-writ-exists:
+  file.managed:
+    - name: /qubes-shared-folders.rpm
+    - source: salt://writing/files/qubes-shared-folders-0.3.1-63.fc39.x86_64.rpm
 
-install-libreoffice:
-  pkg.installed:
-    - libreoffice
-    - winetricks 
-    - wine64
-    - wine32:i386 
-    - winbind
-    - require:
-      - qvm: get-and-install-qubes-shared-folders
+install-writ-qubes-shared-folders:
+  cmd.run:
+    - name: sudo dnf install -y ./qubes-shared-folders.rpm
 
 manage-syncthing-code:
   file.managed:
@@ -188,9 +169,7 @@ manage-syncthing-code:
 
         sudo umount /home/user/mnt
         sudo rm -rf /home/user/mnt
-    - mode: 755
-    - require:
-      - qvm: install-libreoffice
+    - mode: '0755'
 
 manage-syncthing-mount-service:
   file.managed:
@@ -206,9 +185,7 @@ manage-syncthing-mount-service:
 
         [Install]
         WantedBy=multi-user.target
-    - mode: 755
-    - require:
-      - qvm: manage-syncthing-code
+    - mode: '0755'
 
 manage-syncthing-mount-timer:
   file.managed:
@@ -223,9 +200,7 @@ manage-syncthing-mount-timer:
 
         [Install]
         WantedBy=timers.target
-    - mode: 755
-    - require:
-      - qvm: manage-syncthing-mount-service
+    - mode: '0755'
 
 manage-syncthing-mount-shutdown:
   file.managed:
@@ -242,86 +217,46 @@ manage-syncthing-mount-shutdown:
 
         [Install]
         WantedBy=default.target
-    - mode: 755
-    - require:
-      - qvm: manage-syncthing-mount-timer
+    - mode: '0755'
 
 manage-syncthing-mount-service-enable:
   service.enabled:
     - name: syncthing-mount.service
-    - require:
-      - qvm: manage-syncthing-mount-shutdown
 
 manage-syncthing-mount-timer-enable:
   service.enabled:
     - name: syncthing-mount.timer
-    - require:
-      - qvm: manage-syncthing-mount-service-enable
 
 manage-syncthing-mount-shutdown-enable:
   service.enabled:
     - name: syncthing-shutdown.service
-    - require:
-      - qvm: manage-syncthing-mount-timer-enable
-
-writing-reset-netvm:
-  qvm.reset_netvm:
-    - name: writing
-    - netvm: ''
-    - require:
-      - qvm: manage-syncthing-mount-shutdown-enable
 
 ensure-autostart-directory:
   file.directory:
     - name: /home/user/.config/autostart
     - user: user
     - group: user
-    - mode: 755
+    - mode: '0755'
     - makedirs: True
-    - require:
-      - qvm: writing-present-id
-
-move-crossover-desktop-file:
-  file.managed:
-    - name: /home/user/.config/autostart/libreoffice.desktop
-    - source: /usr/share/applications/libreoffice.desktop
-    - user: user
-    - group: user
-    - mode: 644
-    - makedirs: True
-    - require:
-      - file: ensure-autostart-directory
-      - qvm: writing-running-id
-
-refresh-menu-entries:
-  cmd.run:
-    - name: 'touch /usr/share/applications/*.desktop && qvm-sync-appmenus writ'
-    - require:
-      - pkg: install-libreoffice
-      - pkg: install-crossover
 
 {% elif grains['id'] == 'syncthing' %}
 
-syncthing-update:
-  - pkg.uptodate:
-    - refresh: True
-    - require:
-      - qvm: syncthing-running-id
+ensure-qubes-shared-folders-syncthing-exists:
+  file.managed:
+    - name: /qubes-shared-folders.rpm
+    - source: salt://writing/files/qubes-shared-folders-0.3.1-63.fc39.x86_64.rpm     
 
-get-and-install-qubes-shared-folders:
-        pkg.installed:
-          - name: qubes-shared-folders
-          - sources:
-            - repo: https://repo.rudd-o.com/unstable/fc39/packages/qubes-shared-folders-0.3.1-63.fc39.x86_64.rpm
-          - require:
-            - qvm: syncthing-update
+install-syncthing-qubes-shared-folders:
+  cmd.run:
+    - name: sudo dnf install -y /qubes-shared-folders.rpm
 
 install-syncthing-suite:
   pkg.installed:
-    - syncthing
-    - syncthingtray
-    - require:
-      - qvm: syncthing-running-id
+    - pkgs:
+      - syncthing
+#      - syncthingtray
+    - pkg.uptodate:
+      - refresh: True
 
 manage-syncthing-rc-local:
   file.managed:
@@ -329,9 +264,7 @@ manage-syncthing-rc-local:
     - contents: |
         #!/bin/sh
         syncthing
-        syncthingtray
-    - mode: 755
-    - require:
-      - qvm: install-syncthing-suite
+#        syncthingtray
+    - mode: '0755'
 
 {% endif %}

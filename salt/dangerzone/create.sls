@@ -5,48 +5,53 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% if grains['id'] == 'dom0' %}
 
-dangerzone_depends:
+vms-depends:
   qvm.template_installed:
-    - name: fedora-38
+    - name: fedora-39
 
-dangerzone-present:
-  qvm.present:
+dangerzone-present-id:
+  qvm.clone:
     - name: tpl-dangerzone
-    - label: black
-    - template: fedora-38
-    - class: TemplateVM
-    - properties:
-        template_for_dispvms: True
-    - require:
-      - qvm: dangerzone_depends
+    - source: fedora-39
 
-create-dz-dvm:
+dangerzone-features-id:
+  qvm.features:
+    - name: tpl-dangerzone
+    - enable:
+      - appmenus-dispvm
+
+dz-dvm-present-id:
   qvm.present:
     - name: dz-dvm
     - label: red
     - template: tpl-dangerzone
     - class: AppVM
-    - properties:
-        netvm: ''
-        template_for_dispvms: True
-        default_dispvm: ''
-    - require:
-      - qvm: dangerzone-present
 
-create-rpc-policy-folder:
+dz-dvm-prefs-id:
+  qvm.prefs:
+    - name: dz-dvm
+    - netvm: ''
+    - template_for_dispvms: True
+    - default_dispvm: ''
+
+dz-dvm-features-id
+  qvm.features:
+    - name: dz-dvm
+    - set:
+      - menu-items: press.freedom.dangerzone.desktop
+
+create-rpc-policy:
   file.managed:
     - name: /etc/qubes/policy.d/50-dangerzone.policy
     - contents: |
         dz.Convert         *       @anyvm       @dispvm:dz-dvm  allow
-    - require:
-      - qvm: create-dz-dvm
 
 {% elif grains['id'] == 'tpl-dangerzone' %}
 
 install-dangerzone:
   cmd.run:
     - name: |
-        sudo dnf config-manager --add-repo=https://packages.freedom.press/yum-tools-prod/dangerzone/dangerzone.repo
-        sudo dnf install --assumeyes --nogpgcheck dangerzone-qubes
+        dnf config-manager --add-repo=https://packages.freedom.press/yum-tools-prod/dangerzone/dangerzone.repo
+        dnf install -y --nogpgcheck dangerzone-qubes
 
 {% endif %}

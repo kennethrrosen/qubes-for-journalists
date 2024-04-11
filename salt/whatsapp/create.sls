@@ -12,11 +12,7 @@ vms-depends:
 clone-whatsapp:
   qvm.clone:
     - name: tpl-whatsapp
-    - template: fedora-39
-    - label: black
-    - class: TemplateVM
-    - require:
-        - qvm: vms-depends
+    - source: fedora-39
 
 whatsapp-present-id:
   qvm.present:
@@ -24,13 +20,17 @@ whatsapp-present-id:
     - template: tpl-whatsapp
     - label: yellow
     - class: AppVM
+
+whatsapp-prefs-id:
+  qvm.prefs:
+    - name: whatsapp
     - netvm: sys-whonix
-    - autostart: false
-    - require:
-        - qvm: vms-depends
-    - features:
-      - set:
-        - menu-items: "whatsdesk_whatsdesk.desktop"
+
+whatsapp-features-id:
+  qvm.features:
+    - name: whatsapp
+    - set:
+      - menu-items: whatsdesk_whatsdesk.desktop
 
 {% elif grains['id'] == 'tpl-whatsapp' %}
 
@@ -39,11 +39,20 @@ whatsapp-install-app-depends:
     - pkgs:
       - qubes-snapd-helper
       - snapd
+    - pkg.uptodate:
+      - refresh: True
 
-whatsapp-whatsdesk-download:
+{% elif grains['id'] == 'whatsapp' %}
+
+snapd-service-running:
+  service.running:
+    - name: snapd.service
+
+whatsapp-snap-core-install:
   cmd.run:
-    - name: snap install core -y && snap install whatsdesk
-    - require:
-      - pkg: whatsapp-install-app-depends
+    - name: |
+            snap install core
+            snap install whatsdesk
+#            snap install whatsapp-for-linux
 
 {% endif %}

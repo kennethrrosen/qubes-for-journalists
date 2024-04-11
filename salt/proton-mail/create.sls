@@ -15,31 +15,32 @@ protonmail-present-id:
     - template: fedora-39
     - label: blue
     - class: StandaloneVM
-    - netvm: sys-whonix
-    - require:
-        - qvm: vms-depends
-    - features:
-      - set:
-        - menu-items: "proton-mail.desktop"
 
-{% if grains['id'] == 'proton-mail' %}
+protonmail-prefs-id:
+  qvm.prefs:
+    - name: proton-mail
+    - netvm: sys-whonix
+
+protonmail-features-id:
+  qvm.features:
+    - set:
+      - menu-items: qubes-start.desktop proton-mail.desktop
+
+{% elif grains['id'] == 'proton-mail' %}
 
 protonmail-install-deps:
     pkg.installed:
-      - pkgs:
-        - curl
-        - wget
-    - require:
-      - qvm:
-      protonmail-present-id
+        - pkgs:
+          - curl
+          - wget
+        - pkg.uptodate:
+          - refresh: True
 
 protonmail-install:
     cmd.run:
         - name: |
             wget https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm
-            sudo dnf install -y ProtonMail-desktop-beta.rpm
-        - require:
-            - qvm: protonmail-install-deps
+            dnf install -y ProtonMail-desktop-beta.rpm
 
 setup-autostart:
   file.symlink:
@@ -49,7 +50,5 @@ setup-autostart:
     - group: user
     - force: True
     - makedirs: True
-    - require:
-            - qvm: protonmail-install
 
 {% endif %}

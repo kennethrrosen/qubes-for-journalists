@@ -6,9 +6,7 @@ The `writing` qube comes preinstalled with:
    - libreoffice, a Microsoft Office replacement 
    - Wine (free) and Crossover (paid) for use with Windows software such as Scrivener
 
-To create and configure `writ` and `syncthing` qubes :
-
 ```
-sudo qubesctl --show-output state.apply qujourno.writ.create
+sudo qubesctl --targets=writing,syncthing state.apply qujourno.writing.create
 ```
 

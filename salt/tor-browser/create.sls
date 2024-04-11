@@ -15,75 +15,48 @@ tor-browser-present-id:
     - label: purple
     - template: fedora-39
     - class: AppVM
+
+tor-browser-prefs-id:
+  qvm.prefs:
+    - name: tor-browser
     - netvm: ''
     - autostart: false
-    - require:
-        - qvm: vms-depends
-    - features:
-      - set:
-        - menu-items: "split-browser.desktop split-browser-safest.desktop"
+
+tor-browser-features-id:
+   qvm.features:
+    - name: tor-browser
+    - set:
+      - menu-items: split-browser.desktop split-browser-safest.desktop
 
 {% elif grains['id'] == 'whonix-workstation-17' %}
 
-whonix-install-contrib-repos:
-    install-contrib-repos:
-        file.managed:
-            - name: /etc/apt/sources.list.d/qubes-contrib.list
-            - source: salt://tor-browser/files/qubes-contrib.list
-            - user: root
-            - group: root
-            - mode: '0644'
-            - require:
-                - pkg: qubes-template-whonix-workstation-17
+whonix-refresh-nonroot:
+    cmd.run:
+        - name: upgrade-nonroot
+        - runas: user
 
-whonix-update:
-    - pkg.uptodate:
-        - refresh: True
-        - require:
-            - qvm: whonix-install-contrib-repos
+whonix-install-contrib-packages:
+    pkg.installed:
+        - pkgs:
+            - qubes-repo-contrib
+        - pkg.uptodate:
+            - refresh: True
 
-whonix-install-split-browser:
+whonix-install-split:
     pkg.installed:
         - pkgs:
             - qubes-split-browser-disp
-        - require:
-            - qvm: whonix-update
-
-whonix-run-tor-update:
-    cmd.run:
-        - name: /usr/bin/update-torbrowser
-        - require:
-            - pkg: whonix-install-split-browser
-
 
 {% elif grains['id'] == 'fedora-39' %}
 
-install-contrib-repos:
-    install-contrib-repos:
-        file.managed:
-            - name: /etc/yum.repos.d/qubes-contrib-vm-r4.2.repo
-            - source: salt://tor-browser/files/qubes-contrib-vm-r4.2.repo
-            - user: root
-            - group: root
-            - mode: '0644'
-            - require:
-                - pkg: qubes-template-fedora-39
-
-fedora-update:
-  - pkg.uptodate:
-    - refresh: True
-    - require:
-      - qvm: writing-running-id
-
-install-split-browser:
+install-tor-split-contrib-packages:
     pkg.installed:
         - pkgs:
+            - qubes-repo-contrib
             - qubes-split-browser
-
-tor-install-apps-in-template:
-    pkg.installed:
-        - pkgs:
             - torbrowser-launcher
             - ca-certificates
+        - pkg.update:
+            - refresh: True
 
 {% endif %}

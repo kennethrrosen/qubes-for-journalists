@@ -12,10 +12,7 @@ vms-depends:
 clone-work:
   qvm.clone:
     - name: tpl-work
-    - template: fedora-39
-    - class: TemplateVM
-    - require:
-        - qvm: vms-depends
+    - source: fedora-39
 
 work-present-id:
   qvm.present:
@@ -23,58 +20,39 @@ work-present-id:
     - label: purple
     - template: tpl-work
     - class: AppVM
+
+work-prefs-id:
+  qvm.prefs:
+    - name: work
     - netvm: proton-vpn
-    - autostart: false
-    - require:
-        - qvm: vms-depends
+
+work-features-id:
+  qvm.features:
+    - name: work
     - set:
-          - menu-items: "qubes-start.desktop google-chrome.desktop"
+        - menu-items: qubes-start.desktop google-chrome.desktop slack.desktop
 
 {% elif grains['id'] == 'tpl-work' %}
 
-google-chrome-download-key:
-    cmd.run:
-        - name: rpm --import https://packages.microsoft.com/keys/microsoft.asc
-        - creates:
-            - /etc/pki/rpm-gpg/MICROSOFT-GPG-KEY
-
-google-chrome-add-repository:
-    pkgrepo.managed:
-        - name: google-chrome
-        - humanname: Google Chrome
-        - baseurl: http://dl.google.com/linux/chrome/rpm/stable/x86_64
-        - gpgcheck: 1
-        - gpgkey: file:///etc/pki/rpm-gpg/MICROSOFT-GPG-KEY
-        - require:
-            - cmd: google-chrome--download-key
-
-google-chrome-install-apps:
+google-chrome-install-deps:
     pkg.installed:
         - pkgs:
-            - google-chrome-stable
-        - require:
-            - pkgrepo: google-chrome--add-repository
+            - fedora-workstation-repositories
+        - pkg.uptodate:
+            - refresh: True
 
-setup-chrome-autostart:
-  file.symlink:
-    - name: /home/user/.config/autostart/google-chrome.desktop
-    - target: /usr/share/applications/google-chrome.desktop
-    - user: user
-    - group: user
-    - force: True
-    - makedirs: True
-    - require:
-            - qvm: google-chrome-install-apps
+google-chrome-setup:
+    cmd.run:
+        - name: |
+                dnf config-manager --set-enabled google-chrome
+                dnf install -y --nogpgcheck google-chrome-stable
 
 slack-install:
     cmd.run:
-        - name: |
-            sudo dnf -y install wget
-            wget https://downloads.slack-edge.com/releases/linux/4.35.126/prod/x64/slack-4.35.126-0.1.el8.x86_64.rpm
-            sudo dnf install ./slack-*.el8.x86_64.rpm
-            sudo dnf update -y
-        - require:
-            - qvm: setup-chrome-autostart
+	- name: |
+                curl --proxy http://127.0.0.1:8082/ --tlsv1.2 --proto =https --max-time 180 -0  https://downloads.slack-edge.com/releases/linux/4.35.126/prod/x64/slack-4.35.126-0.1.el8.x86_64.rpm --output slack.rpm
+                dnf install -y ./slack.rpm
+                dnf update -y
 
 {% elif grains['id'] == 'work' %}
 
@@ -86,7 +64,14 @@ setup-slack-autostart:
     - group: user
     - force: True
     - makedirs: True
-    - require:
-            - qvm: slack-install
+
+setup-chrome-autostart:
+  file.symlink:
+    - name: /home/user/.config/autostart/google-chrome.desktop
+    - target: /usr/share/applications/google-chrome.desktop
+    - user: user
+    - group: user
+    - force: True
+    - makedirs: True
 
 {% endif %}
