@@ -6,6 +6,7 @@ Journalists rarely have the time to learn and navigate a new operating system. B
 If you have suggestions for other applications you, or the journalists you work, with use frequently, please open an `issue` orn write me direcly.
 
 ### 🟧 some notes on some decisions I've made
+ - **Autostart of apps:** All apps automatically start on qube boot. Simply go to the menu, start the qube and the application will launch. Or use one of the menu buttons. 
  - **Gnome instead of XFCE:** Recently Qubes switched the default templates to the XFCE windows manager. Gnome is better-suited to newcomers to Qubes, so I've created all qubes with Debian and Fedora templates based on Gnome. This may take extra time to download the base templates (Fedora-39, Debian-12), but the end-user experience will be easier.
  - **No minimal templates:** Minimal templates offer a smaller footprint on computers with less storage, and lessen the potential attack surface. For useability, these are not used.
  - **Packages installed in AdminVM (dom0):** Don't trust me. Read the scripts, or ask an admin to review. In some scripts I've installed `qubes-shared-folders` into dom0, but this is not strictly necessary. Always review the packages before installing. When possible, I've tried to package the remote applications into files here to make the installation quicker, but it is possible to use `curl` or `wget` from trusted sources instead, though this may take longer.
@@ -26,3 +27,4 @@ If you have suggestions for other applications you, or the journalists you work,
  - add `qubes-shared-folders` policies to `dom0`
  - add `crossover` rpm to `writing` files
  - reevaluate `set-menu-items` in each salt config
+ - ensure all apps autostart on qubes start
