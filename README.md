@@ -25,11 +25,11 @@ This guide &mdash; which curates and streamlines the myriad viable online source
 *This guide takes the view that none of these implementation should be ignored and that risk assessments and physical security are never under-served in conflict zones; the internet is just another hostile environment.*
 
 ### 🟧 how to use this guide/repository
-1. Understand journalist threat models and the partitioning practices outlined in this guide. (Full stop. If the first section of the Wiki is all you have time for, that's all you'll need for now.)
+1. Introduces journalist threat models and the partitioning practices outlined in this guide. (Full stop. If the first section of the Wiki is all you have time for, that's all you'll need for now.)
 2. Evaluates your current practices against the basic, necessary digital security measures listed here. This step introduces basic concepts and helps migrate to easy and simple workflow changes. (Subjects include fieldwork best practices, browser choices, and initial work/personal phone compartmentalization)
 3. Furthers implementation what changes you've made in Step. 2 to secure your workstation and devices, encouraging you to introduce new layers of security, trading a few conveniences for greater safety and control. (Subjects include password managers, device encryption, secure communications, VPN, backup and restore practices, and writing software.)
 4. Introduces you to resources and software to take full advantage and further streamline what steps you took in 2 and 3. (Subjects include amnesiac operating systems, Tor, DNS sinkholes, 2FA and keyfobs, GrapheneOS, and further reading.)
-5. Configures and migrates workstation/latop to QubesOS.
+5. Configures and migrates workstation/latop to QubesOS (using helpful salt scripts and GUI).
 
 Please reach out with any questions, comments or suggestions: kennethrrosen@proton.me (or through any number of other secure channels: https://kennethrrosen.com/tips). Journalists under threat of violence, surveillance or other immediate danger, I will provide free assistance in implementing your threat model mitigations
 
