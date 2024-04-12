@@ -35,6 +35,6 @@ dz-dvm-prefs-id:
 
 modify_html_pages:
   cmd.run:
-    - names:
-      - qvm-run -p {{ tpl_vm }} "sed -i 's|file:///usr/share/doc/homepage/whonix-welcome-page/whonix.html|{{ external_url }}|g' /usr/share/doc/homepage/whonix-welcome-page/whonix.html"
-      - qvm-run -p {{ tpl_vm }} "sed -i 's|file:///usr/share/qubes/xdg-override/doc/homepage/whonix-welcome-page/whonix.html|{{ external_url }}|g' /usr/share/qubes/xdg-override/doc/homepage/whonix-welcome-page/whonix.html"
+    - names: |
+            qvm-run -p {{ tpl_vm }} "sed -i 's|file:///usr/share/doc/homepage/whonix-welcome-page/whonix.html|{{ external_url }}|g' /usr/share/doc/homepage/whonix-welcome-page/whonix.html"
+            qvm-run -p {{ tpl_vm }} "sed -i 's|file:///usr/share/qubes/xdg-override/doc/homepage/whonix-welcome-page/whonix.html|{{ external_url }}|g' /usr/share/qubes/xdg-override/doc/homepage/whonix-welcome-page/whonix.html"
