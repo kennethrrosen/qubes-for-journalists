@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% set tpl_vm = 'tpl-securedrop' %}
 {% set source_vm = 'whonix-wokrstation-17' %}
-{% set external_url = 'YOUR_TOR_LINK_HERE %}
+{% set external_url = 'YOUR_SECUREDROP_TOR_LINK_HERE %}
 
 clone_whonix_ws:
   qvm.clone:
