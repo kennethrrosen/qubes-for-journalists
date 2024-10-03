@@ -20,10 +20,14 @@ If you have suggestions for other applications you, or the journalists you work,
  - A `setup-full` script is included to blindly install all the qubes and applications found in this repository. 
 
 ### 🟧 todo
- - discuss in plain language what a "threat model" looks like for most journalists, and what that would look like for those working in conflict zones. 
+ - discuss in plain language what a "threat model" looks like for most journalists, and what that would look like for those working in conflict zones.
+ - strip non-intuitive abbreviations and names to make .desktop files and VMs more accessible to newcomers
  - add `qubes-idle-shutdown-app` in templates
  - add Mac-inspired XFCE tray
  - remove/replace gnome-keyring prompt in `proton-vpn`
+ - favor `sys-rsync` data qube for faster backups, replacing some of the below items
+ - implement "optional" weekly dom0 backup prompt
+ - implement SD power-saving configurations
  - add `syncthingtray` rpm to `writing` qube
  - add `qubes-shared-folders` policies to `dom0`
  - add `crossover` rpm to `writing` files
