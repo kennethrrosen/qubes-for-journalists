@@ -20,6 +20,7 @@ If you have suggestions for other applications you, or the journalists you work,
  - A `setup-full` script is included to blindly install all the qubes and applications found in this repository. 
 
 ### 🟧 todo
+ - discuss in plain language what a "threat model" looks like for most journalists, and what that would look like for those working in conflict zones. 
  - add `qubes-idle-shutdown-app` in templates
  - add Mac-inspired XFCE tray
  - remove/replace gnome-keyring prompt in `proton-vpn`
